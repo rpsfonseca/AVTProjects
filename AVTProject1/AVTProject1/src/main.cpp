@@ -8,6 +8,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <fstream>
 
 #define GLEW_STATIC
 #include <GL/glew.h>
@@ -82,6 +83,13 @@ const GLchar* FragmentShader =
 	"}\n"
 };
 
+void readShaderFile() {
+	std::ifstream ifs("vertexShader.txt");
+	std::string content((std::istreambuf_iterator<char>(ifs)), (std::istreambuf_iterator<char>()));
+
+
+}
+
 void createShaderProgram()
 {
 	VertexShaderId = glCreateShader(GL_VERTEX_SHADER);
@@ -153,9 +161,9 @@ void createBufferObjects()
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glDisableVertexAttribArray(VERTEX_COORD_ATTRIB);
+	/*glDisableVertexAttribArray(VERTEX_COORD_ATTRIB);
 	glDisableVertexAttribArray(NORMAL_ATTRIB);
-	glDisableVertexAttribArray(TEXTURE_COORD_ATTRIB);
+	glDisableVertexAttribArray(TEXTURE_COORD_ATTRIB);*/
 
 	checkOpenGLError("ERROR: Could not create VAOs and VBOs.");
 }
@@ -227,6 +235,11 @@ void display()
 	glutSwapBuffers();
 }
 
+void frames60(int a) {
+	glutPostRedisplay();
+	glutTimerFunc(1000 / 60, frames60, 0);
+}
+
 void idle()
 {
 	glutPostRedisplay();
@@ -256,9 +269,10 @@ void setupCallbacks()
 {
 	glutCloseFunc(cleanup);
 	glutDisplayFunc(display);
-	glutIdleFunc(idle);
+	//glutIdleFunc(idle);
 	glutReshapeFunc(reshape);
 	glutTimerFunc(0, timer, 0);
+	glutTimerFunc(1000 / 60, frames60 , 0);
 }
 
 void setupOpenGL() {
