@@ -146,10 +146,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\FileSystem.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\ResourcesManager.cpp" />
+    <ClCompile Include="src\Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Application.h" />
     <ClInclude Include="include\Cube.h" />
+    <ClInclude Include="include\FileSystem.h" />
+    <ClInclude Include="include\ResourcesManager.h" />
+    <ClInclude Include="include\Shader.h" />
+    <ClInclude Include="include\StringUtils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\basic.fs" />
+    <None Include="resources\basic.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

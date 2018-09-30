@@ -9,13 +9,25 @@
 #include <sstream>
 #include <string>
 
-#define GLEW_STATIC
-#include <GL/glew.h>
-#include <GL/freeglut.h>
+
 
 #include "Cube.h"
+#include "Shader.h"
+#include "FileSystem.h"
+#include "ResourcesManager.h"
+#include "Application.h"
+#include <GL/freeglut.h>
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/string_cast.hpp>
 
 #define CAPTION "Exercise 1"
+
+using namespace AVTEngine;
+Shader* shader;
 
 int WinX = 640, WinY = 480;
 int WindowHandle = 0;
@@ -28,6 +40,10 @@ unsigned int FrameCount = 0;
 GLuint VaoId, VboId[4];
 GLuint VertexShaderId, FragmentShaderId, ProgramId;
 GLint UniformId;
+
+std::string runningDirectory;
+
+Application app;
 
 /////////////////////////////////////////////////////////////////////// ERRORS
 
@@ -47,59 +63,18 @@ void checkOpenGLError(std::string error)
 {
 	if (isOpenGLError()) {
 		std::cerr << error << std::endl;
+		getchar();
 		exit(EXIT_FAILURE);
 	}
 }
 
 /////////////////////////////////////////////////////////////////////// SHADERs
 
-const GLchar* VertexShader =
-{
-	"#version 330 core\n"
-
-	"in vec4 in_Position;\n"
-	"uniform mat4 Matrix;\n"
-	"out vec4 color;\n"
-
-	"void main(void)\n"
-	"{\n"
-	"	color = in_Position;\n"
-	"	gl_Position = Matrix * in_Position;\n"
-
-	"}\n"
-};
-
-const GLchar* FragmentShader =
-{
-	"#version 330 core\n"
-
-	"in vec4 color;\n"
-	"out vec4 out_Color;\n"
-
-	"void main(void)\n"
-	"{\n"
-	"	out_Color = color;\n"
-	"}\n"
-};
-
 void createShaderProgram()
 {
-	VertexShaderId = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(VertexShaderId, 1, &VertexShader, 0);
-	glCompileShader(VertexShaderId);
+	shader = ResourcesManager::loadShader("basic");
 
-	FragmentShaderId = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(FragmentShaderId, 1, &FragmentShader, 0);
-	glCompileShader(FragmentShaderId);
-
-	ProgramId = glCreateProgram();
-	glAttachShader(ProgramId, VertexShaderId);
-	glAttachShader(ProgramId, FragmentShaderId);
-
-	glBindAttribLocation(ProgramId, VERTEX_COORD_ATTRIB, "in_Position");
-
-	glLinkProgram(ProgramId);
-	UniformId = glGetUniformLocation(ProgramId, "Matrix");
+	glBindAttribLocation(shader->shaderID, VERTEX_COORD_ATTRIB, "in_Position");
 
 	checkOpenGLError("ERROR: Could not create shaders.");
 }
@@ -107,12 +82,7 @@ void createShaderProgram()
 void destroyShaderProgram()
 {
 	glUseProgram(0);
-	glDetachShader(ProgramId, VertexShaderId);
-	glDetachShader(ProgramId, FragmentShaderId);
-
-	glDeleteShader(FragmentShaderId);
-	glDeleteShader(VertexShaderId);
-	glDeleteProgram(ProgramId);
+	shader->deleteProgram();
 
 	checkOpenGLError("ERROR: Could not destroy shaders.");
 }
@@ -177,32 +147,18 @@ void destroyBufferObjects()
 }
 
 /////////////////////////////////////////////////////////////////////// SCENE
-
-typedef GLfloat Matrix[16];
-
-const Matrix I = {
-	1.0f,  0.0f,  0.0f,  0.0f,
-	0.0f,  1.0f,  0.0f,  0.0f,
-	0.0f,  0.0f,  1.0f,  0.0f,
-	0.0f,  0.0f,  0.0f,  1.0f
-}; // Row Major (GLSL is Column Major)
-
-const Matrix M = {
-	1.0f,  0.0f,  0.0f, -1.0f,
-	0.0f,  1.0f,  0.0f, -1.0f,
-	0.0f,  0.0f,  1.0f,  0.0f,
-	0.0f,  0.0f,  0.0f,  1.0f
-}; // Row Major (GLSL is Column Major)
+glm::mat4 transform = glm::mat4(1);
+glm::mat4 transform2 = glm::mat4(1);
 
 void renderScene()
 {
 	glBindVertexArray(VaoId);
-	glUseProgram(ProgramId);
+	shader->use();
 
-	glUniformMatrix4fv(UniformId, 1, GL_TRUE, I);
+	shader->setMat4("Matrix", transform);
 	glDrawElements(GL_TRIANGLES, faceCount * 3, GL_UNSIGNED_INT, (GLvoid*)0);
 
-	glUniformMatrix4fv(UniformId, 1, GL_TRUE, M);
+	shader->setMat4("Matrix", transform2);
 	glDrawElements(GL_TRIANGLES, faceCount * 3, GL_UNSIGNED_INT, (GLvoid*)0);
 
 	glUseProgram(0);
@@ -244,7 +200,7 @@ void timer(int value)
 	std::ostringstream oss;
 	oss << CAPTION << ": " << FrameCount << " FPS @ (" << WinX << "x" << WinY << ")";
 	std::string s = oss.str();
-	glutSetWindow(WindowHandle);
+	glutSetWindow(app.getWindowHandle());
 	glutSetWindowTitle(s.c_str());
 	FrameCount = 0;
 	glutTimerFunc(1000, timer, 0);
@@ -261,58 +217,13 @@ void setupCallbacks()
 	glutTimerFunc(0, timer, 0);
 }
 
-void setupOpenGL() {
-	std::cerr << "CONTEXT: OpenGL v" << glGetString(GL_VERSION) << std::endl;
-	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LEQUAL);
-	glDepthMask(GL_TRUE);
-	glDepthRange(0.0, 1.0);
-	glClearDepth(1.0);
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-	glFrontFace(GL_CCW);
-}
 
-void setupGLEW() {
-	glewExperimental = GL_TRUE;
-	GLenum result = glewInit();
-	if (result != GLEW_OK) {
-		std::cerr << "ERROR glewInit: " << glewGetString(result) << std::endl;
-		exit(EXIT_FAILURE);
-	}
-	GLenum err_code = glGetError();
-	printf("Vendor: %s\n", glGetString(GL_VENDOR));
-	printf("Renderer: %s\n", glGetString(GL_RENDERER));
-	printf("Version: %s\n", glGetString(GL_VERSION));
-	printf("GLSL: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
-
-}
-
-void setupGLUT(int argc, char* argv[])
-{
-	glutInit(&argc, argv);
-
-	glutInitContextVersion(3, 3);
-	glutInitContextFlags(GLUT_FORWARD_COMPATIBLE);
-	glutInitContextProfile(GLUT_CORE_PROFILE);
-
-	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
-
-	glutInitWindowSize(WinX, WinY);
-	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
-	WindowHandle = glutCreateWindow(CAPTION);
-	if (WindowHandle < 1) {
-		std::cerr << "ERROR: Could not create a new rendering window." << std::endl;
-		exit(EXIT_FAILURE);
-	}
-}
 
 void init(int argc, char* argv[])
 {
-	setupGLUT(argc, argv);
-	setupGLEW();
-	setupOpenGL();
+	transform = glm::translate(transform, glm::vec3(0.0f, 0.0f, 0.0f));
+	transform2 = glm::translate(transform2, glm::vec3(-1.0f, -1.0f, 0.0f));
+
 	createShaderProgram();
 	createBufferObjects();
 	setupCallbacks();
@@ -320,8 +231,11 @@ void init(int argc, char* argv[])
 
 int main(int argc, char* argv[])
 {
+	runningDirectory = FileSystem::getRunningDirectory(argv[0]);
+	app = Application();
+	app.init(argc, argv);
 	init(argc, argv);
-	glutMainLoop();
+	app.mainLoop();
 	exit(EXIT_SUCCESS);
 }
 
