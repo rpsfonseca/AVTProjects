@@ -59,4 +59,12 @@
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="include\fragmentShader.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="include\vertexShader.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
 </Project>
