@@ -16,6 +16,7 @@
 #include "Shader.h"
 #include "FileSystem.h"
 #include "ResourcesManager.h"
+#include "Input.h"
 #include "Application.h"
 #include <GL/freeglut.h>
 
@@ -220,6 +221,10 @@ void setupCallbacks()
 	glutDisplayFunc(display);
 	//glutIdleFunc(idle);
 	glutReshapeFunc(reshape);
+	glutKeyboardFunc(Input::keyPressCallback);
+	glutKeyboardUpFunc(Input::keyReleaseCallback);
+	glutMouseFunc(Input::mouseButtonsCallback);
+	glutMotionFunc(Input::mouseMovementCallback);
 	glutTimerFunc(0, timer, 0);
 	glutTimerFunc(1000 / 60, frames60 , 0);
 }
