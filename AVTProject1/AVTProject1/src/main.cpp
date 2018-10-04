@@ -157,7 +157,7 @@ void renderScene()
 	glBindVertexArray(VaoId);
 	shader->use();
 
-	shader->setMat4("Matrix", transform);
+	shader->setMat4("Matrix", app.getCurrentCamera().getViewProjection());
 	glDrawElements(GL_TRIANGLES, faceCount * 3, GL_UNSIGNED_INT, (GLvoid*)0);
 
 	shader->setMat4("Matrix", transform2);
@@ -233,7 +233,7 @@ void setupCallbacks()
 
 void init(int argc, char* argv[])
 {
-	transform = glm::translate(transform, glm::vec3(0.0f, 0.0f, 0.0f));
+	transform = glm::rotate(glm::translate(transform, glm::vec3(0.0f, 0.0f, 0.0f)), 50.f, glm::vec3(1.f, 0.3f, 0.6f));
 	transform2 = glm::translate(transform2, glm::vec3(-1.0f, -1.0f, 0.0f));
 
 	createShaderProgram();
