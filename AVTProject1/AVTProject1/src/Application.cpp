@@ -1,8 +1,10 @@
 #include "Application.h"
 #include "ResourcesManager.h"
+#include "Input.h"
 
 #include <iostream>
-#include <string>
+#include <sstream>
+#include <time.h>
 
 #define GLEW_STATIC
 #include <GL/glew.h>
@@ -10,6 +12,16 @@
 
 namespace AVTEngine
 {
+	unsigned int Application::windowHandle = 0;
+	int Application::frameCount = 0;
+	int Application::windowWidth = WINDOW_WIDTH;
+	int Application::windowHeight = WINDOW_HEIGHT;
+	int Application::initialTime = time(NULL);
+	int Application::finalTime;
+	std::string Application::framesPerSecond = "0";
+	void(*Application::cleanupFunction)() = nullptr;
+	void(*Application::renderFunction)() = nullptr;
+
 	Application::Application()
 	{
 	}
@@ -23,7 +35,7 @@ namespace AVTEngine
 		setupGLUT(argc, argv);
 		setupGLEW();
 		setupOpenGL();
-
+		setupCallbacks();
 		ResourcesManager::init();
 	}
 
@@ -35,6 +47,16 @@ namespace AVTEngine
 	void Application::incrementFrameCounter()
 	{
 		frameCount++;
+	}
+
+	void Application::setCleanupFunction(void(*func)())
+	{
+		cleanupFunction = func;
+	}
+
+	void Application::setRenderFunction(void(*func)())
+	{
+		renderFunction = func;
 	}
 
 	void Application::setupGLUT(int argc, char* argv[])
@@ -88,11 +110,59 @@ namespace AVTEngine
 
 	void Application::setupCallbacks()
 	{
-		/*glutCloseFunc(cleanup);
+		glutCloseFunc(cleanupFunction);
 		glutDisplayFunc(display);
-		glutIdleFunc(idle);
 		glutReshapeFunc(reshape);
-		glutTimerFunc(0, timer, 0);*/
+		glutKeyboardFunc(Input::keyPressCallback);
+		glutKeyboardUpFunc(Input::keyReleaseCallback);
+		glutMouseFunc(Input::mouseButtonsCallback);
+		glutMotionFunc(Input::mouseMovementCallback);
+		glutTimerFunc(1000 * INV_FPS, timer, 0);
+	}
+
+	void Application::updateFramesPerSecond()
+	{
+		frameCount++;
+		finalTime = time(NULL);
+		if (finalTime - initialTime > 0)
+		{
+			std::ostringstream oss;
+			oss << frameCount / (finalTime - initialTime);
+			framesPerSecond = oss.str();
+
+			frameCount = 0;
+			initialTime = finalTime;
+		}
+	}
+
+	void Application::display()
+	{
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		if (renderFunction != nullptr)
+		{
+			renderFunction();
+		}
+		glutSwapBuffers();
+
+		updateFramesPerSecond();
+	}
+
+	void Application::reshape(int w, int h)
+	{
+		windowWidth = w;
+		windowHeight = h;
+		glViewport(0, 0, windowWidth, windowHeight);
+	}
+
+	void Application::timer(int value)
+	{
+		std::ostringstream oss;
+		oss << WINDOW_TITLE << ": " << framesPerSecond << " FPS @ (" << windowWidth << "x" << windowHeight << ")";
+		std::string s = oss.str();
+		glutSetWindow(windowHandle);
+		glutSetWindowTitle(s.c_str());
+		glutPostRedisplay();
+		glutTimerFunc(1000 * INV_FPS, timer, 0);
 	}
 
 	unsigned int Application::getWindowHandle()

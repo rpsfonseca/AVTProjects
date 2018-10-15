@@ -26,14 +26,8 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>
 
-#define CAPTION "Exercise 1"
-
 using namespace AVTEngine;
 Shader* shader;
-
-int WinX = 640, WinY = 480;
-int WindowHandle = 0;
-unsigned int FrameCount = 0;
 
 #define VERTEX_COORD_ATTRIB 0
 #define NORMAL_ATTRIB 1
@@ -177,59 +171,7 @@ void cleanup()
 	destroyBufferObjects();
 }
 
-void display()
-{
-	++FrameCount;
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	renderScene();
-	glutSwapBuffers();
-}
-
-void frames60(int a) {
-	glutPostRedisplay();
-	glutTimerFunc(1000 / 60, frames60, 0);
-}
-
-void idle()
-{
-	glutPostRedisplay();
-}
-
-void reshape(int w, int h)
-{
-	WinX = w;
-	WinY = h;
-	glViewport(0, 0, WinX, WinY);
-}
-
-void timer(int value)
-{
-	std::ostringstream oss;
-	oss << CAPTION << ": " << FrameCount << " FPS @ (" << WinX << "x" << WinY << ")";
-	std::string s = oss.str();
-	glutSetWindow(app.getWindowHandle());
-	glutSetWindowTitle(s.c_str());
-	FrameCount = 0;
-	glutTimerFunc(1000, timer, 0);
-}
-
 /////////////////////////////////////////////////////////////////////// SETUP
-
-void setupCallbacks()
-{
-	glutCloseFunc(cleanup);
-	glutDisplayFunc(display);
-	//glutIdleFunc(idle);
-	glutReshapeFunc(reshape);
-	glutKeyboardFunc(Input::keyPressCallback);
-	glutKeyboardUpFunc(Input::keyReleaseCallback);
-	glutMouseFunc(Input::mouseButtonsCallback);
-	glutMotionFunc(Input::mouseMovementCallback);
-	glutTimerFunc(0, timer, 0);
-	glutTimerFunc(1000 / 60, frames60 , 0);
-}
-
-
 
 void init(int argc, char* argv[])
 {
@@ -238,13 +180,14 @@ void init(int argc, char* argv[])
 
 	createShaderProgram();
 	createBufferObjects();
-	setupCallbacks();
 }
 
 int main(int argc, char* argv[])
 {
 	runningDirectory = FileSystem::getRunningDirectory(argv[0]);
 	app = Application();
+	app.setCleanupFunction(cleanup);
+	app.setRenderFunction(renderScene);
 	app.init(argc, argv);
 	init(argc, argv);
 	app.mainLoop();
