@@ -146,6 +146,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="node.cpp" />
+    <ClCompile Include="scene.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\FileSystem.cpp" />
     <ClCompile Include="src\Input.cpp" />
@@ -162,6 +164,8 @@
     <ClInclude Include="include\ResourcesManager.h" />
     <ClInclude Include="include\Shader.h" />
     <ClInclude Include="include\StringUtils.h" />
+    <ClInclude Include="node.h" />
+    <ClInclude Include="scene.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\basic.fs" />
