@@ -146,8 +146,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="node.cpp" />
-    <ClCompile Include="scene.cpp" />
+    <ClCompile Include="src\node.cpp" />
+    <ClCompile Include="src\scene.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\CommandBuffer.cpp" />
     <ClCompile Include="src\FileSystem.cpp" />
@@ -178,8 +178,8 @@
     <ClInclude Include="include\Shader.h" />
     <ClInclude Include="include\ShadingTypes.h" />
     <ClInclude Include="include\StringUtils.h" />
-    <ClInclude Include="node.h" />
-    <ClInclude Include="scene.h" />
+    <ClInclude Include="include\node.h" />
+    <ClInclude Include="include\scene.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\basic.fs" />
