@@ -1,12 +1,12 @@
 #include "Application.h"
 #include "ResourcesManager.h"
 #include "Input.h"
+#include "Renderer.h"
 
 #include <iostream>
 #include <sstream>
 #include <time.h>
 
-#define GLEW_STATIC
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 
@@ -19,11 +19,13 @@ namespace AVTEngine
 	int Application::initialTime = time(NULL);
 	int Application::finalTime;
 	std::string Application::framesPerSecond = "0";
+	Renderer* Application::renderer = nullptr;
 	void(*Application::cleanupFunction)() = nullptr;
 	void(*Application::renderFunction)() = nullptr;
 
 	Application::Application()
 	{
+		renderer = new Renderer();
 	}
 
 	Application::~Application()
@@ -97,7 +99,10 @@ namespace AVTEngine
 	void Application::setupOpenGL()
 	{
 		std::cerr << "CONTEXT: OpenGL v" << glGetString(GL_VERSION) << std::endl;
-		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+
+		renderer->setupRenderer();
+
+		/*glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LEQUAL);
 		glDepthMask(GL_TRUE);
@@ -105,7 +110,7 @@ namespace AVTEngine
 		glClearDepth(1.0);
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
-		glFrontFace(GL_CCW);
+		glFrontFace(GL_CCW);*/
 	}
 
 	void Application::setupCallbacks()
@@ -137,11 +142,14 @@ namespace AVTEngine
 
 	void Application::display()
 	{
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		renderer->preDraw();
+		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		if (renderFunction != nullptr)
 		{
 			renderFunction();
 		}
+		renderer->postDraw();
+
 		glutSwapBuffers();
 
 		updateFramesPerSecond();

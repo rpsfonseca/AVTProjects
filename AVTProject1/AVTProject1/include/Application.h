@@ -13,6 +13,8 @@ namespace AVTEngine
 	#define WINDOW_HEIGHT 480
 	#define WINDOW_TITLE "MICRO MACHINES RECREATION"
 
+	class Renderer;
+
 	class Application
 	{
 	private:
@@ -31,6 +33,8 @@ namespace AVTEngine
 		static int finalTime;
 
 		static std::string framesPerSecond;
+
+		static Renderer* renderer;
 
 	public:
 		Application();

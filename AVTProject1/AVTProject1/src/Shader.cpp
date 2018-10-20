@@ -76,6 +76,38 @@ namespace AVTEngine
 		glDeleteShader(fragment);
 	}
 
+	void Shader::fillAttributesAndUniforms()
+	{
+		//int nAttrib;
+		int nUniform;
+		//glGetProgramiv(shaderID, GL_ACTIVE_ATTRIBUTES, &nAttrib);
+		glGetProgramiv(shaderID, GL_ACTIVE_UNIFORMS, &nUniform);
+
+		//attributes.resize(nAttrib);
+		uniforms.resize(nUniform);
+
+		char buffer[128];
+		/*for (int i = 0; i < nAttrib; i++)
+		{
+			GLenum glType;
+			glGetActiveAttrib(shaderID, i, sizeof(buffer), 0, &attributes[i].size, &glType, buffer);
+
+			attributes[i].name = std::string(buffer);
+			//attributes[i].type = std::string(buffer);
+			attributes[i].location = glGetAttribLocation(shaderID, buffer);
+		}*/
+
+		for (int i = 0; i < nUniform; i++)
+		{
+			GLenum glType;
+			glGetActiveUniform(shaderID, i, sizeof(buffer), 0, &uniforms[i].size, &glType, buffer);
+
+			uniforms[i].name = std::string(buffer);
+			//uniforms[i].type = std::string(buffer);
+			uniforms[i].location = glGetUniformLocation(shaderID, buffer);
+		}
+	}
+
 	Shader& Shader::use()
 	{
 		glUseProgram(shaderID);

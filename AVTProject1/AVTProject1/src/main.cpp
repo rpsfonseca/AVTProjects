@@ -5,6 +5,8 @@
 //
 ///////////////////////////////////////////////////////////////////////
 
+#define GLEW_STATIC
+
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -17,6 +19,7 @@
 #include "FileSystem.h"
 #include "ResourcesManager.h"
 #include "Input.h"
+#include "OpenGLError.h"
 #include "Application.h"
 #include <GL/freeglut.h>
 
@@ -41,28 +44,6 @@ std::string runningDirectory;
 
 Application app;
 
-/////////////////////////////////////////////////////////////////////// ERRORS
-
-bool isOpenGLError() {
-	bool isError = false;
-	GLenum errCode;
-	const GLubyte *errString;
-	while ((errCode = glGetError()) != GL_NO_ERROR) {
-		isError = true;
-		errString = gluErrorString(errCode);
-		std::cerr << "OpenGL ERROR [" << errString << "]." << std::endl;
-	}
-	return isError;
-}
-
-void checkOpenGLError(std::string error)
-{
-	if (isOpenGLError()) {
-		std::cerr << error << std::endl;
-		getchar();
-		exit(EXIT_FAILURE);
-	}
-}
 
 /////////////////////////////////////////////////////////////////////// SHADERs
 
@@ -72,7 +53,7 @@ void createShaderProgram()
 
 	glBindAttribLocation(shader->shaderID, VERTEX_COORD_ATTRIB, "in_Position");
 
-	checkOpenGLError("ERROR: Could not create shaders.");
+	OpenGLError::checkOpenGLError("ERROR: Could not create shaders.");
 }
 
 void destroyShaderProgram()
@@ -80,7 +61,7 @@ void destroyShaderProgram()
 	glUseProgram(0);
 	shader->deleteProgram();
 
-	checkOpenGLError("ERROR: Could not destroy shaders.");
+	OpenGLError::checkOpenGLError("ERROR: Could not destroy shaders.");
 }
 
 /////////////////////////////////////////////////////////////////////// VAOs & VBOs
@@ -123,7 +104,7 @@ void createBufferObjects()
 	glDisableVertexAttribArray(NORMAL_ATTRIB);
 	glDisableVertexAttribArray(TEXTURE_COORD_ATTRIB);*/
 
-	checkOpenGLError("ERROR: Could not create VAOs and VBOs.");
+	OpenGLError::checkOpenGLError("ERROR: Could not create VAOs and VBOs.");
 }
 
 void destroyBufferObjects()
@@ -139,7 +120,7 @@ void destroyBufferObjects()
 
 	glDeleteBuffers(4, VboId);
 	glDeleteVertexArrays(1, &VaoId);
-	checkOpenGLError("ERROR: Could not destroy VAOs and VBOs.");
+	OpenGLError::checkOpenGLError("ERROR: Could not destroy VAOs and VBOs.");
 }
 
 /////////////////////////////////////////////////////////////////////// SCENE
@@ -151,16 +132,16 @@ void renderScene()
 	glBindVertexArray(VaoId);
 	shader->use();
 
-	shader->setMat4("Matrix", app.getCurrentCamera().getViewProjection());
+	shader->setMat4("modelMatrix", app.getCurrentCamera().getViewProjection());
 	glDrawElements(GL_TRIANGLES, faceCount * 3, GL_UNSIGNED_INT, (GLvoid*)0);
 
-	shader->setMat4("Matrix", transform2);
+	shader->setMat4("modelMatrix", transform2);
 	glDrawElements(GL_TRIANGLES, faceCount * 3, GL_UNSIGNED_INT, (GLvoid*)0);
 
 	glUseProgram(0);
 	glBindVertexArray(0);
 
-	checkOpenGLError("ERROR: Could not draw scene.");
+	OpenGLError::checkOpenGLError("ERROR: Could not draw scene.");
 }
 
 /////////////////////////////////////////////////////////////////////// CALLBACKS

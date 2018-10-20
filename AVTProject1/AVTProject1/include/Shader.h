@@ -1,5 +1,7 @@
 #pragma once
 
+#include "ShadingTypes.h"
+
 #include "GL\glew.h"
 
 #include "glm\glm.hpp"
@@ -8,6 +10,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <vector>
 
 namespace AVTEngine
 {
@@ -15,7 +18,8 @@ namespace AVTEngine
 	{
 	private:
 		std::string mName;
-		void compile(const GLchar* vsCode, const GLchar* fsCode);
+
+		std::vector<Uniform> uniforms;
 
 	public:
 		Shader();
@@ -41,5 +45,9 @@ namespace AVTEngine
 
 		GLuint uniformBlockBinding();
 
+	private:
+		void compile(const GLchar* vsCode, const GLchar* fsCode);
+
+		void fillAttributesAndUniforms();
 	};
 }
