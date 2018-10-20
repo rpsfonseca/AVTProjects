@@ -50,6 +50,11 @@
     </ClCompile>
     <ClCompile Include="src\Material.cpp">
       <Filter>Source Files</Filter>
+    <ClCompile Include="src\node.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scene.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -99,6 +104,11 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\ShadingTypes.h">
+      <Filter>Header Files</Filter>
+    <ClInclude Include="include\node.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
