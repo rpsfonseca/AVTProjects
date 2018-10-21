@@ -33,18 +33,20 @@ namespace AVTEngine
 
 	public:
 
-		Entity(Shader *shader_, Mesh *mesh_, float maxVelocity_, float orientation_);
+		Entity(Shader *shader_, Mesh *mesh_, float maxVelocity_, float maxTurnRate_, glm::vec3 orientation_);
 		Entity() = default;
 
-		glm::vec3 position = glm::vec3(0, 0, 0);
+		glm::vec3 position;
+		glm::vec3 orientation;
 
 		float velocity; //Velocidade momentânea 
-		float accel; //Aceleração
+		float acceleration; //Aceleração
+		float deceleration;
 		float maxVelocity;  // Velocidade maxima
 		float minVelocity; // Velocidade para qual o algoritmo arredonda para 0
 		float minDrag; // Forca minima de fricao
 		float maxTurnRate; //Variação máxima da direção
-		float orientation;
+		
 		float movementOrientation;
 		float rotationAccum;
 		bool enabled = false; // Se o objecto deve detectar colisões ou não
@@ -63,7 +65,7 @@ namespace AVTEngine
 		void enable();
 		bool isDisabled();
 		bool isMoving();
-		float getOrientation();
+		glm::vec3 getOrientation();
 		glm::vec3 getPosition();
 		void setPosition(glm::vec3 position_);
 		void rotate(float angle_);
@@ -72,9 +74,4 @@ namespace AVTEngine
 
 	};
 }
-
-
-
-
-
 

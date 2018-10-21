@@ -4,13 +4,11 @@
 namespace AVTEngine
 {
 
-	Entity::Entity(Shader *shader_, Mesh *mesh_, float maxVelocity_, float orientation_) :
-		shader(shader_), mesh(mesh_), maxVelocity(maxVelocity_), orientation(orientation_){
+	Entity::Entity(Shader *shader_, Mesh *mesh_, float maxVelocity_, float maxTurnRate_, glm::vec3 orientation_) :
+		shader(shader_), mesh(mesh_), maxVelocity(maxVelocity_), maxTurnRate(maxTurnRate_), orientation(orientation_){
 		
 		velocity = 0;	// Velocidade inicial
-		accel = 0;
 		minVelocity = 0.1; // Velocidade para qual o algoritmo arredonda para 0
-		minDrag = MIN_DRAG; // Forca minima de fricao
 		enabled = true;
 		rotationAccum = 0;
 	};
@@ -61,7 +59,7 @@ namespace AVTEngine
 		return abs(velocity) > minVelocity;
 	}
 
-	float Entity::getOrientation() {
+	glm::vec3 Entity::getOrientation() {
 		return orientation;
 	}
 
@@ -82,7 +80,7 @@ namespace AVTEngine
 	}
 
 	void Entity::reset() {
-		accel = 0;
+		//acceleration = 0;
 		velocity = 0;
 	}
 
