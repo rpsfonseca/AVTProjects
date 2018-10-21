@@ -93,6 +93,7 @@ namespace AVTEngine
 		var max = 5;
 		return Math.floor(Math.random() * (max - min)) + min;
 		*/
+		return 0; //Temporary
 	}
 
 	
