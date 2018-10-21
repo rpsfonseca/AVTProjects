@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Camera.h"
+#include "GameState.h"
+#include "HUD.h"
 
 #include <string>
 #include <glm/gtc/matrix_transform.hpp>
@@ -25,6 +27,8 @@ namespace AVTEngine
 			topPerspectiveCamera = FixedViewCamera(glm::perspective(70.f, WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.1f, 1000.f), glm::lookAt(glm::vec3(0, 0, -5), glm::vec3(0), glm::vec3(0, 1, 0)));
 		ArcballCamera followCamera = ArcballCamera(glm::perspective(70.f, WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.1f, 1000.f), glm::translate(glm::mat4(1), glm::vec3(0, 0, -5)));
 		Camera* currentCamera = &topPerspectiveCamera;
+		GameState gameState;
+		HUD* hud;
 
 		static int windowWidth;
 		static int windowHeight;
@@ -53,6 +57,7 @@ namespace AVTEngine
 		unsigned int getWindowHandle();
 		void changeCamera(int cameraNum);
 		Camera& getCurrentCamera() { return *currentCamera; }
+		GameState& getGameState() { return gameState; }
 
 	private:
 		void setupGLUT(int argc, char* argv[]);

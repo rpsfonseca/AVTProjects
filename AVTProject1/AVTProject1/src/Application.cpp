@@ -40,6 +40,7 @@ namespace AVTEngine
 		setupOpenGL();
 		setupCallbacks();
 		ResourcesManager::init();
+		hud = new HUD();
 	}
 
 	void Application::mainLoop()
@@ -150,6 +151,8 @@ namespace AVTEngine
 			renderFunction();
 		}
 		renderer->postDraw();
+
+		Application::Instance->hud->draw();
 
 		glutSwapBuffers();
 

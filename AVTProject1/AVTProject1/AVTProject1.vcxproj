@@ -148,6 +148,8 @@
   <ItemGroup>
     <ClCompile Include="Car.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="src\GameState.cpp" />
+    <ClCompile Include="src\load_bmp.cpp" />
     <ClCompile Include="src\node.cpp" />
     <ClCompile Include="src\scene.cpp" />
     <ClCompile Include="src\Application.cpp" />
@@ -162,17 +164,22 @@
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\ResourcesManager.cpp" />
     <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\TextureMappedFont.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Car.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="GameState.h" />
     <ClInclude Include="include\Application.h" />
     <ClInclude Include="include\Camera.h" />
     <ClInclude Include="include\CommandBuffer.h" />
     <ClInclude Include="include\Cube.h" />
     <ClInclude Include="include\FileSystem.h" />
+    <ClInclude Include="include\GameState.h" />
+    <ClInclude Include="include\HUD.h" />
     <ClInclude Include="include\Input.h" />
+    <ClInclude Include="include\load_bmp.h" />
     <ClInclude Include="include\Material.h" />
     <ClInclude Include="include\Mesh.h" />
     <ClInclude Include="include\Model.h" />
@@ -185,10 +192,13 @@
     <ClInclude Include="include\StringUtils.h" />
     <ClInclude Include="include\node.h" />
     <ClInclude Include="include\scene.h" />
+    <ClInclude Include="include\TextureMappedFont.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\basic.fs" />
     <None Include="resources\basic.vs" />
+    <None Include="resources\shaders\fontShader.fs" />
+    <None Include="resources\shaders\fontShader.vs" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="include\fragmentShader.txt">
@@ -197,6 +207,9 @@
     <Text Include="include\vertexShader.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\font.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
