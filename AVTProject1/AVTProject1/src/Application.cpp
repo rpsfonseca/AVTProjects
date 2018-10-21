@@ -11,7 +11,8 @@
 #include <GL/freeglut.h>
 
 namespace AVTEngine
-{
+{ 
+	Application* Application::Instance;
 	unsigned int Application::windowHandle = 0;
 	int Application::frameCount = 0;
 	int Application::windowWidth = WINDOW_WIDTH;
@@ -176,5 +177,13 @@ namespace AVTEngine
 	unsigned int Application::getWindowHandle()
 	{
 		return windowHandle;
+	}
+
+	void Application::changeCamera(int cameraNum) {
+		switch (cameraNum) {
+		case 1: this->currentCamera = &topOrtoCamera; break;
+		case 2: this->currentCamera = &topPerspectiveCamera; break;
+		case 3: this->currentCamera = &followCamera; break;
+		}
 	}
 }

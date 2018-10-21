@@ -20,11 +20,11 @@ namespace AVTEngine
 	private:
 		static unsigned int windowHandle;
 		static int frameCount;
-		Camera
-			topOrtoCamera = Camera(glm::ortho(0, 2, 2, 0), glm::mat4(1)),
-			topPerspectiveCamera = Camera(glm::perspective(70.f, WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.f, 1000.f), glm::mat4(1)),
-			followCamera = Camera(glm::ortho(0, WINDOW_WIDTH, WINDOW_HEIGHT, 0), glm::mat4(1));
-		Camera* currentCamera = &topOrtoCamera;
+		FixedViewCamera
+			topOrtoCamera = FixedViewCamera(glm::ortho(0, 2, 2, 0), glm::rotate(glm::translate(glm::mat4(1), glm::vec3(0.1f, 0.1f, 0)), 1.f, glm::vec3(-1, 0, 0))),
+			topPerspectiveCamera = FixedViewCamera(glm::perspective(70.f, WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.1f, 1000.f), glm::lookAt(glm::vec3(0, 0, -5), glm::vec3(0), glm::vec3(0, 1, 0)));
+		ArcballCamera followCamera = ArcballCamera(glm::perspective(70.f, WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.1f, 1000.f), glm::translate(glm::mat4(1), glm::vec3(0, 0, -5)));
+		Camera* currentCamera = &topPerspectiveCamera;
 
 		static int windowWidth;
 		static int windowHeight;
@@ -37,6 +37,9 @@ namespace AVTEngine
 		static Renderer* renderer;
 
 	public:
+		static Application* Instance;
+		static void Create() { Instance = new Application(); }
+
 		Application();
 		~Application();
 
@@ -48,6 +51,7 @@ namespace AVTEngine
 		void setRenderFunction(void(*func)());
 
 		unsigned int getWindowHandle();
+		void changeCamera(int cameraNum);
 		Camera& getCurrentCamera() { return *currentCamera; }
 
 	private:

@@ -42,8 +42,6 @@ GLint UniformId;
 
 std::string runningDirectory;
 
-Application app;
-
 
 /////////////////////////////////////////////////////////////////////// SHADERs
 
@@ -132,10 +130,7 @@ void renderScene()
 	glBindVertexArray(VaoId);
 	shader->use();
 
-	shader->setMat4("modelMatrix", app.getCurrentCamera().getViewProjection());
-	glDrawElements(GL_TRIANGLES, faceCount * 3, GL_UNSIGNED_INT, (GLvoid*)0);
-
-	shader->setMat4("modelMatrix", transform2);
+	shader->setMat4("modelMatrix", Application::Instance->getCurrentCamera().getViewProjection());
 	glDrawElements(GL_TRIANGLES, faceCount * 3, GL_UNSIGNED_INT, (GLvoid*)0);
 
 	glUseProgram(0);
@@ -166,12 +161,12 @@ void init(int argc, char* argv[])
 int main(int argc, char* argv[])
 {
 	runningDirectory = FileSystem::getRunningDirectory(argv[0]);
-	app = Application();
-	app.setCleanupFunction(cleanup);
-	app.setRenderFunction(renderScene);
-	app.init(argc, argv);
+	Application::Create();
+	Application::Instance->setCleanupFunction(cleanup);
+	Application::Instance->setRenderFunction(renderScene);
+	Application::Instance->init(argc, argv);
 	init(argc, argv);
-	app.mainLoop();
+	Application::Instance->mainLoop();
 	exit(EXIT_SUCCESS);
 }
 
