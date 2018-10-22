@@ -122,6 +122,12 @@ namespace AVTEngine
 		glDeleteProgram(shaderID);
 	}
 
+	void Shader::setBool(const GLchar* field, GLboolean value)
+	{
+		GLint loc = glGetUniformLocation(shaderID, field);
+		glUniform1i(loc, value);
+	}
+
 	void Shader::setInteger(const GLchar* field, GLint value)
 	{
 		GLint loc = glGetUniformLocation(shaderID, field);
@@ -150,6 +156,12 @@ namespace AVTEngine
 	{
 		GLint loc = glGetUniformLocation(shaderID, field);
 		glUniform3f(loc, vector.x, vector.y, vector.z);
+	}
+
+	void Shader::setVec3(const GLchar* field, GLfloat x, GLfloat y, GLfloat z)
+	{
+		GLint loc = glGetUniformLocation(shaderID, field);
+		glUniform3f(loc, x, y, z);
 	}
 
 	void Shader::setVec4(const GLchar* field, const glm::vec4& vector)

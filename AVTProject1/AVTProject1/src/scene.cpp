@@ -51,6 +51,8 @@ namespace AVTEngine
 		//renderer->uboId = uniformBlockId;
 
 		SceneNode* planeNode = Scene::createSceneNode(new Mesh(vectorOfVertices, indices), new Material("basic"));
+		planeNode->material->setAmbient(glm::vec3(0.8f, 1.f, 1.f));
+		planeNode->material->setShininess(32.f);
 		planeNode->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 		/*planeNode->setScale(Vec3(4.0f));
 		planeNode->model->setPosition(Vec3(0, 0, -1.0f));
@@ -61,6 +63,10 @@ namespace AVTEngine
 		//rootSceneNode->childNodes = std::vector<SceneNode*>(1, planeNode);
 
 		SceneNode* planeNode2 = Scene::createSceneNode(new Mesh(vectorOfVertices, indices), new Material("basic"));
+		planeNode2->material->setAmbient(glm::vec3(1.f, 1.f, 0.3f));
+		planeNode2->material->setDiffuse(glm::vec3(0.5f, 0.5f, 1.f));
+		planeNode2->material->setSpecular(glm::vec3(1.f));
+		planeNode2->material->setShininess(32.f);
 		planeNode2->setPosition(glm::vec3(-1.0f, -1.0f, 0.0f));
 		/*planeNode2->setScale(Vec3(3.0f, 1.5f, 1.0f));
 		planeNode2->model->setPosition(Vec3(0.0f));

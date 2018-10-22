@@ -33,11 +33,13 @@ namespace AVTEngine
 
 		void setName(std::string name) { mName = name; }
 
+		void setBool(const GLchar* field, GLboolean value);
 		void setInteger(const GLchar* field, GLint value);
 		void setFloat(const GLchar* field, GLfloat value);
 		void setMat4(const GLchar* field, const glm::mat4& matrix);
 		void setVec2(const GLchar* field, const glm::vec2& vector);
 		void setVec3(const GLchar* field, const glm::vec3& vector);
+		void setVec3(const GLchar * field, GLfloat x, GLfloat y, GLfloat z);
 		void setVec4(const GLchar* field, const glm::vec4& vector);
 
 		inline GLuint operator() (const std::string& name) { return glGetUniformLocation(shaderID, name.c_str()); }

@@ -145,6 +145,71 @@ namespace AVTEngine
 
 		material->getShader()->use();
 
+		// setup material properties
+		material->getShader()->setVec3("material.diffuse", material->getDiffuse());
+		material->getShader()->setVec3("material.ambient", material->getAmbient());
+		material->getShader()->setVec3("material.specular", material->getSpecular());
+		material->getShader()->setFloat("material.shininess", material->getShininess());
+
+		// setup view for light calculations
+		material->getShader()->setVec3("viewPos", glm::vec3(this->viewMatrix[3]));
+
+		// setup lights
+		glm::vec3 pointLightPositions[] = {
+			glm::vec3(0.f),
+			glm::vec3(2.3f, -3.3f, -4.0f),
+			glm::vec3(-4.0f,  2.0f, -12.0f),
+			glm::vec3(0.0f,  0.0f, -3.0f)
+		};
+
+		material->getShader()->setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
+		material->getShader()->setVec3("dirLight.ambient", 0.05f, 0.05f, 0.05f);
+		material->getShader()->setVec3("dirLight.diffuse", 0.4f, 0.4f, 0.4f);
+		material->getShader()->setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
+		// point light 1
+		material->getShader()->setVec3("pointLights[0].position", pointLightPositions[0]);
+		material->getShader()->setVec3("pointLights[0].ambient", 0.05f, 0.05f, 0.05f);
+		material->getShader()->setVec3("pointLights[0].diffuse", 0.8f, 0.8f, 0.8f);
+		material->getShader()->setVec3("pointLights[0].specular", 1.0f, 1.0f, 1.0f);
+		material->getShader()->setFloat("pointLights[0].constant", 1.0f);
+		material->getShader()->setFloat("pointLights[0].linear", 0.09);
+		material->getShader()->setFloat("pointLights[0].quadratic", 0.032);
+		// point light 2
+		material->getShader()->setVec3("pointLights[1].position", pointLightPositions[1]);
+		material->getShader()->setVec3("pointLights[1].ambient", 0.05f, 0.05f, 0.05f);
+		material->getShader()->setVec3("pointLights[1].diffuse", 0.8f, 0.8f, 0.8f);
+		material->getShader()->setVec3("pointLights[1].specular", 1.0f, 1.0f, 1.0f);
+		material->getShader()->setFloat("pointLights[1].constant", 1.0f);
+		material->getShader()->setFloat("pointLights[1].linear", 0.09);
+		material->getShader()->setFloat("pointLights[1].quadratic", 0.032);
+		// point light 3
+		material->getShader()->setVec3("pointLights[2].position", pointLightPositions[2]);
+		material->getShader()->setVec3("pointLights[2].ambient", 0.05f, 0.05f, 0.05f);
+		material->getShader()->setVec3("pointLights[2].diffuse", 0.8f, 0.8f, 0.8f);
+		material->getShader()->setVec3("pointLights[2].specular", 1.0f, 1.0f, 1.0f);
+		material->getShader()->setFloat("pointLights[2].constant", 1.0f);
+		material->getShader()->setFloat("pointLights[2].linear", 0.09);
+		material->getShader()->setFloat("pointLights[2].quadratic", 0.032);
+		// point light 4
+		material->getShader()->setVec3("pointLights[3].position", pointLightPositions[3]);
+		material->getShader()->setVec3("pointLights[3].ambient", 0.05f, 0.05f, 0.05f);
+		material->getShader()->setVec3("pointLights[3].diffuse", 0.8f, 0.8f, 0.8f);
+		material->getShader()->setVec3("pointLights[3].specular", 1.0f, 1.0f, 1.0f);
+		material->getShader()->setFloat("pointLights[3].constant", 1.0f);
+		material->getShader()->setFloat("pointLights[3].linear", 0.09);
+		material->getShader()->setFloat("pointLights[3].quadratic", 0.032);
+		// spotLight
+		material->getShader()->setVec3("spotLight.position", glm::vec3(0));
+		material->getShader()->setVec3("spotLight.direction", glm::fastNormalize(glm::vec3(1)));
+		material->getShader()->setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
+		material->getShader()->setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
+		material->getShader()->setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
+		material->getShader()->setFloat("spotLight.constant", 1.0f);
+		material->getShader()->setFloat("spotLight.linear", 0.09);
+		material->getShader()->setFloat("spotLight.quadratic", 0.032);
+		material->getShader()->setFloat("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
+		material->getShader()->setFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
+
 		material->getShader()->setMat4("projectionMatrix", projectionMatrix);
 		material->getShader()->setMat4("viewMatrix", viewMatrix);
 		material->getShader()->setMat4("modelMatrix", command->transform);
