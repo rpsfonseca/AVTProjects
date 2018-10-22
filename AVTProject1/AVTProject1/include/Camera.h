@@ -21,7 +21,8 @@ namespace AVTEngine
 		glm::mat4 getViewProjection() { return getProjection() * getView(); }
 
 		void setProjection(glm::mat4&& projection) { this->projection = projection; }
-		void setPosition(glm::vec3&& position) { this->view = view; }
+		void setView(glm::mat4&& view) { this->view = view; }
+		void setPosition(glm::vec3&& position) { this->position = position; }
 		void setArcballOffset(glm::vec3&& offset) { this->arcBallOffset = offset; }
 	};
 

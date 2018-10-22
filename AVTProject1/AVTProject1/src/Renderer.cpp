@@ -3,6 +3,7 @@
 #include "RenderCommand.h"
 #include "CommandBuffer.h"
 #include "Material.h"
+#include "Camera.h"
 #include "node.h"
 #include "OpenGLError.h"
 
@@ -134,7 +135,7 @@ namespace AVTEngine
 	{
 		viewMatrix = mat;
 
-		//std::cout << "PROJECTION: " << glm::to_string(viewMatrix) << std::endl;
+		//std::cout << "VIEW: " << glm::to_string(viewMatrix) << std::endl;
 	}
 
 	void Renderer::renderCommand(RenderCommand* command, Camera* camera)
@@ -147,6 +148,7 @@ namespace AVTEngine
 		material->getShader()->setMat4("projectionMatrix", projectionMatrix);
 		material->getShader()->setMat4("viewMatrix", viewMatrix);
 		material->getShader()->setMat4("modelMatrix", command->transform);
+		//material->getShader()->setMat4("modelMatrix", camera->getViewProjection());
 
 		renderMesh(mesh);
 	}
