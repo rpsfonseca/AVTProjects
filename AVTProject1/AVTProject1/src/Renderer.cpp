@@ -3,11 +3,13 @@
 #include "RenderCommand.h"
 #include "CommandBuffer.h"
 #include "Material.h"
+#include "node.h"
 #include "OpenGLError.h"
 
 #include "GL\glew.h"
 
 #include <ctime>
+#include <stack>
 #include <iostream>
 
 namespace AVTEngine
@@ -24,7 +26,7 @@ namespace AVTEngine
 
 	Renderer::~Renderer()
 	{
-		delete commandBuffer;
+		//delete commandBuffer;
 	}
 
 	// As the name implies, sets up the renderer.
@@ -45,6 +47,36 @@ namespace AVTEngine
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
 		glFrontFace(GL_CCW);
+	}
+
+	void Renderer::pushRenderables(SceneNode* sceneNode)
+	{
+		// update transform(s) before pushing node to render command buffer
+		sceneNode->updateTransform();
+
+		// traverse through all the scene nodes and for each node: push its render state to the 
+		// command buffer together with a calculated transform matrix.
+		std::stack<SceneNode*> nodeStack;
+		nodeStack.push(sceneNode);
+		for (int i = 0; i < sceneNode->getChildCount(); ++i)
+		{
+			nodeStack.push(sceneNode->getChildByIndex(i));
+		}
+		while (!nodeStack.empty())
+		{
+			SceneNode* node = nodeStack.top();
+			nodeStack.pop();
+			// only push render command if the child isn't a container node.
+			if (node->mesh)
+			{
+				commandBuffer->pushCommand(node->mesh, node->material, node->getTransform());
+			}
+
+			for (int i = 0; i < node->getChildCount(); ++i)
+			{
+				nodeStack.push(node->getChildByIndex(i));
+			}
+		}
 	}
 
 	// As the name implies, it runs before the draw method.
@@ -82,6 +114,11 @@ namespace AVTEngine
 		glBindVertexArray(0);
 	}
 
+	void Renderer::cleanup()
+	{
+		delete commandBuffer;
+	}
+
 	void Renderer::setProjectionMatrix(const glm::mat4& mat)
 	{
 		projectionMatrix = mat;
@@ -99,7 +136,7 @@ namespace AVTEngine
 
 		material->getShader()->use();
 
-		material->getShader()->setMat4("transform", command->transform);
+		material->getShader()->setMat4("modelMatrix", command->transform);
 
 		renderMesh(mesh);
 	}
@@ -107,7 +144,7 @@ namespace AVTEngine
 	void Renderer::renderMesh(Mesh* mesh)
 	{
 		glBindVertexArray(mesh->getVao());
-		if (mesh->usingIndices > 0)
+		if (mesh->usingIndices)
 		{
 			glDrawElements(mesh->topology == TRIANGLE_STRIP ? GL_TRIANGLE_STRIP : GL_TRIANGLES, mesh->getIndicesSize(), GL_UNSIGNED_INT, 0);
 		}

@@ -11,13 +11,12 @@ namespace AVTEngine
 	{
 	}
 
-	void CommandBuffer::pushCommand(Mesh* mesh, Material* material, glm::mat4 transform, glm::mat4 prevTransform)
+	void CommandBuffer::pushCommand(Mesh* mesh, Material* material, glm::mat4 transform)
 	{
 		RenderCommand command;
 		command.mesh = mesh;
 		command.material = material;
 		command.transform = transform;
-		command.previousTransform = prevTransform;
 
 		renderCommands.push_back(command);
 	}

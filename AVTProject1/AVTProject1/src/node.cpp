@@ -1,70 +1,49 @@
 
 //#include "utils\error.hpp"
 #include "node.h"
+#include "Material.h"
 
-#define NODE_TAG "Scene Node"
+#define NODE_TAG "Scene SceneNode"
+
+#include <glm/gtx/quaternion.hpp>
 
 namespace AVTEngine
 {
 	/* TODO uncomment
-	Node::Node(Mesh *mesh_, Shader *shader_) :
+	SceneNode::SceneNode(Mesh *mesh_, Shader *shader_) :
 		nodeMesh(mesh_), nodeShader(shader_) {};
 
-	Node::Node(Mesh *mesh_) : Node(mesh_, nullptr) {}
+	SceneNode::SceneNode(Mesh *mesh_) : SceneNode(mesh_, nullptr) {}
 
-	Node::Node(Shader *shader_) : Node(nullptr, shader_) {}
+	SceneNode::SceneNode(Shader *shader_) : SceneNode(nullptr, shader_) {}
 	*/
-	
 
-	/* Handles draw order and result matrices */
-	void Node::draw(Node *parentNode_)
+	SceneNode::SceneNode()
 	{
-		if (!isEnabled)
-		{
-			return;
-		}
-
-		resultMatrix = parentNode_->resultMatrix * modelMatrix;
-
-
-		Shader *currentShader = nullptr;
-		//Material *currentMaterial = nullptr; TODO uncomment
-
-		currentShader = getCurrentShader(parentNode_);
-		//currentMaterial = getCurrentMaterial(parentNode_); TODO uncomment
-
-		//drawSelf(currentShader, currentMaterial); TODO uncomment
-
-		// Draw Child
-		for (Node *n : nodeArray)
-		{
-			n->draw(this);
-		}
-
-		// Reset Parent Shader
-		if (nodeShader != nullptr && parentNode_->nodeShader != nullptr)
-		{
-			/* 
-			nodeShader->unbind();
-			parentNode_->nodeShader->bind();
-
-				TODO o shader é suposto ter 2 métodos bind e unbind, que fazem o seguinte:
-
-				void ShaderProgram::bind()
-				{
-					glUseProgram(id);
-				}
-
-				void ShaderProgram::unbind()
-				{
-					glUseProgram(0);
-				}
-
-			*/
-		}
+		parentNode = NULL;
+		transform = glm::mat4(1);
+		position = glm::vec3(0.0);
+		rotation = glm::quat();
+		scale = glm::vec3(1, 1, 1);
+		dirty = false;
 	}
 
-	Shader *Node::getCurrentShader(Node *parent_)
+
+	SceneNode::SceneNode(Mesh* _mesh, Material* _material)
+	{
+		mesh = _mesh;
+		material = _material;
+
+		transform = glm::mat4(1);
+		position = glm::vec3(0.0);
+		rotation = glm::quat();
+		scale = glm::vec3(1, 1, 1);
+
+		dirty = false;
+	}
+	
+	
+	Shader *SceneNode::getCurrentShader(SceneNode *parent_)
 	{
 		// If node has a shader
 		if (nodeShader != nullptr)
@@ -78,7 +57,7 @@ namespace AVTEngine
 	}
 
 	/* TODO uncomment
-	Material *Node::getCurrentMaterial(Node *parent_)
+	Material *SceneNode::getCurrentMaterial(SceneNode *parent_)
 	{
 		// If node has a material
 		if (material != nullptr)
@@ -93,7 +72,7 @@ namespace AVTEngine
 	*/
 
 	/* TODO uncomment
-	void Node::drawSelf(ShaderProgram *shader_, Material *material_)
+	void SceneNode::drawSelf(ShaderProgram *shader_, Material *material_)
 	{
 		for (auto t : textureArray)
 		{
@@ -132,76 +111,105 @@ namespace AVTEngine
 		}
 	}
 	*/
-
-	void Node::rotate(float angle_, const glm::vec3 &axis_)
-	{
-		modelMatrix = glm::rotate(modelMatrix, angle_, axis_);
-	}
-
-	void Node::translate(float x_, float y_, float z_)
-	{
-		modelMatrix = glm::translate(modelMatrix, glm::vec3(x_, y_, z_));
-	}
-
-	void Node::scale(float x_, float y_, float z_)
-	{
-		modelMatrix = glm::scale(modelMatrix, glm::vec3(x_, y_, z_));
-	}
-
-	void Node::addNode(Node *node_)
-	{
-		node_->environment = environment;
-		nodeArray.push_back(node_);
-	}
 	
 	/* TODO uncomment
-	void Node::addTexture(std::string key_, Texture *texture_)
+	void SceneNode::addTexture(std::string key_, Texture *texture_)
 	{
 		textureArray.push_back(NodeTexture{ key_, texture_ });
 	}
 	*/
 
-	void Node::enable()
+	void SceneNode::enable()
 	{
 		isEnabled = true;
 	}
 
-	void Node::disable()
+	void SceneNode::disable()
 	{
 		isEnabled = false;
 	}
 
 	/* TODO Uncomment
-	void Node::setMesh(Mesh *mesh_)
+	void SceneNode::setMesh(Mesh *mesh_)
 	{
 		nodeMesh = mesh_;
 	}
 	*/
 
-	void Node::setShader(Shader *shader_)
+	void SceneNode::setShader(Shader *shader_)
 	{
 		nodeShader = shader_;
 	}
 
 	/* TODO uncomment
-	void Node::setMaterial(Material *material_)
+	void SceneNode::setMaterial(Material *material_)
 	{
 		material = material_;
 	}
 	*/
 
-	glm::mat4 Node::getModelMatrix()
+	glm::mat4 SceneNode::getTransform()
 	{
-		return modelMatrix;
+		return transform;
 	}
 
-	void Node::addUniformi(std::string key_, int value_)
+	void SceneNode::updateTransform()
+	{
+		// we only do this if the node itself or its parent is flagged as dirty
+		if (dirty)
+		{
+			// first scale, then rotate, then translation
+			transform = glm::translate(transform, position);
+			transform = glm::scale(transform, scale); // TODO: order is off here for some reason, figure out why
+			transform = transform * glm::toMat4(rotation);
+
+			if (parentNode)
+			{
+				transform = parentNode->transform * transform;
+			}
+		}
+		for (int i = 0; i < childNodes.size(); ++i)
+		{
+			if (dirty)
+			{
+				childNodes[i]->dirty = true;
+			}
+			childNodes[i]->updateTransform();
+		}
+		dirty = false;
+	}
+
+	void SceneNode::cleanup()
+	{
+		delete mesh;
+		delete material;
+	}
+
+	void SceneNode::addChild(SceneNode* node)
+	{
+		/*if (node->parentNode != NULL)
+		{
+			node->parentNode->removeChild(node->nodeId);
+		}*/
+
+		node->parentNode = this;
+		childNodes.push_back(node);
+	}
+
+	void SceneNode::setPosition(glm::vec3 _position)
+	{
+		position = _position;
+		dirty = true;
+	}
+
+
+	void SceneNode::addUniformi(std::string key_, int value_)
 	{
 		//uniformiMap[key_] = value_;
 		uniformiArray.push_back(key_);
 	}
 
-	void Node::setUniformi(std::string key_, int value_)
+	void SceneNode::setUniformi(std::string key_, int value_)
 	{
 		//uniformiMap[key_] = value_;
 	}

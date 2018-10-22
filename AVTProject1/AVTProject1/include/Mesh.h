@@ -21,7 +21,9 @@ namespace AVTEngine
 	{
 	public:
 		bool usingIndices = true;
-		TOPOLOGY topology;
+		TOPOLOGY topology = TRIANGLES;
+
+		std::vector<glm::vec3> positions;
 
 		Mesh();
 		Mesh(std::vector<glm::vec3> vertices);
@@ -55,6 +57,8 @@ namespace AVTEngine
 	protected:
 		unsigned int vao, vbo, ebo, ubo;
 		std::vector<glm::vec3> vertices;
+		std::vector<glm::vec2> uvs;
+		std::vector<glm::vec3> normals;
 		std::vector<unsigned int> indices;
 
 		glm::vec3 worldPosition;

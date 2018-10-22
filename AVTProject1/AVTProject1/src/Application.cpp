@@ -2,6 +2,7 @@
 #include "ResourcesManager.h"
 #include "Input.h"
 #include "Renderer.h"
+#include "scene.h"
 
 #include <iostream>
 #include <sstream>
@@ -19,26 +20,53 @@ namespace AVTEngine
 	int Application::initialTime = time(NULL);
 	int Application::finalTime;
 	std::string Application::framesPerSecond = "0";
-	Renderer* Application::renderer = nullptr;
+	//Renderer* Application::renderer = nullptr;
+//	Scene* Application::scene = nullptr;
+	Application* Application::instance = 0;
 	void(*Application::cleanupFunction)() = nullptr;
 	void(*Application::renderFunction)() = nullptr;
 
+
 	Application::Application()
 	{
-		renderer = new Renderer();
 	}
 
 	Application::~Application()
 	{
+		scene->cleanup();
+		renderer->cleanup();
+		delete renderer;
+		delete scene;
+	}
+
+	Application* Application::getInstance()
+	{
+		if (instance == 0)
+		{
+			instance = new Application();
+		}
+
+		return instance;
 	}
 
 	void Application::init(int argc, char* argv[])
 	{
+		ResourcesManager::init();
+
+
+		scene = new Scene();
+		renderer = new Renderer();
+
+		scene->setRenderer(renderer);
+
 		setupGLUT(argc, argv);
 		setupGLEW();
+
+		scene->setupSceneManager();
+
 		setupOpenGL();
 		setupCallbacks();
-		ResourcesManager::init();
+
 	}
 
 	void Application::mainLoop()
@@ -111,6 +139,8 @@ namespace AVTEngine
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
 		glFrontFace(GL_CCW);*/
+
+		scene->pushToRender();
 	}
 
 	void Application::setupCallbacks()
@@ -142,13 +172,14 @@ namespace AVTEngine
 
 	void Application::display()
 	{
-		renderer->preDraw();
+		getInstance()->renderer->preDraw();
 		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		if (renderFunction != nullptr)
+		/*if (renderFunction != nullptr)
 		{
 			renderFunction();
-		}
-		renderer->postDraw();
+		}*/
+		getInstance()->renderer->renderPushedCommands();
+		getInstance()->renderer->postDraw();
 
 		glutSwapBuffers();
 

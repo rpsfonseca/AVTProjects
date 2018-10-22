@@ -52,6 +52,9 @@ namespace AVTEngine
 	{
 		GLuint vertex, fragment;
 		GLchar infoLog[512];
+		
+		std::cout << vsCode << std::endl;
+		std::cout << fsCode << std::endl;
 
 		vertex = glCreateShader(GL_VERTEX_SHADER);
 		glShaderSource(vertex, 1, &vsCode, NULL);

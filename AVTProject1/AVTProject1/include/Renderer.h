@@ -10,9 +10,10 @@
 namespace AVTEngine
 {
 	class Mesh;
+	class SceneNode;
 	class Camera;
 	class CommandBuffer;
-	class RenderCommand;
+	struct RenderCommand;
 
 	/**
 	This class represents the engine renderer.
@@ -51,6 +52,8 @@ namespace AVTEngine
 		*/
 		void setupRenderer();
 
+		void pushRenderables(SceneNode* sceneNode);
+
 		/**
 		As the name implies, it runs before the draw method.
 		For now it just:
@@ -76,6 +79,8 @@ namespace AVTEngine
 
 		*/
 		void update();
+
+		void cleanup();
 
 		void setProjectionMatrix(const glm::mat4& mat);
 		void setViewMatrix(const glm::mat4& mat);

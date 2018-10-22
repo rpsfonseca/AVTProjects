@@ -22,7 +22,7 @@ namespace AVTEngine
 		~CommandBuffer();
 
 		// pushes render state relevant to a single render call to the command buffer.
-		void pushCommand(Mesh* mesh, Material* material, glm::mat4 transform = glm::mat4(), glm::mat4 prevTransform = glm::mat4());
+		void pushCommand(Mesh* mesh, Material* material, glm::mat4 transform = glm::mat4());
 
 		// clears the command buffer; usually done after issuing all the stored render commands.
 		void clear();

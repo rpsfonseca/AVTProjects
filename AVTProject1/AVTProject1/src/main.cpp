@@ -14,12 +14,13 @@
 
 
 
-#include "Cube.h"
+//#include "Cube.h"
 #include "Shader.h"
 #include "FileSystem.h"
 #include "ResourcesManager.h"
-#include "Input.h"
+//#include "Input.h"
 #include "OpenGLError.h"
+//#include "Scene.h"
 #include "Application.h"
 #include <GL/freeglut.h>
 
@@ -42,16 +43,15 @@ GLint UniformId;
 
 std::string runningDirectory;
 
-Application app;
 
 
 /////////////////////////////////////////////////////////////////////// SHADERs
 
 void createShaderProgram()
 {
-	shader = ResourcesManager::loadShader("basic");
+	/*shader = ResourcesManager::loadShader("basic");
 
-	glBindAttribLocation(shader->shaderID, VERTEX_COORD_ATTRIB, "in_Position");
+	glBindAttribLocation(shader->shaderID, VERTEX_COORD_ATTRIB, "in_Position");*/
 
 	OpenGLError::checkOpenGLError("ERROR: Could not create shaders.");
 }
@@ -69,7 +69,10 @@ void destroyShaderProgram()
 
 void createBufferObjects()
 {
-	glGenVertexArrays(1, &VaoId);
+	//app.scene->setupSceneManager();
+	//rectangle = new Mesh(vectorOfVertices, indices);
+
+	/*glGenVertexArrays(1, &VaoId);
 	glBindVertexArray(VaoId);
 
 	glGenBuffers(4, VboId);
@@ -99,7 +102,7 @@ void createBufferObjects()
 	// unbind the VAO
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);*/
 	/*glDisableVertexAttribArray(VERTEX_COORD_ATTRIB);
 	glDisableVertexAttribArray(NORMAL_ATTRIB);
 	glDisableVertexAttribArray(TEXTURE_COORD_ATTRIB);*/
@@ -118,8 +121,8 @@ void destroyBufferObjects()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
-	glDeleteBuffers(4, VboId);
-	glDeleteVertexArrays(1, &VaoId);
+	/*glDeleteBuffers(4, VboId);
+	glDeleteVertexArrays(1, &VaoId);*/
 	OpenGLError::checkOpenGLError("ERROR: Could not destroy VAOs and VBOs.");
 }
 
@@ -132,11 +135,11 @@ void renderScene()
 	glBindVertexArray(VaoId);
 	shader->use();
 
-	shader->setMat4("modelMatrix", app.getCurrentCamera().getViewProjection());
-	glDrawElements(GL_TRIANGLES, faceCount * 3, GL_UNSIGNED_INT, (GLvoid*)0);
+	//shader->setMat4("modelMatrix", app.getCurrentCamera().getViewProjection());
+	//glDrawElements(GL_TRIANGLES, faceCount * 3, GL_UNSIGNED_INT, (GLvoid*)0);
 
 	shader->setMat4("modelMatrix", transform2);
-	glDrawElements(GL_TRIANGLES, faceCount * 3, GL_UNSIGNED_INT, (GLvoid*)0);
+	//glDrawElements(GL_TRIANGLES, faceCount * 3, GL_UNSIGNED_INT, (GLvoid*)0);
 
 	glUseProgram(0);
 	glBindVertexArray(0);
@@ -166,12 +169,16 @@ void init(int argc, char* argv[])
 int main(int argc, char* argv[])
 {
 	runningDirectory = FileSystem::getRunningDirectory(argv[0]);
-	app = Application();
-	app.setCleanupFunction(cleanup);
-	app.setRenderFunction(renderScene);
-	app.init(argc, argv);
+
+
+	Application* app = Application::getInstance();
+
+	app->getInstance()->setCleanupFunction(cleanup);
+	app->getInstance()->setRenderFunction(renderScene);
+	app->getInstance()->init(argc, argv);
 	init(argc, argv);
-	app.mainLoop();
+	app->getInstance()->mainLoop();
+
 	exit(EXIT_SUCCESS);
 }
 

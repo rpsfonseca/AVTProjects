@@ -14,9 +14,13 @@ namespace AVTEngine
 	#define WINDOW_TITLE "MICRO MACHINES RECREATION"
 
 	class Renderer;
+	class Scene;
 
 	class Application
 	{
+	public:
+		Renderer* renderer;
+		Scene* scene;
 	private:
 		static unsigned int windowHandle;
 		static int frameCount;
@@ -34,11 +38,11 @@ namespace AVTEngine
 
 		static std::string framesPerSecond;
 
-		static Renderer* renderer;
 
 	public:
-		Application();
 		~Application();
+
+		static Application* getInstance();
 
 		void init(int argc, char* argv[]);
 		void mainLoop();
@@ -51,6 +55,10 @@ namespace AVTEngine
 		Camera& getCurrentCamera() { return *currentCamera; }
 
 	private:
+		Application();
+
+		static Application* instance;
+
 		void setupGLUT(int argc, char* argv[]);
 		void setupGLEW();
 		void setupOpenGL();

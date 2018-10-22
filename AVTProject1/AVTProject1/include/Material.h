@@ -12,6 +12,10 @@ namespace AVTEngine
 		Shader* shader;
 		
 	public:
+		Material();
+		Material(std::string shaderName);
+		Material(Shader* _shader);
+
 		inline Shader* getShader() { return shader; };
 	};
 }

@@ -1,10 +1,13 @@
 #pragma once
 
+#include "Material.h"
+#include "Shader.h"
+
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/quaternion.hpp>
 #include <vector>
-#include <Shader.h>
 
 /* TODO uncomment
 #include "graphics\material.hpp"
@@ -16,15 +19,6 @@
 
 namespace AVTEngine
 {
-	/**
-	*	Contains Global Scene Data.
-	*/
-	struct Environment
-	{
-		//TODO uncomment
-		//Camera *camera;
-		//GlobalLight *globalLight;
-	};
 
 	struct NodeTexture
 	{
@@ -32,26 +26,48 @@ namespace AVTEngine
 		//Texture *texture; TODO uncomment
 	};
 
+	class Mesh;
+	class Material;
+
 	/**
 	*	A scene graph node. Can have it's shader, mesh and modelMatrix. Houses child nodes.
 	*/
-	class Node
+	class SceneNode
 	{
 	public:
+		bool dirty = false;
+
+		SceneNode* parentNode;
+		std::vector<SceneNode*> childNodes;
+
+		glm::vec3 position;
+		glm::quat rotation;
+		glm::vec3 scale;
+		glm::mat4 transform;
+
+		Mesh* mesh;
+		Material* material;
+
+		std::vector<NodeTexture> textureArray;
+		std::vector<std::string> uniformiArray;
+		//std::map<std::string, int> uniformiMap;
+		bool isEnabled = true;
+
+	protected:
+		Shader* nodeShader;
+		glm::mat4 resultMatrix;
+
+	public:
 		//TODO uncomment
-		//Node(Mesh *mesh, ShaderProgram *shader_);
-		//Node(Mesh *mesh);
-		Node(Shader *shader_);
-		Node() = default;
+		SceneNode(Mesh* mesh, Material* material);
+		//SceneNode(Mesh *mesh);
+		SceneNode(Shader *shader_);
+		SceneNode();
 
-		void draw(Node *parentNode_);
-
-		// Transformations
-		void rotate(float angle_, const glm::vec3 &axis_);
-		void translate(float x_, float y_, float z_);
-		void scale(float x_, float y_, float z_);
-
-		void addNode(Node *node_);
+		void draw(SceneNode *parentNode_);
+		
+		void addChild(SceneNode *node_);
+		void setPosition(glm::vec3 _position);
 		//void addTexture(std::string key_, Texture *texture_); TODO uncomment
 		void addUniformi(std::string key_, int value_);
 		void setUniformi(std::string key_, int value_);
@@ -62,30 +78,22 @@ namespace AVTEngine
 		//void setMesh(Mesh *mesh_); //TODO uncomment
 		void setShader(Shader *shader_);
 		//void setMaterial(Material *material_); //TODO uncomment
-		glm::mat4 getModelMatrix();
+		glm::mat4 getTransform();
 
-	protected:
-		Shader *nodeShader;
-		glm::mat4 resultMatrix;
-		std::vector<Node*> nodeArray;
-		Environment *environment;
+		inline int getChildCount() { return childNodes.size(); };
+		inline SceneNode* getChildByIndex(int i) { return childNodes[i]; };
+
+		void updateTransform();
+
+		void cleanup();
 
 	private:
-		glm::mat4 modelMatrix = glm::mat4(1.0); //Identity Matrix
+		
+
+		Shader *getCurrentShader(SceneNode *parent_);
 
 		//TODO uncomment
-		//Mesh *nodeMesh;
-		//Material *material;
-
-		std::vector<NodeTexture> textureArray;
-		std::vector<std::string> uniformiArray;
-		//std::map<std::string, int> uniformiMap;
-		bool isEnabled = true;
-
-		Shader *getCurrentShader(Node *parent_);
-
-		//TODO uncomment
-		//Material *getCurrentMaterial(Node *parent_);
+		//Material *getCurrentMaterial(SceneNode *parent_);
 		//void drawSelf(Shader *shader_, Material *material_);
 	};
 }
