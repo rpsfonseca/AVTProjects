@@ -21,13 +21,14 @@ namespace AVTEngine
 	{
 	public:
 		bool usingIndices = true;
+		bool hasNormals = false;
+		bool hasTextures = false;
 		TOPOLOGY topology = TRIANGLES;
-
-		std::vector<glm::vec3> positions;
-
+		
 		Mesh();
 		Mesh(std::vector<glm::vec3> vertices);
 		Mesh(std::vector<glm::vec3> vertices, std::vector<unsigned int> indices);
+		Mesh(std::vector<glm::vec3> _vertices, std::vector<glm::vec3> _normals, std::vector<glm::vec2> _uvs);
 		~Mesh();
 
 		unsigned int getVao();
@@ -38,6 +39,8 @@ namespace AVTEngine
 
 		unsigned int getIndicesSize();
 		unsigned int getVerticesSize();
+		unsigned int getNormalsSize();
+		unsigned int getUVsSize();
 
 		glm::vec3 getPosition();
 		void setPosition(glm::vec3& pos);
