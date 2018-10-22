@@ -44,15 +44,43 @@ namespace AVTEngine
 	void Mesh::setupMesh()
 	{
 		glGenVertexArrays(1, &vao);
-		glGenBuffers(1, &vbo);
+
+		int numOfVbos = 1;
+		if (normals.size() > 0)
+		{
+			hasNormals = true;
+			numOfVbos++;
+		}
+		if (uvs.size() > 0)
+		{
+			hasTextures = true;
+			numOfVbos++;
+		}
+
+		glGenBuffers(numOfVbos, vbos);
 
 		glBindVertexArray(vao);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
+		glBindBuffer(GL_ARRAY_BUFFER, vbos[0]);
 		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), &vertices[0], GL_STATIC_DRAW);
-
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (GLvoid*)0);
+
+		if (hasNormals)
+		{
+			glBindBuffer(GL_ARRAY_BUFFER, vbos[1]);
+			glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), &normals[0], GL_STATIC_DRAW);
+			glEnableVertexAttribArray(1);
+			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (GLvoid*)0);
+		}
+
+		if (hasTextures)
+		{
+			glBindBuffer(GL_ARRAY_BUFFER, vbos[numOfVbos-1]);
+			glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs[0], GL_STATIC_DRAW);
+			glEnableVertexAttribArray(2);
+			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(glm::vec2), (GLvoid*)0);
+		}
 
 		if (usingIndices)
 		{

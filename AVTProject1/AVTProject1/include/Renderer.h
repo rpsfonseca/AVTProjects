@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Mesh.h"
+#include "Camera.h"
 #include "Shader.h"
 
 #include <glm/glm.hpp>
@@ -31,6 +32,8 @@ namespace AVTEngine
 
 		unsigned int uboBp; // Uniform block pointer used to retrieve uniform block ID
 		unsigned int uboId; // The actual uniform block ID
+
+		Camera* currentCamera;
 	
 	private:
 		CommandBuffer* commandBuffer;

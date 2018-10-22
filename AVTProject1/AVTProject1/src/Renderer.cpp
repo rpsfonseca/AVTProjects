@@ -105,7 +105,7 @@ namespace AVTEngine
 
 		for (unsigned int i = 0; i < renderCommands.size(); ++i)
 		{
-			renderCommand(&renderCommands[i], nullptr);
+			renderCommand(&renderCommands[i], currentCamera);
 		}
 
 		OpenGLError::checkOpenGLError("ERROR: Could not draw scene.");
@@ -152,20 +152,23 @@ namespace AVTEngine
 		material->getShader()->setFloat("material.shininess", material->getShininess());
 
 		// setup view for light calculations
-		material->getShader()->setVec3("viewPos", glm::vec3(this->viewMatrix[3]));
+		if (camera != nullptr)
+		{
+			material->getShader()->setVec3("viewPos", camera->position + camera->arcBallOffset);
+		}
 
 		// setup lights
 		glm::vec3 pointLightPositions[] = {
-			glm::vec3(0.f),
+			glm::vec3(0.7f,  0.2f,  2.0f),
 			glm::vec3(2.3f, -3.3f, -4.0f),
 			glm::vec3(-4.0f,  2.0f, -12.0f),
 			glm::vec3(0.0f,  0.0f, -3.0f)
 		};
 
 		material->getShader()->setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
-		material->getShader()->setVec3("dirLight.ambient", 0.05f, 0.05f, 0.05f);
+		material->getShader()->setVec3("dirLight.ambient", 0.2f, 0.2f, 0.2f);
 		material->getShader()->setVec3("dirLight.diffuse", 0.4f, 0.4f, 0.4f);
-		material->getShader()->setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
+		material->getShader()->setVec3("dirLight.specular", 1.0f, 1.0f, 1.0f);
 		// point light 1
 		material->getShader()->setVec3("pointLights[0].position", pointLightPositions[0]);
 		material->getShader()->setVec3("pointLights[0].ambient", 0.05f, 0.05f, 0.05f);

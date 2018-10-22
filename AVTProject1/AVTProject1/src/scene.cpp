@@ -52,9 +52,11 @@ namespace AVTEngine
 		//renderer->uboId = uniformBlockId;
 
 
-		Mesh* testMesh = ResourcesManager::loadOBJ("test");
+		Mesh* testMesh = ResourcesManager::loadOBJ("untitled");
 		SceneNode* planeNode = Scene::createSceneNode(testMesh, new Material("basic"));
-		planeNode->material->setAmbient(glm::vec3(0.8f, 1.f, 1.f));
+		planeNode->material->setAmbient(glm::vec3(1.f, 0.5f, 0.31f));
+		planeNode->material->setDiffuse(glm::vec3(1.0f, 0.5f, 0.31f));
+		planeNode->material->setSpecular(glm::vec3(0.5f, 0.5f, 0.5f));
 		planeNode->material->setShininess(32.f);
 		planeNode->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 		/*planeNode->setScale(Vec3(4.0f));
@@ -65,7 +67,7 @@ namespace AVTEngine
 
 		//rootSceneNode->childNodes = std::vector<SceneNode*>(1, planeNode);
 
-		SceneNode* planeNode2 = Scene::createSceneNode(new Mesh(vectorOfVertices, indices), new Material("basic"));
+		/*SceneNode* planeNode2 = Scene::createSceneNode(new Mesh(vectorOfVertices, indices), new Material("basic"));
 		planeNode2->material->setAmbient(glm::vec3(1.f, 1.f, 0.3f));
 		planeNode2->material->setDiffuse(glm::vec3(0.5f, 0.5f, 1.f));
 		planeNode2->material->setSpecular(glm::vec3(1.f));
@@ -74,11 +76,11 @@ namespace AVTEngine
 		/*planeNode2->setScale(Vec3(3.0f, 1.5f, 1.0f));
 		planeNode2->model->setPosition(Vec3(0.0f));
 		planeNode2->model->setRotation(0.0f);
-		planeNode2->model->setScale(Vec3(1.0f));*/
-		rootSceneNode->addChild(planeNode2);
+		planeNode2->model->setScale(Vec3(1.0f));
+		rootSceneNode->addChild(planeNode2);*/
 		
 		nodes.insert(std::pair<std::string, SceneNode*>("plane", planeNode));
-		nodes.insert(std::pair<std::string, SceneNode*>("plane2", planeNode2));
+		//nodes.insert(std::pair<std::string, SceneNode*>("plane2", planeNode2));
 	}
 
 

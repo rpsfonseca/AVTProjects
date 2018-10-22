@@ -173,6 +173,7 @@ namespace AVTEngine
 
 	void Application::display()
 	{
+		getInstance()->renderer->currentCamera = getInstance()->currentCamera;
 		getInstance()->renderer->setProjectionMatrix(getInstance()->currentCamera->getProjection());
 		getInstance()->renderer->setViewMatrix(getInstance()->currentCamera->getView());
 

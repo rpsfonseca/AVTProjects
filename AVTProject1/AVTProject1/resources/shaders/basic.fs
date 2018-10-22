@@ -64,7 +64,7 @@ void main()
 {    
     // properties
     vec3 norm = normalize(Normal);
-    norm = vec3(1f);
+    //norm = vec3(1f);
     vec3 viewDir = normalize(viewPos - Position);
     
     // == =====================================================
@@ -77,9 +77,9 @@ void main()
     vec3 result = CalcDirLight(dirLight, norm, viewDir);
     // phase 2: point lights
     for(int i = 0; i < NR_POINT_LIGHTS; i++)
-        result += CalcPointLight(pointLights[i], norm, Position, viewDir);    
+        result += CalcPointLight(pointLights[i], norm, Position, viewDir);
     // phase 3: spot light
-    result += CalcSpotLight(spotLight, norm, Position, viewDir);    
+   	result += CalcSpotLight(spotLight, norm, Position, viewDir);    
     
     FragColor = vec4(result, 1.0);
 }
