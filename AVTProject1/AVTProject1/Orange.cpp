@@ -9,10 +9,9 @@ namespace AVTEngine
 
 		Entity::Entity(shader_, mesh_, 100, 3, glm::vec3(1, 0, 0));
 
-		velocity = getRandomRate() * 10; //TODO fix getRandomRate in entity class
+		velocity = getRandomRate() * 10; //Oranges shouldn't all behave the same
 
 		//Margin for when orange exits table
-
 		float change = ORANGE_DEFAULT_RADIUS + 0.1; //Work around
 		levelWidth = levelWidth_ - 2 * change;
 		levelHeight = levelHeight_ - 2 * change;
@@ -31,24 +30,25 @@ namespace AVTEngine
 		//Node.add(this); Adicionar o carro à cena?
 
 		position = pos;
-		//position.setY(ORANGE_DEFAULT_RADIUS); //Set minimum height, so the orange isn't inside the table
+		position.y = ORANGE_DEFAULT_RADIUS; //Set minimum height, so the orange isn't inside the table
 
 		//name = "orange"; Not needed?
 							
 	};
 	
 	
-	void Orange::update(float delta) {
-		increaseSpeedTimer -= delta;
+	void Orange::update(float delta_) {
+		increaseSpeedTimer -= delta_;
 
         if(increaseSpeedTimer < 0){
             increaseSpeedTimer = TEMPO_ACELERAR_LARANJAS - increaseSpeedTimer; // 
-            
-            //velocity += (Math.floor(Math.random() * 2) + 1) * 5; //TODO passar de JS para C++
+		
+			int randNum = rand() % (2 - 1 + 1) + 1; //int randNum = rand()%(max-min + 1) + min;
+			velocity += randNum * 5; //Random velocity increase (5 or 10)
         }
 
         if(dead){
-            respawnTimer -= delta;
+            respawnTimer -= delta_;
             if(respawnTimer < 0){
                 dead = false;
                 visible = true;
@@ -57,69 +57,72 @@ namespace AVTEngine
             }
         }
 
-        orangeMovement(delta);
+        orangeMovement(delta_);
 	}
 	
 
-	void Orange::orangeMovement(float delta) {
+	void Orange::orangeMovement(float delta_) {
 		glm::vec3 temp = movementOrientation;
-		//glm::vec3 velocityVector = temp.multiplyScalar(velocity*delta);
-		//position += velocityVector;
+		glm::vec3 velocityVector = temp * (velocity * delta_); //Calculate the speed vector
+		position += velocityVector; //Add the speed vector to the current position
 
 		// calcula quanto temos de rodar para coincidir com a velocidade atual
-		float turnRateTemp = (velocity*delta) / ORANGE_DEFAULT_RADIUS;
+		float turnRateTemp = (velocity*delta_) / ORANGE_DEFAULT_RADIUS;
 		orangeRotation(turnRateTemp);
 	}
 
-	void Orange::orangeRotation(float turnRate) {
-		rotationAccum += turnRate;
+	void Orange::orangeRotation(float turnRate_) {
+		rotationAccum += turnRate_;
 		glm::vec3 temp = movementOrientation;
-		/*
-		temp.normalize();
-		temp.applyAxisAngle(new THREE.Vector3(0, 1, 0), 90 * (Math.PI / 180)); //Rodar o vector para obter um eixo de rotacao adequado ao movimento
-		this.object.rotateOnAxis(temp, turnRate); //rotateOnAxis( Axis, Angle)   //angle em radianos		
-		*/		
+		
+		glm::vec3 normalized = glm::normalize(temp);
+		float rot = 90 * (M_PI / 180);
+
+		normalized = glm::rotateY(normalized, rot); //Rodar o vector para obter um eixo de rotacao adequado ao movimento
+		
+		ModelViewMatrix = glm::rotate(ModelViewMatrix, turnRate_ , normalized); //Rotate the model by the right amount, and considering the current axis
 	}
 
-	glm::vec3 Orange::getDirection(glm::vec3 pos) {
-		/*
-		var direction = pos.clone().multiplyScalar(-1);
-		direction.setY(0);
-		direction = direction.normalize()
+	glm::vec3 Orange::getDirection(glm::vec3 pos_) {
 
-			direction.applyAxisAngle(yAxis, (Math.random() * MAX_ORANGE_RANDOM_ANGLE * 2) - MAX_ORANGE_RANDOM_ANGLE)
-			return direction;
-		*/
-		return glm::vec3(0); //Temp
+		glm::vec3 direction = pos_ * float(-1); //Direcção é oposta à posição inicial, de modo a percorrer a mesa e evitar que saia logo
+		direction.y = 0; //Não há movimento vertical
+
+		direction = normalize(direction);
+		int temp = MAX_ORANGE_RANDOM_ANGLE;
+		float rotAngle = rand() % (temp*2 - temp + 1) + temp; //int randNum = rand()%(max-min + 1) + min;
+		direction = rotateY(direction, rotAngle); //Dar direcção aleatória
+
+		return direction;
 	}
 
-	glm::vec3 Orange::getRandomPosition() {
-		/*
-		var side1 = Math.random() < 0.5;
-		var side2 = Math.random() < 0.5;
+	glm::vec3 Orange::getRandomPosition() { //gera posicao para a laranja fazer spawn
 
-		var x;
-		var z;
+		bool side1 = rand() < 0.5;
+		bool side2 = rand() < 0.5;
 
-		if (side1) { // Começa ou no topo ou em baixo
-			z = (side2 ? this.levelHeight : -this.levelHeight) / 2;
-			x = ((Math.random() * this.levelWidth * 2) - this.levelWidth) / 2;
+		float x;
+		float z;
+		
+		if (side1) { 
+			z = (side2 ? levelHeight : -levelHeight) / 2; // Começa ou no topo ou em baixo
+			//x = ((Math.random() * this.levelWidth * 2) - this.levelWidth) / 2;
+			x = ((rand() * levelWidth * 2) - levelWidth) / 2;
 		}
-		else { // Começa a esquerda ou a direita
-			x = (side2 ? this.levelWidth : -this.levelWidth) / 2;
-			z = ((Math.random() * this.levelHeight * 2) - this.levelHeight) / 2;
+		else { 
+			x = (side2 ? levelWidth : -levelWidth) / 2; // Começa a esquerda ou a direita
+			//z = ((Math.random() * this.levelHeight * 2) - this.levelHeight) / 2;
+			z = ((rand() * levelHeight * 2) - levelHeight) / 2;
 		}
 
-		return new THREE.Vector3(x, 0, z);
-		*/
-		return glm::vec3(0); //Temp
+		return glm::vec3(x, 0, z);
 	}
 
 	void Orange::setOrientation(glm::vec3 orientation_) {
 		movementOrientation = orientation_;
 	}
 
-	/* Stuff for collision detection
+	/* TODO Stuff for collision detection
 	get type() {   //Para saber que tipo de colisão se trata
 	return TYPE.ORANGE;
 	}
@@ -137,7 +140,7 @@ namespace AVTEngine
 
 		velocity = getRandomRate() * 10;
 		setPosition(getRandomPosition());
-		//position.setY(ORANGE_DEFAULT_RADIUS);
+		position.y = ORANGE_DEFAULT_RADIUS;
 		setOrientation(getDirection(getPosition()));
 		increaseSpeedTimer = TEMPO_ACELERAR_LARANJAS;
 	}
@@ -145,7 +148,7 @@ namespace AVTEngine
 	void Orange::kill() {
 		orangeRotation(-rotationAccum);
 		setPosition(getRandomPosition());
-		//position.setY(ORANGE_DEFAULT_RADIUS);
+		position.y = ORANGE_DEFAULT_RADIUS;
 		setOrientation(getDirection(getPosition()));
 		dead = true;
 		visible = false;

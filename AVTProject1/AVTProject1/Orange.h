@@ -8,6 +8,7 @@
 #include "node.h"
 //#include "Texture.h"
 #include <glm/glm.hpp>
+#include <glm/gtx/rotate_vector.hpp>
 
 namespace AVTEngine
 {

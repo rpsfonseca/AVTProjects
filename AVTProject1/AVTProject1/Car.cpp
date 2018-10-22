@@ -18,11 +18,11 @@ namespace AVTEngine
 		minVelocity = 0.1; // Velocidade para qual o algoritmo arredonda para 0
 		minDrag = MIN_DRAG; // Forca minima de fricao
 
-		//this.rotate(rotation);
-		//SceneNode.add(this); Adicionar o carro à cena?
+		rotate(rotation_);
+		//TODO SceneNode.add(this); Adicionar o carro à cena?
 	};
 
-	/* Stuff for collision detection
+	/* TODO Stuff for collision detection
 
 	get type() {   //Para saber que tipo de colisão se trata
 		return TYPE.CAR;
@@ -36,41 +36,40 @@ namespace AVTEngine
 	void Car::reset() {
 		Entity::reset();
 
-		// roda no sentido contrario da soma de todas as rotacoes, ou seja, volta ao inicial
-		//this.rotate(-this.rotationAccum);
-
+		rotate(-rotationAccum); // roda no sentido contrario da soma de todas as rotacoes, ou seja, volta ao inicial
 		position = initialPos;
 	}
 
 	void Car::update(float delta_) { //
 		float turnRate = 0;
 
-		/* Turn inputs			input.isKeyPressed para verificar o array keys[keycode], e dar o keyCode correspondente, que deve vir do constants.h
-		if (keyboard.isKeyPressed(TECLA_VIRAR_ESQUERDA)) {
+		/* Turn inputs */
+		if (Input::isKeyDown(37)) { //seta esquerda
 			turnRate = maxTurnRate;
 		}
-		else if (keyboard.isKeyPressed(TECLA_VIRAR_DIREITA)) {
+		else if (Input::isKeyDown(39)) { //seta direita
 			turnRate = -maxTurnRate;
 		}
-		*/
-
 		
 		float accel = 0;
-		/* Speed input
-		if (keyboard.isKeyPressed(TECLA_ACELERAR)) {
+
+		/* Speed input */
+		if (Input::isKeyDown(38)) { //seta acima
 			accel = acceleration;
 		}
-		else if (keyboard.isKeyPressed(TECLA_DESACELERAR)) {
+		else if (Input::isKeyDown(40)) { //seta abaixo
 			accel = -deceleration;
 		}
 
-		if (keyboard.isKeyPressed(TECLA_H)) { //Turn lights on or off
+		/* TODO Lights input */
+		if (Input::isKeyDown(72)) { //tecla H //Turn lights on or off
+			/*
 			keyboard.unpressKey(TECLA_H);
 			this.spotLight1.intensity = 1 - this.spotLight1.intensity;
 			this.spotLight2.intensity = 1 - this.spotLight2.intensity;
+			*/
 		}
-		*/
-
+		
 		//Update
 		Entity::integrate(accel, turnRate, delta_);
 	}

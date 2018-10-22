@@ -5,7 +5,7 @@ namespace AVTEngine
 {
 
 	Entity::Entity(Shader *shader_, Mesh *mesh_, float maxVelocity_, float maxTurnRate_, glm::vec3 orientation_) :
-		shader(shader_), mesh(mesh_), maxVelocity(maxVelocity_), maxTurnRate(maxTurnRate_), orientation(orientation_){
+		shader(shader_), mesh(mesh_), maxVelocity(maxVelocity_), maxTurnRate(maxTurnRate_), orientation(orientation_), movementOrientation(orientation_){
 		
 		velocity = 0;	// Velocidade inicial
 		minVelocity = 0.1; // Velocidade para qual o algoritmo arredonda para 0
@@ -13,12 +13,13 @@ namespace AVTEngine
 		rotationAccum = 0;
 	};
 
-	
-
 
 	void Entity::integrate(float accel_, float turnRate_, float delta_) { //Delta makes it fps independent
-		//this.rotate(turnRate * delta * (this.velocity / this.maxVelocity));
-
+		
+		//Calculate rotation
+		rotate((turnRate_ * delta_ * (velocity / maxVelocity) ));
+		
+		//Calculate Speed
 		velocity += accel_ * delta_; 
 		if (isMoving()) {
 			velocity *= 0.995;	// Aplica forca de atrito para desacelarar 
@@ -31,16 +32,12 @@ namespace AVTEngine
 			velocity = maxVelocity;
 		}
 
-
 		//Calculo da alteraçao da posição consoante a velocidade
 		//É preciso pegar no vector de orientaçao, multiplica-lo pela velocidade actual, e adicionar o resultado à posição actual do carro
-
-		//var orientation = this.orientation.clone();
-		//var velocityVector = orientation.multiplyScalar(this.velocity * delta);
-		//this.object.position.add(velocityVector);
+		glm::vec3 ori = orientation;
+		glm::vec3 velocityVector = ori * (velocity * delta_);
+		position += velocityVector;
 	}
-
-	
 
 	void Entity::disable() {
 		enabled = false;
@@ -50,7 +47,7 @@ namespace AVTEngine
 		enabled = true;
 	};
 
-	// uma entidade disabled nao "existe" no mapa, ou seja, nao sofre colisoes e nao e atualizada (apesar de ainda poder aparecer)
+	//Uma entidade disabled nao "existe" no mapa, ou seja, nao sofre colisoes e nao e atualizada (apesar de ainda poder aparecer)
 	bool Entity::isDisabled() {
 		return !enabled;
 	}
@@ -71,12 +68,15 @@ namespace AVTEngine
 		position = position_;
 	}
 
-	//Reformular isto para C++
-	//Aplicar rotaçao na matriz de entidade
+
+	//Aplicar rotaçao na matriz do modelo
 	void Entity::rotate(float angle_) {
 		rotationAccum += angle_;
-		//this.object.rotateOnAxis(yAxis, angle);
-		//this.orientation.applyAxisAngle(yAxis, angle);
+		glm::vec3 y_axis = Y_AXIS;
+
+		//Rotate model
+		ModelViewMatrix = glm::rotate(ModelViewMatrix, angle_, y_axis);
+		orientation = glm::rotateY(orientation, angle_);
 	}
 
 	void Entity::reset() {
@@ -84,15 +84,10 @@ namespace AVTEngine
 		velocity = 0;
 	}
 
-	//Reformular isto para C++
 	int Entity::getRandomRate() {
-		/* 
-		var min = 1;
-		var max = 5;
-		return Math.floor(Math.random() * (max - min)) + min;
-		*/
-		return 0; //Temporary
+		int min = 1;
+		int max = 5;
+		int randNum = rand()%(max-min + 1) + min; 
+		return randNum;
 	}
-
-	
 }

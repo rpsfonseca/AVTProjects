@@ -1,5 +1,7 @@
 #pragma once
 
+#define GLM_ENABLE_EXPERIMENTAL
+
 #include "Mesh.h"
 #include "Material.h"
 #include "Shader.h"
@@ -7,6 +9,9 @@
 #include "Constants.h"
 //#include "Texture.h"
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/rotate_vector.hpp>
+#include <math.h>
 
 namespace AVTEngine
 {
@@ -29,7 +34,7 @@ namespace AVTEngine
 
 
 	private:
-		glm::mat4 ModelViewMatrix = glm::mat4(1.0); //Identity Matrix
+		
 		std::vector<EntityTexture> textureArray;
 
 
@@ -38,6 +43,7 @@ namespace AVTEngine
 		Entity(Shader *shader_, Mesh *mesh_, float maxVelocity_, float maxTurnRate_, glm::vec3 orientation_);
 		Entity() = default;
 
+		glm::mat4 ModelViewMatrix = glm::mat4(1.0); //Identity Matrix
 		glm::vec3 position;
 		glm::vec3 orientation;
 		glm::vec3 movementOrientation;

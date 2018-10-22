@@ -7,6 +7,7 @@
 #include "Entity.h"
 #include "node.h"
 //#include "Texture.h"
+#include "Input.h"
 #include <glm/glm.hpp>
 
 namespace AVTEngine
@@ -27,7 +28,7 @@ namespace AVTEngine
 		Car() = default;
 
 		glm::vec3 initialPos;
-		/*
+		/* TODO
 		Light spotlight1;
 		Light spotlight2;
 		*/
