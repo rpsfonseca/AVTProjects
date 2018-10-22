@@ -105,6 +105,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)dependencies\include;$(SolutionDir)AVTProject1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)dependencies\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -137,6 +138,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)dependencies\include;$(SolutionDir)AVTProject1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -150,6 +152,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="src\GameState.cpp" />
     <ClCompile Include="src\load_bmp.cpp" />
+    <ClCompile Include="Orange.cpp" />
     <ClCompile Include="src\node.cpp" />
     <ClCompile Include="src\scene.cpp" />
     <ClCompile Include="src\Application.cpp" />
@@ -193,6 +196,7 @@
     <ClInclude Include="include\node.h" />
     <ClInclude Include="include\scene.h" />
     <ClInclude Include="include\TextureMappedFont.h" />
+    <ClInclude Include="Orange.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\basic.fs" />
