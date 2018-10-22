@@ -3,6 +3,7 @@
 #include "Mesh.h"
 #include "Material.h"
 #include "Shader.h"
+#include "Model.h"
 #include "Constants.h"
 //#include "Texture.h"
 #include <glm/glm.hpp>
@@ -23,6 +24,7 @@ namespace AVTEngine
 		Shader *shader;
 		Mesh *mesh;
 		Material *material; 
+		//Model *model;
 		glm::mat4 resultMatrix;
 
 
@@ -38,6 +40,7 @@ namespace AVTEngine
 
 		glm::vec3 position;
 		glm::vec3 orientation;
+		glm::vec3 movementOrientation;
 
 		float velocity; //Velocidade momentânea 
 		float acceleration; //Aceleração
@@ -47,7 +50,7 @@ namespace AVTEngine
 		float minDrag; // Forca minima de fricao
 		float maxTurnRate; //Variação máxima da direção
 		
-		float movementOrientation;
+		
 		float rotationAccum;
 		bool enabled = false; // Se o objecto deve detectar colisões ou não
 		
