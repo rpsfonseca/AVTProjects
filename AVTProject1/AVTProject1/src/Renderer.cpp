@@ -6,6 +6,8 @@
 #include "node.h"
 #include "OpenGLError.h"
 
+#include <glm/ext.hpp>
+
 #include "GL\glew.h"
 
 #include <ctime>
@@ -88,6 +90,8 @@ namespace AVTEngine
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+
+
 		/*glBindBuffer(GL_UNIFORM_BUFFER, uboId);
 		glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), &viewMatrix);
 		glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), &projectionMatrix);
@@ -122,11 +126,15 @@ namespace AVTEngine
 	void Renderer::setProjectionMatrix(const glm::mat4& mat)
 	{
 		projectionMatrix = mat;
+
+		//std::cout << "PROJECTION: " << glm::to_string(projectionMatrix) << std::endl;
 	}
 
 	void Renderer::setViewMatrix(const glm::mat4& mat)
 	{
 		viewMatrix = mat;
+
+		//std::cout << "PROJECTION: " << glm::to_string(viewMatrix) << std::endl;
 	}
 
 	void Renderer::renderCommand(RenderCommand* command, Camera* camera)
@@ -136,6 +144,8 @@ namespace AVTEngine
 
 		material->getShader()->use();
 
+		material->getShader()->setMat4("projectionMatrix", projectionMatrix);
+		material->getShader()->setMat4("viewMatrix", viewMatrix);
 		material->getShader()->setMat4("modelMatrix", command->transform);
 
 		renderMesh(mesh);

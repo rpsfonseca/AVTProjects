@@ -49,6 +49,8 @@ namespace AVTEngine
 
 		GLuint uniformBlockBinding();
 
+		int getUniformLocation(std::string name);
+
 	private:
 		void compile(const GLchar* vsCode, const GLchar* fsCode);
 

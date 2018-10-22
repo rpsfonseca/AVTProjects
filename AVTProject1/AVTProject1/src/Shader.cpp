@@ -77,6 +77,8 @@ namespace AVTEngine
 
 		glDeleteShader(vertex);
 		glDeleteShader(fragment);
+
+		fillAttributesAndUniforms();
 	}
 
 	void Shader::fillAttributesAndUniforms()
@@ -108,6 +110,7 @@ namespace AVTEngine
 			uniforms[i].name = std::string(buffer);
 			//uniforms[i].type = std::string(buffer);
 			uniforms[i].location = glGetUniformLocation(shaderID, buffer);
+			std::cout << "UNIFORM: " << buffer << std::endl;
 		}
 	}
 
@@ -193,5 +196,16 @@ namespace AVTEngine
 		GLint uboID = glGetUniformBlockIndex(shaderID, "SharedMatrices");
 		glUniformBlockBinding(shaderID, uboID, test);
 		return test;
+	}
+
+	int Shader::getUniformLocation(std::string name)
+	{
+		// read from uniform/attribute array as originally obtained from OpenGL
+		for (unsigned int i = 0; i < uniforms.size(); ++i)
+		{
+			if (uniforms[i].name == name)
+				return uniforms[i].location;
+		}
+		return -1;
 	}
 }
