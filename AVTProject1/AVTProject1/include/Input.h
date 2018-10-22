@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Application.h"
+
 namespace AVTEngine
 {
 	#define MAX_KEYS 1024
@@ -24,8 +26,8 @@ namespace AVTEngine
 		~Input();
 
 	public:
-		bool isKeyDown(unsigned char key);
-		bool isButtonDown(int button);
+		static bool isKeyDown(unsigned char key);
+		static bool isButtonDown(int button);
 		static inline float getMouseX();
 		static inline float getMouseY();
 

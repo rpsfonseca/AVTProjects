@@ -43,8 +43,6 @@ GLint UniformId;
 
 std::string runningDirectory;
 
-
-
 /////////////////////////////////////////////////////////////////////// SHADERs
 
 void createShaderProgram()
@@ -138,7 +136,11 @@ void renderScene()
 	//shader->setMat4("modelMatrix", app.getCurrentCamera().getViewProjection());
 	//glDrawElements(GL_TRIANGLES, faceCount * 3, GL_UNSIGNED_INT, (GLvoid*)0);
 
-	shader->setMat4("modelMatrix", transform2);
+	//shader->setMat4("modelMatrix", transform2);
+	//glDrawElements(GL_TRIANGLES, faceCount * 3, GL_UNSIGNED_INT, (GLvoid*)0);
+	
+	// ABCRic code
+	//shader->setMat4("modelMatrix", Application::getInstance()->getCurrentCamera().getViewProjection());
 	//glDrawElements(GL_TRIANGLES, faceCount * 3, GL_UNSIGNED_INT, (GLvoid*)0);
 
 	glUseProgram(0);
@@ -169,7 +171,6 @@ void init(int argc, char* argv[])
 int main(int argc, char* argv[])
 {
 	runningDirectory = FileSystem::getRunningDirectory(argv[0]);
-
 
 	Application* app = Application::getInstance();
 

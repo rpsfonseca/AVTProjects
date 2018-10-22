@@ -12,7 +12,7 @@
 #include <GL/freeglut.h>
 
 namespace AVTEngine
-{
+{ 
 	unsigned int Application::windowHandle = 0;
 	int Application::frameCount = 0;
 	int Application::windowWidth = WINDOW_WIDTH;
@@ -53,7 +53,6 @@ namespace AVTEngine
 	{
 		ResourcesManager::init();
 
-
 		scene = new Scene();
 		renderer = new Renderer();
 
@@ -67,6 +66,8 @@ namespace AVTEngine
 		setupOpenGL();
 		setupCallbacks();
 
+
+		hud = new HUD();
 	}
 
 	void Application::mainLoop()
@@ -181,6 +182,8 @@ namespace AVTEngine
 		getInstance()->renderer->renderPushedCommands();
 		getInstance()->renderer->postDraw();
 
+		getInstance()->hud->draw();
+
 		glutSwapBuffers();
 
 		updateFramesPerSecond();
@@ -207,5 +210,13 @@ namespace AVTEngine
 	unsigned int Application::getWindowHandle()
 	{
 		return windowHandle;
+	}
+
+	void Application::changeCamera(int cameraNum) {
+		switch (cameraNum) {
+		case 1: this->currentCamera = &topOrtoCamera; break;
+		case 2: this->currentCamera = &topPerspectiveCamera; break;
+		case 3: this->currentCamera = &followCamera; break;
+		}
 	}
 }

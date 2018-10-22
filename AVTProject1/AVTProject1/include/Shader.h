@@ -11,6 +11,7 @@
 #include <sstream>
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 namespace AVTEngine
 {
@@ -38,6 +39,9 @@ namespace AVTEngine
 		void setVec2(const GLchar* field, const glm::vec2& vector);
 		void setVec3(const GLchar* field, const glm::vec3& vector);
 		void setVec4(const GLchar* field, const glm::vec4& vector);
+
+		inline GLuint operator() (const std::string& name) { return glGetUniformLocation(shaderID, name.c_str()); }
+		inline GLuint operator[] (const std::string& name) { return glGetAttribLocation(shaderID, name.c_str()); }
 
 		void printCompileErrors(int vOrF, GLuint shader, GLchar* infoLog);
 		void printLinkingErrors(GLchar* infoLog);
