@@ -27,6 +27,15 @@ namespace AVTEngine
 		setupMesh();
 	}
 
+	Mesh::Mesh(std::vector<glm::vec3> _vertices, std::vector<glm::vec3> _normals, std::vector<glm::vec2> _uvs)
+		: vertices(_vertices), normals(_normals), uvs(_uvs)
+	{
+		worldPosition = glm::vec3(0);
+		worldRotation = 0.0f;
+		usingIndices = false;
+		setupMesh();
+	}
+
 	Mesh::~Mesh()
 	{
 
@@ -86,6 +95,16 @@ namespace AVTEngine
 	unsigned int Mesh::getVerticesSize()
 	{
 		return vertices.size();
+	}
+
+	unsigned int Mesh::getNormalsSize()
+	{
+		return normals.size();
+	}
+
+	unsigned int Mesh::getUVsSize()
+	{
+		return uvs.size();
 	}
 
 	glm::vec3 Mesh::getPosition()

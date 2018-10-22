@@ -1,6 +1,8 @@
 #include "ResourcesManager.h"
 
 #include "FileSystem.h"
+#include "Mesh.h"
+#include "OBJLoader.h"
 #include "Shader.h"
 
 namespace AVTEngine
@@ -24,5 +26,13 @@ namespace AVTEngine
 			shaders.insert(std::pair<std::string, Shader>(shaderName, Shader(vsShaderPath.c_str(), fsShaderPath.c_str())));
 		}
 		return &shaders[shaderName];
+	}
+
+	Mesh* ResourcesManager::loadOBJ(std::string filename)
+	{
+		std::string modelPath = resourcesPath + "models\\";
+		modelPath += filename + ".obj";
+		OBJLoader loader = OBJLoader(modelPath);
+		return loader.toMesh();
 	}
 }

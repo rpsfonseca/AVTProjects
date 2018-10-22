@@ -2,6 +2,7 @@
 #include "node.h"
 #include "Mesh.h"
 #include "Material.h"
+#include "ResourcesManager.h"
 
 #include "Renderer.h"
 
@@ -50,7 +51,9 @@ namespace AVTEngine
 
 		//renderer->uboId = uniformBlockId;
 
-		SceneNode* planeNode = Scene::createSceneNode(new Mesh(vectorOfVertices, indices), new Material("basic"));
+		Mesh* testMesh = ResourcesManager::loadOBJ("test");
+		SceneNode* planeNode = Scene::createSceneNode(testMesh, new Material("basic"));
+		//SceneNode* planeNode = Scene::createSceneNode(new Mesh(vectorOfVertices, indices), new Material("basic"));
 		planeNode->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 		/*planeNode->setScale(Vec3(4.0f));
 		planeNode->model->setPosition(Vec3(0, 0, -1.0f));
