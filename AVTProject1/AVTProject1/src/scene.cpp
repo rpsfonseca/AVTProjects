@@ -7,6 +7,7 @@
 #include "Renderer.h"
 
 #include "Cube.h"
+#include "Car.h"
 
 #include <glm/glm.hpp>
 #include <GL/glew.h>
@@ -20,6 +21,7 @@ namespace AVTEngine
 	Scene::Scene()
 	{
 		nodes = std::map<std::string, SceneNode*>();
+		entities = std::map<std::string, Entity*>();
 	}
 
 	// Creates a new scene node and inits it with a model.
@@ -28,6 +30,13 @@ namespace AVTEngine
 		SceneNode* node = new SceneNode(mesh, material);
 
 		return node;
+	}
+
+	Entity* Scene::createCar(SceneNode* node_, glm::vec3 startPos_, float rotation_)
+	{
+		Entity* car = new Car(node_, startPos_, rotation_);
+
+		return car;
 	}
 
 	// Sets up the scene manager.
@@ -52,13 +61,14 @@ namespace AVTEngine
 		//renderer->uboId = uniformBlockId;
 
 
-		Mesh* testMesh = ResourcesManager::loadOBJ("untitled");
+		//Mesh* testMesh = ResourcesManager::loadOBJ("untitled");
+		Mesh* testMesh = ResourcesManager::loadOBJ("table");
 		SceneNode* planeNode = Scene::createSceneNode(testMesh, new Material("basic"));
 		planeNode->material->setAmbient(glm::vec3(1.f, 0.5f, 0.31f));
 		planeNode->material->setDiffuse(glm::vec3(1.0f, 0.5f, 0.31f));
 		planeNode->material->setSpecular(glm::vec3(0.5f, 0.5f, 0.5f));
 		planeNode->material->setShininess(32.f);
-		planeNode->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+		planeNode->setPosition(glm::vec3(0.0f, -10.0f, 0.0f));
 		/*planeNode->setScale(Vec3(4.0f));
 		planeNode->model->setPosition(Vec3(0, 0, -1.0f));
 		planeNode->model->setRotation(0.0f);
@@ -78,9 +88,29 @@ namespace AVTEngine
 		planeNode2->model->setRotation(0.0f);
 		planeNode2->model->setScale(Vec3(1.0f));
 		rootSceneNode->addChild(planeNode2);*/
+
+
+		//TODO teste com o carro
+
+		Mesh* testMesh2 = ResourcesManager::loadOBJ("car_with_wheels");
+		SceneNode* planeNode2 = Scene::createSceneNode(testMesh2, new Material("basic"));
+		glm::vec3 teste = glm::vec3(0);
+		Entity* car = Scene::createCar(planeNode2, teste, 0);
+
+		planeNode2->material->setAmbient(glm::vec3(1.f, 0.5f, 0.31f));
+		planeNode2->material->setDiffuse(glm::vec3(1.0f, 0.5f, 0.31f));
+		planeNode2->material->setSpecular(glm::vec3(0.5f, 0.5f, 0.5f));
+		planeNode2->material->setShininess(32.f);
+		planeNode2->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+		/*planeNode->setScale(Vec3(4.0f));
+		planeNode->model->setPosition(Vec3(0, 0, -1.0f));
+		planeNode->model->setRotation(0.0f);
+		planeNode->model->setScale(Vec3(1.0f));*/
+		rootSceneNode->addChild(planeNode2);
 		
-		nodes.insert(std::pair<std::string, SceneNode*>("plane", planeNode));
-		//nodes.insert(std::pair<std::string, SceneNode*>("plane2", planeNode2));
+		//nodes.insert(std::pair<std::string, SceneNode*>("plane", planeNode));
+		nodes.insert(std::pair<std::string, SceneNode*>("plane2", planeNode2));
+		entities.insert(std::pair<std::string, Entity*>("car", car));
 	}
 
 
@@ -158,4 +188,11 @@ namespace AVTEngine
 		return renderTarget;
 	}
 	*/
+
+	void Scene::updateEntities(float delta_) {
+		for (std::map<std::string, Entity*>::iterator it = entities.begin(); it != entities.end(); ++it)
+		{
+			it->second->update(delta_);
+		}
+	}
 }

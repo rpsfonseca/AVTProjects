@@ -14,6 +14,13 @@ namespace AVTEngine
 		orientation = orientation_;
 	};
 
+	//TODO teste
+	Entity::Entity(SceneNode *node_) : 
+		node(node_) {
+		enabled = true;
+		rotationAccum = 0;
+	};
+
 	void Entity::disable() {
 		enabled = false;
 	};
@@ -42,16 +49,31 @@ namespace AVTEngine
 
 	void Entity::setPosition(glm::vec3 position_) {
 		position = position_;
+		node->setPosition(position_); //Tell node to change position
 	}
 
 
 	//Aplicar rotaçao na matriz do modelo
+	/* 
 	void Entity::rotate(float angle_) {
 		rotationAccum += angle_;
 		glm::vec3 y_axis = Y_AXIS;
 
 		//Rotate model
 		ModelViewMatrix = glm::rotate(ModelViewMatrix, angle_, y_axis);
+		orientation = glm::rotateY(orientation, angle_);
+	}
+	*/
+	void Entity::rotate(float angle_) {
+
+		rotationAccum += angle_;
+		glm::vec3 y_axis = Y_AXIS;
+
+		//Rotate model
+		glm::quat quaternion = glm::angleAxis(angle_, y_axis);
+		node->setRotation(quaternion);
+		
+		//Also update orientation, for movement calculation purposes
 		orientation = glm::rotateY(orientation, angle_);
 	}
 
@@ -62,4 +84,10 @@ namespace AVTEngine
 	void Entity::setMaterial(Material* material_) {
 		material = material_;
 	}
+
+	void Entity::update(float delta_)
+	{
+		//Empty
+	}//Virtual
+
 }

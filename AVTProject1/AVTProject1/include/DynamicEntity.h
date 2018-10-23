@@ -31,6 +31,11 @@ namespace AVTEngine
 
 		DynamicEntity();
 		DynamicEntity(SceneNode *node_, Shader *shader_, Mesh *mesh_, glm::vec3 startPos_, int maxVelocity_, int maxTurnRate_);
+
+
+		//TODO teste
+		DynamicEntity(SceneNode *node_, glm::vec3 startPos_, int maxVelocity_, int maxTurnRate_);
+		
 		void integrate(float accel_, float turnRate_, float delta_); //Update velocity and rotation
 		void reset();
 		int getRandomRate();

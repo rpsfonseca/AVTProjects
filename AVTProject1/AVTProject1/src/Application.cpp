@@ -11,6 +11,8 @@
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 
+
+
 namespace AVTEngine
 { 
 	unsigned int Application::windowHandle = 0;
@@ -25,14 +27,20 @@ namespace AVTEngine
 	Application* Application::instance = 0;
 	void(*Application::cleanupFunction)() = nullptr;
 	void(*Application::renderFunction)() = nullptr;
+	
+	//TODO teste
+	float oldTimeSinceStart = 0;
 
+	//Entity Application::entities[MAX_KEYS]; TODO
 
 	Application::Application()
 	{
+		//entities[0] = new Car(); TODO
 	}
 
 	Application::~Application()
 	{
+		
 		scene->cleanup();
 		renderer->cleanup();
 		delete renderer;
@@ -51,7 +59,10 @@ namespace AVTEngine
 
 	void Application::init(int argc, char* argv[])
 	{
+		oldTimeSinceStart = 0;
 		ResourcesManager::init();
+
+		//car = new Car();
 
 		scene = new Scene();
 		renderer = new Renderer();
@@ -171,12 +182,18 @@ namespace AVTEngine
 		}
 	}
 
-	void Application::display()
+	void Application::display() //Every frame
 	{
+		float timeSinceStart = glutGet(GLUT_ELAPSED_TIME);
+		float deltaTime = timeSinceStart - oldTimeSinceStart;
+		oldTimeSinceStart = timeSinceStart;
+
+
 		getInstance()->renderer->currentCamera = getInstance()->currentCamera;
 		getInstance()->renderer->setProjectionMatrix(getInstance()->currentCamera->getProjection());
 		getInstance()->renderer->setViewMatrix(getInstance()->currentCamera->getView());
 
+		getInstance()->scene->updateEntities(deltaTime);
 		getInstance()->renderer->preDraw();
 		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		/*if (renderFunction != nullptr)
@@ -191,6 +208,13 @@ namespace AVTEngine
 		glutSwapBuffers();
 
 		updateFramesPerSecond();
+
+		
+
+		/* TODO metodo do car
+			//Car b = new Car();
+			//b.update(20);
+		*/
 	}
 
 	void Application::reshape(int w, int h)

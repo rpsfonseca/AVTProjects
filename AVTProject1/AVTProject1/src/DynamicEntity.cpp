@@ -17,11 +17,24 @@ namespace AVTEngine
 		minVelocity = 0.1; // Velocidade para qual o algoritmo arredonda para 0
 	};
 
+	//TODO teste
+	DynamicEntity::DynamicEntity(SceneNode *node_, glm::vec3 startPos_, int maxVelocity_, int maxTurnRate_) :
+		maxVelocity(maxVelocity_), maxTurnRate(maxTurnRate_), Entity(node_) {
+
+		setPosition(startPos_);
+		orientation = glm::vec3(1, 0, 0);
+
+		velocity = 0;	// Velocidade inicial
+		minVelocity = 0.1; // Velocidade para qual o algoritmo arredonda para 0
+	};
+
 
 	void DynamicEntity::integrate(float accel_, float turnRate_, float delta_) { //Delta makes it fps independent
 
 		//Calculate rotation
-		rotate((turnRate_ * delta_ * (velocity / maxVelocity)));
+		float rotateAmount = (turnRate_ * delta_ * (velocity / maxVelocity));
+		rotate(rotateAmount);
+		Entity::rotate(rotateAmount); ////Tells the Entity class to tell the Node class that the node needs to update
 
 		//Calculate Speed
 		velocity += accel_ * delta_;
@@ -40,7 +53,9 @@ namespace AVTEngine
 		//É preciso pegar no vector de orientaçao, multiplica-lo pela velocidade actual, e adicionar o resultado à posição actual do carro
 		glm::vec3 ori = orientation;
 		glm::vec3 velocityVector = ori * (velocity * delta_);
-		position += velocityVector;
+		
+		position += velocityVector; //TODO send this to Entity
+		Entity::setPosition(position); //Tells the Entity class to tell the Node class that the node needs to update
 	}
 
 	void DynamicEntity::reset() {

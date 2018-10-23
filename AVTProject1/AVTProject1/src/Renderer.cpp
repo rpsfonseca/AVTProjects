@@ -54,6 +54,8 @@ namespace AVTEngine
 
 	void Renderer::pushRenderables(SceneNode* sceneNode)
 	{
+		//TODO update entity here?
+
 		// update transform(s) before pushing node to render command buffer
 		sceneNode->updateTransform();
 

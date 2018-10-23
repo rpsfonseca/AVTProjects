@@ -20,6 +20,19 @@ namespace AVTEngine
 		//TODO SceneNode.add(this); Adicionar o carro à cena?
 	};
 
+	//TODO teste
+	Car::Car(SceneNode *node_, glm::vec3 startPos_, float rotation_) : DynamicEntity(node_, glm::vec3(1, 0, 0), CAR_MAX_VELOCITY, CAR_MAX_TURNRATE) {
+
+		acceleration = 20;
+		deceleration = 10;
+		initialPos = startPos_;
+
+		minVelocity = 0.1; // Velocidade para qual o algoritmo arredonda para 0
+		minDrag = MIN_DRAG; // Forca minima de fricao
+
+		rotate(rotation_);
+	};
+
 
 	/* TODO Stuff for collision detection
 
@@ -47,17 +60,18 @@ namespace AVTEngine
 			turnRate = maxTurnRate;
 			printf("tecla A");
 		}
-		else if (Input::isKeyDown(39)) { //seta direita
+		else if (Input::isKeyDown('d')) { //seta direita
 			turnRate = -maxTurnRate;
 		}
 		
 		float accel = 0;
 
 		/* Speed input */
-		if (Input::isKeyDown(38)) { //seta acima
+		if (Input::isKeyDown('w')) { //seta acima
 			accel = acceleration;
+			//printf();
 		}
-		else if (Input::isKeyDown(40)) { //seta abaixo
+		else if (Input::isKeyDown('s')) { //seta abaixo
 			accel = -deceleration;
 		}
 

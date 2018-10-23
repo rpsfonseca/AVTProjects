@@ -69,7 +69,7 @@ namespace AVTEngine
 		SceneNode();
 		
 		void addChild(SceneNode *node_);
-		void setPosition(glm::vec3 _position);
+		
 		//void addTexture(std::string key_, Texture *texture_); TODO uncomment
 		void addUniformi(std::string key_, int value_);
 		void setUniformi(std::string key_, int value_);
@@ -89,6 +89,12 @@ namespace AVTEngine
 		void updateTransform();
 
 		void cleanup();
+
+		//Transformation functions
+		void setPosition(glm::vec3 _position);
+		void setRotation(glm::quat _rotation);
+		void setScale(glm::vec3 _scale);
+
 
 	private:
 		

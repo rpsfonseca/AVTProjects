@@ -4,6 +4,8 @@
 #include <string>
 #include <map>
 
+#include "Entity.h"
+
 /*
 #include "graphics\camera\camera.hpp"
 #include "graphics\globalLight.hpp"
@@ -12,6 +14,7 @@
 
 namespace AVTEngine
 {
+	class Entity;
 	class SceneNode;
 	class Mesh;
 	class Material;
@@ -33,14 +36,20 @@ namespace AVTEngine
 		static int nodeCounterId; /** Counter to keep track of the current node id to give to a new node */
 
 		std::map<std::string, SceneNode*> nodes; /** Hashtable to store all scene nodes */
+		std::map<std::string, Entity*> entities; /** Hashtable to store all entities */
 
 		Renderer* renderer;
+
+		//TODO teste
+		Entity* entity;
+		
 
 	public:
 
 		Scene();
 
 		static SceneNode* createSceneNode(Mesh* mesh, Material* material);
+		static Entity* createCar(SceneNode* node_, glm::vec3 startPos_, float rotation_);
 
 		void setupSceneManager();
 
@@ -58,6 +67,8 @@ namespace AVTEngine
 		*/
 
 		void setRenderer(Renderer* _renderer);
+
+		void updateEntities(float delta_);
 
 	
 	};

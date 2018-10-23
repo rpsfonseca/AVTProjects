@@ -171,6 +171,11 @@ namespace AVTEngine
 
 	void SceneNode::updateTransform()
 	{
+		
+		//TODO entity update here?
+
+
+
 		// we only do this if the node itself or its parent is flagged as dirty
 		if (dirty)
 		{
@@ -217,6 +222,25 @@ namespace AVTEngine
 		position = _position;
 		dirty = true;
 	}
+
+	void SceneNode::setRotation(glm::quat _rotation)
+	{
+		rotation = rotation;
+		dirty = true;
+	}
+
+	void SceneNode::setScale(glm::vec3 _scale)
+	{
+		scale = _scale;
+		dirty = true;
+	}
+
+
+	/*
+		position = glm::vec3(0.0);
+		rotation = glm::quat();
+		scale = glm::vec3(1, 1, 1);
+	*/
 
 
 	void SceneNode::addUniformi(std::string key_, int value_)

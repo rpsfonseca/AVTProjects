@@ -48,6 +48,9 @@ namespace AVTEngine
 		Entity(Shader *shader_, Mesh *mesh_, float maxVelocity_, float maxTurnRate_, glm::vec3 orientation_);
 		Entity();
 
+		//TODO teste
+		Entity(SceneNode *node_); //Dynamic Entity
+
 		glm::mat4 ModelViewMatrix = glm::mat4(1.0); //Identity Matrix
 		glm::vec3 position;
 		glm::vec3 orientation;
@@ -78,6 +81,7 @@ namespace AVTEngine
 		void rotate(float angle_);
 		void setMesh(Mesh* mesh_);
 		void setMaterial(Material* material_);
+		virtual void update(float delta_);
 	};
 }
 
