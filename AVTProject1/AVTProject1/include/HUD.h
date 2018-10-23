@@ -10,8 +10,6 @@ namespace AVTEngine
 		TextureMappedFont font = TextureMappedFont("font.bmp", *fontShader);
 
 	public:
-		void draw() {
-			font.DrawString(0, 0, "Text");
-		}
+		void draw();
 	};
 }
