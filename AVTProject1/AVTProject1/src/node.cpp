@@ -179,6 +179,7 @@ namespace AVTEngine
 		// we only do this if the node itself or its parent is flagged as dirty
 		if (dirty)
 		{
+			transform = glm::mat4(1);
 			// first scale, then rotate, then translation
 			transform = glm::translate(transform, position);
 			transform = glm::scale(transform, scale); // TODO: order is off here for some reason, figure out why
@@ -225,7 +226,7 @@ namespace AVTEngine
 
 	void SceneNode::setRotation(glm::quat _rotation)
 	{
-		rotation = rotation;
+		rotation = _rotation;
 		dirty = true;
 	}
 

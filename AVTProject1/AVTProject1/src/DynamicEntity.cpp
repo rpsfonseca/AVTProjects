@@ -33,7 +33,6 @@ namespace AVTEngine
 
 		//Calculate rotation
 		float rotateAmount = (turnRate_ * delta_ * (velocity / maxVelocity));
-		rotate(rotateAmount);
 		Entity::rotate(rotateAmount); ////Tells the Entity class to tell the Node class that the node needs to update
 
 		//Calculate Speed

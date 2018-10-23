@@ -70,7 +70,7 @@ namespace AVTEngine
 		glm::vec3 y_axis = Y_AXIS;
 
 		//Rotate model
-		glm::quat quaternion = glm::angleAxis(angle_, y_axis);
+		glm::quat quaternion = glm::angleAxis(rotationAccum, y_axis);
 		node->setRotation(quaternion);
 		
 		//Also update orientation, for movement calculation purposes

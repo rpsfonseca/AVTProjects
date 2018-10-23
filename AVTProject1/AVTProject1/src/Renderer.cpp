@@ -110,6 +110,8 @@ namespace AVTEngine
 			renderCommand(&renderCommands[i], currentCamera);
 		}
 
+		commandBuffer->clear();
+
 		OpenGLError::checkOpenGLError("ERROR: Could not draw scene.");
 	}
 
