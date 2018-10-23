@@ -67,10 +67,7 @@ namespace AVTEngine
 		SceneNode(Mesh* mesh, Material* material);
 		SceneNode(Entity* entity, Mesh* mesh, Material* material);
 		//SceneNode(Mesh *mesh);
-		SceneNode(Shader *shader_);
 		SceneNode();
-
-		void draw(SceneNode *parentNode_);
 		
 		void addChild(SceneNode *node_);
 		void setPosition(glm::vec3 _position);
@@ -84,6 +81,7 @@ namespace AVTEngine
 		//void setMesh(Mesh *mesh_); //TODO uncomment
 		void setShader(Shader *shader_);
 		//void setMaterial(Material *material_); //TODO uncomment
+
 		glm::mat4 getTransform();
 
 		inline int getChildCount() { return childNodes.size(); };
