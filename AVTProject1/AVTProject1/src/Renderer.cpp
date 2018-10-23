@@ -145,6 +145,11 @@ namespace AVTEngine
 
 		material->getShader()->use();
 
+		// setup lights
+		material->getShader()->setBool("dirLightEnabled", directionalLightOn);
+		material->getShader()->setBool("pointLightsEnabled", pointLightsOn);
+		material->getShader()->setBool("spotLightsEnabled", spotLightsOn);
+
 		// setup material properties
 		material->getShader()->setVec3("material.diffuse", material->getDiffuse());
 		material->getShader()->setVec3("material.ambient", material->getAmbient());
@@ -162,7 +167,9 @@ namespace AVTEngine
 			glm::vec3(0.7f,  0.2f,  2.0f),
 			glm::vec3(2.3f, -3.3f, -4.0f),
 			glm::vec3(-4.0f,  2.0f, -12.0f),
-			glm::vec3(0.0f,  0.0f, -3.0f)
+			glm::vec3(0.0f,  0.0f, -3.0f),
+			glm::vec3(5.0f,  3.0f, -7.0f),
+			glm::vec3(-3.0f,  1.0f, -2.0f)
 		};
 
 		material->getShader()->setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
@@ -201,6 +208,22 @@ namespace AVTEngine
 		material->getShader()->setFloat("pointLights[3].constant", 1.0f);
 		material->getShader()->setFloat("pointLights[3].linear", 0.09);
 		material->getShader()->setFloat("pointLights[3].quadratic", 0.032);
+		// point light 5
+		material->getShader()->setVec3("pointLights[4].position", pointLightPositions[4]);
+		material->getShader()->setVec3("pointLights[4].ambient", 0.05f, 0.05f, 0.05f);
+		material->getShader()->setVec3("pointLights[4].diffuse", 0.8f, 0.8f, 0.8f);
+		material->getShader()->setVec3("pointLights[4].specular", 1.0f, 1.0f, 1.0f);
+		material->getShader()->setFloat("pointLights[4].constant", 1.0f);
+		material->getShader()->setFloat("pointLights[4].linear", 0.09);
+		material->getShader()->setFloat("pointLights[4].quadratic", 0.032);
+		// point light 6
+		material->getShader()->setVec3("pointLights[5].position", pointLightPositions[5]);
+		material->getShader()->setVec3("pointLights[5].ambient", 0.05f, 0.05f, 0.05f);
+		material->getShader()->setVec3("pointLights[5].diffuse", 0.8f, 0.8f, 0.8f);
+		material->getShader()->setVec3("pointLights[5].specular", 1.0f, 1.0f, 1.0f);
+		material->getShader()->setFloat("pointLights[5].constant", 1.0f);
+		material->getShader()->setFloat("pointLights[5].linear", 0.09);
+		material->getShader()->setFloat("pointLights[5].quadratic", 0.032);
 		// spotLight
 		material->getShader()->setVec3("spotLight.position", glm::vec3(0));
 		material->getShader()->setVec3("spotLight.direction", glm::fastNormalize(glm::vec3(1)));
@@ -212,6 +235,17 @@ namespace AVTEngine
 		material->getShader()->setFloat("spotLight.quadratic", 0.032);
 		material->getShader()->setFloat("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
 		material->getShader()->setFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
+		// spotLight 2
+		material->getShader()->setVec3("spotLight2.position", glm::vec3(0));
+		material->getShader()->setVec3("spotLight2.direction", glm::fastNormalize(glm::vec3(1)));
+		material->getShader()->setVec3("spotLight2.ambient", 0.0f, 0.0f, 0.0f);
+		material->getShader()->setVec3("spotLight2.diffuse", 1.0f, 1.0f, 1.0f);
+		material->getShader()->setVec3("spotLight2.specular", 1.0f, 1.0f, 1.0f);
+		material->getShader()->setFloat("spotLight2.constant", 1.0f);
+		material->getShader()->setFloat("spotLight2.linear", 0.09);
+		material->getShader()->setFloat("spotLight2.quadratic", 0.032);
+		material->getShader()->setFloat("spotLight2.cutOff", glm::cos(glm::radians(12.5f)));
+		material->getShader()->setFloat("spotLight2.outerCutOff", glm::cos(glm::radians(15.0f)));
 
 		material->getShader()->setMat4("projectionMatrix", projectionMatrix);
 		material->getShader()->setMat4("viewMatrix", viewMatrix);

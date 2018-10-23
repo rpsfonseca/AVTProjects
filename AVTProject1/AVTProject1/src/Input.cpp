@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <GL/freeglut.h>
+#include "Renderer.h"
 
 namespace AVTEngine
 {
@@ -76,6 +77,15 @@ namespace AVTEngine
 			break;
 		case '3':
 			Application::getInstance()->changeCamera(3);
+			break;
+		case 'n':
+			Application::getInstance()->renderer->directionalLightOn = !Application::getInstance()->renderer->directionalLightOn;
+			break;
+		case 'c':
+			Application::getInstance()->renderer->pointLightsOn = !Application::getInstance()->renderer->pointLightsOn;
+			break;
+		case 'h':
+			Application::getInstance()->renderer->spotLightsOn = !Application::getInstance()->renderer->spotLightsOn;
 			break;
 		}
 	}

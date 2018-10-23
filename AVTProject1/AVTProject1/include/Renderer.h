@@ -29,6 +29,9 @@ namespace AVTEngine
 		glm::mat4 modelMatrix;
 		glm::mat4 projectionMatrix;
 		glm::mat4 viewMatrix;
+		bool directionalLightOn = true;
+		bool pointLightsOn = true;
+		bool spotLightsOn = true;
 
 		unsigned int uboBp; // Uniform block pointer used to retrieve uniform block ID
 		unsigned int uboId; // The actual uniform block ID
