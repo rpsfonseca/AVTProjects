@@ -31,4 +31,8 @@ namespace AVTEngine {
 	#define ORANGE_MAX_VELOCITY 100
 	#define ORANGE_MAX_TURNRATE 3
 
+	//Cheerio constants
+	#define CHEERIO_MAX_VELOCITY 100
+	#define CHEERIO_MAX_TURNRATE 1
+
 }

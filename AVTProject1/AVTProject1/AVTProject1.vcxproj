@@ -150,6 +150,7 @@
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Car.cpp" />
+    <ClCompile Include="src\Cheerio.cpp" />
     <ClCompile Include="src\DynamicEntity.cpp" />
     <ClCompile Include="src\Entity.cpp" />
     <ClCompile Include="src\HUD.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="include\Application.h" />
     <ClInclude Include="include\Camera.h" />
     <ClInclude Include="include\Car.h" />
+    <ClInclude Include="include\Cheerio.h" />
     <ClInclude Include="include\CommandBuffer.h" />
     <ClInclude Include="include\Constants.h" />
     <ClInclude Include="include\Cube.h" />

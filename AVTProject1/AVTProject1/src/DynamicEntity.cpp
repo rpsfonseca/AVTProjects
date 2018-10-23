@@ -1,6 +1,5 @@
 #include "DynamicEntity.h"
 
-
 namespace AVTEngine
 {
 	DynamicEntity::DynamicEntity() {

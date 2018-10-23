@@ -4,9 +4,7 @@
 #include "Material.h"
 #include "Shader.h"
 #include "Constants.h"
-#include "Entity.h"
 #include "DynamicEntity.h"
-#include "node.h"
 //#include "Texture.h"
 #include <glm/glm.hpp>
 #include <glm/gtx/rotate_vector.hpp>
