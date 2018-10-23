@@ -5,6 +5,7 @@
 #include "Shader.h"
 #include "Constants.h"
 #include "Entity.h"
+#include "DynamicEntity.h"
 #include "node.h"
 //#include "Texture.h"
 #include <glm/glm.hpp>
@@ -13,10 +14,9 @@
 namespace AVTEngine
 {
 
-	class Orange:Entity {
+	class Orange: public DynamicEntity {
 
 	protected:
-		SceneNode *node;
 
 	private:
 

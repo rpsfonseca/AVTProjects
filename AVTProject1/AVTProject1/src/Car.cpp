@@ -4,15 +4,13 @@
 namespace AVTEngine
 {
 
-	Car::Car(SceneNode *node_, Shader *shader_, Mesh *mesh_, glm::vec3 startPos_, float rotation_) :
-		node(node_){
+	Car::Car(SceneNode *node_, Shader *shader_, Mesh *mesh_, glm::vec3 startPos_, float rotation_){
 
-		Entity::Entity(shader_, mesh_, 100, 3, glm::vec3(1, 0, 0));
+		DynamicEntity::DynamicEntity(node_, shader_, mesh_, glm::vec3(1, 0, 0), CAR_MAX_VELOCITY, CAR_MAX_TURNRATE);
+
 		
 		acceleration = 20;
 		deceleration = 10;
-		maxTurnRate = CAR_MAX_TURNRATE;
-		position = startPos_;
 		initialPos = startPos_;
 
 		minVelocity = 0.1; // Velocidade para qual o algoritmo arredonda para 0
@@ -35,10 +33,10 @@ namespace AVTEngine
 	*/
 
 	void Car::reset() {
-		Entity::reset();
+		DynamicEntity::reset();
 
-		rotate(-rotationAccum); // roda no sentido contrario da soma de todas as rotacoes, ou seja, volta ao inicial
-		position = initialPos;
+		this->rotate(-rotationAccum); // roda no sentido contrario da soma de todas as rotacoes, ou seja, volta ao inicial
+		setPosition(initialPos); //Voltar à posição inicial do carro
 	}
 
 	void Car::update(float delta_) { //
@@ -73,7 +71,7 @@ namespace AVTEngine
 		}
 		
 		//Update
-		Entity::integrate(accel, turnRate, delta_);
+		DynamicEntity::integrate(accel, turnRate, delta_);
 	}
 
 }

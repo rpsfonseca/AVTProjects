@@ -2,6 +2,7 @@
 
 #include "Material.h"
 #include "Shader.h"
+#include "Entity.h"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/glm.hpp>
@@ -28,6 +29,7 @@ namespace AVTEngine
 
 	class Mesh;
 	class Material;
+	class Entity;
 
 	/**
 	*	A scene graph node. Can have it's shader, mesh and modelMatrix. Houses child nodes.
@@ -47,11 +49,14 @@ namespace AVTEngine
 
 		Mesh* mesh;
 		Material* material;
+		Entity* entity;
 
 		std::vector<NodeTexture> textureArray;
 		std::vector<std::string> uniformiArray;
 		//std::map<std::string, int> uniformiMap;
 		bool isEnabled = true;
+
+		
 
 	protected:
 		Shader* nodeShader;
@@ -60,6 +65,7 @@ namespace AVTEngine
 	public:
 		//TODO uncomment
 		SceneNode(Mesh* mesh, Material* material);
+		SceneNode(Entity* entity, Mesh* mesh, Material* material);
 		//SceneNode(Mesh *mesh);
 		SceneNode(Shader *shader_);
 		SceneNode();

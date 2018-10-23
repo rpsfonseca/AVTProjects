@@ -4,8 +4,9 @@
 namespace AVTEngine
 {
 
-	Orange::Orange(SceneNode *node_, Shader *shader_, Mesh *mesh_, float levelWidth_, float levelHeight_) :
-		node(node_) {
+	Orange::Orange(SceneNode *node_, Shader *shader_, Mesh *mesh_, float levelWidth_, float levelHeight_){
+
+		DynamicEntity::DynamicEntity(node_, shader_, mesh_, glm::vec3(1, 0, 0), ORANGE_MAX_VELOCITY, ORANGE_MAX_TURNRATE);
 
 		Entity::Entity(shader_, mesh_, 100, 3, glm::vec3(1, 0, 0));
 
@@ -43,8 +44,8 @@ namespace AVTEngine
         if(increaseSpeedTimer < 0){
             increaseSpeedTimer = TEMPO_ACELERAR_LARANJAS - increaseSpeedTimer; // 
 		
-			int randNum = rand() % (2 - 1 + 1) + 1; //int randNum = rand()%(max-min + 1) + min;
-			velocity += randNum * 5; //Random velocity increase (5 or 10)
+			//int randNum = rand() % (2 - 1 + 1) + 1; //int randNum = rand()%(max-min + 1) + min; //Random velocity increase (5 or 10)
+			velocity += 10; 
         }
 
         if(dead){
@@ -133,7 +134,7 @@ namespace AVTEngine
 	*/
 
 	void Orange::reset() {
-		Entity::reset();
+		DynamicEntity::reset();
 
 		position = initialPos;
 		orangeRotation(-rotationAccum); // roda no sentido contrario da soma de todas as rotacoes, ou seja, volta ao inicial

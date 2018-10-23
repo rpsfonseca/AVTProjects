@@ -41,6 +41,21 @@ namespace AVTEngine
 
 		dirty = false;
 	}
+
+	SceneNode::SceneNode(Entity* _entity, Mesh* _mesh, Material* _material)
+	{
+		//passar para o mesh
+		entity = _entity;
+		entity->setMesh(_mesh);
+		entity->setMaterial(_material);
+
+		transform = glm::mat4(1);
+		position = glm::vec3(0.0);
+		rotation = glm::quat();
+		scale = glm::vec3(1, 1, 1);
+
+		dirty = false;
+	}
 	
 	
 	Shader *SceneNode::getCurrentShader(SceneNode *parent_)

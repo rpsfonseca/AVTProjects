@@ -4,6 +4,7 @@
 #include "Material.h"
 #include "Shader.h"
 #include "Constants.h"
+#include "DynamicEntity.h"
 #include "Entity.h"
 #include "node.h"
 //#include "Texture.h"
@@ -13,11 +14,11 @@
 namespace AVTEngine
 {
 
-	class Car: Entity
+	class Car: public DynamicEntity
 	{
 
 	protected:
-		SceneNode *node;
+
 
 	private:
 
@@ -28,6 +29,7 @@ namespace AVTEngine
 		Car() = default;
 
 		glm::vec3 initialPos;
+
 		/* TODO
 		Light spotlight1;
 		Light spotlight2;
