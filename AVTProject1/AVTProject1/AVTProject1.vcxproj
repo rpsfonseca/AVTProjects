@@ -148,15 +148,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Car.cpp" />
-    <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\Car.cpp" />
+    <ClCompile Include="src\Entity.cpp" />
     <ClCompile Include="src\GameState.cpp" />
     <ClCompile Include="src\load_bmp.cpp" />
-    <ClCompile Include="Orange.cpp" />
     <ClCompile Include="src\node.cpp" />
     <ClCompile Include="src\OBJLoader.cpp" />
+    <ClCompile Include="src\Orange.cpp" />
     <ClCompile Include="src\scene.cpp" />
-    <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\CommandBuffer.cpp" />
     <ClCompile Include="src\FileSystem.cpp" />
     <ClCompile Include="src\Input.cpp" />
@@ -171,14 +171,14 @@
     <ClCompile Include="src\TextureMappedFont.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Car.h" />
-    <ClInclude Include="Constants.h" />
-    <ClInclude Include="Entity.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="include\Application.h" />
     <ClInclude Include="include\Camera.h" />
+    <ClInclude Include="include\Car.h" />
     <ClInclude Include="include\CommandBuffer.h" />
+    <ClInclude Include="include\Constants.h" />
     <ClInclude Include="include\Cube.h" />
+    <ClInclude Include="include\Entity.h" />
     <ClInclude Include="include\FileSystem.h" />
     <ClInclude Include="include\GameState.h" />
     <ClInclude Include="include\HUD.h" />
@@ -189,6 +189,7 @@
     <ClInclude Include="include\Model.h" />
     <ClInclude Include="include\OBJLoader.h" />
     <ClInclude Include="include\OpenGLError.h" />
+    <ClInclude Include="include\Orange.h" />
     <ClInclude Include="include\RenderCommand.h" />
     <ClInclude Include="include\Renderer.h" />
     <ClInclude Include="include\ResourcesManager.h" />
@@ -198,7 +199,6 @@
     <ClInclude Include="include\node.h" />
     <ClInclude Include="include\scene.h" />
     <ClInclude Include="include\TextureMappedFont.h" />
-    <ClInclude Include="Orange.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\basic.fs" />

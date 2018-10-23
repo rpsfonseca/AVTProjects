@@ -22,6 +22,7 @@ namespace AVTEngine
 		//TODO SceneNode.add(this); Adicionar o carro à cena?
 	};
 
+
 	/* TODO Stuff for collision detection
 
 	get type() {   //Para saber que tipo de colisão se trata
@@ -44,8 +45,9 @@ namespace AVTEngine
 		float turnRate = 0;
 
 		/* Turn inputs */
-		if (Input::isKeyDown(37)) { //seta esquerda
+		if (Input::isKeyDown('a')) { //seta esquerda
 			turnRate = maxTurnRate;
+			printf("tecla A");
 		}
 		else if (Input::isKeyDown(39)) { //seta direita
 			turnRate = -maxTurnRate;
