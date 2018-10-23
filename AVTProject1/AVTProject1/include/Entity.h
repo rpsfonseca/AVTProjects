@@ -8,12 +8,12 @@
 #include "Model.h"
 #include "Constants.h"
 //#include "Texture.h"
+#include "node.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 #include <math.h>
 
-#include "node.h"
 
 namespace AVTEngine
 {
@@ -25,13 +25,14 @@ namespace AVTEngine
 	};
 
 	// Superclasse de todos os objectos que se movem
-	class Entity {
+	class Entity
+	{
 
 	protected:
-		Shader *shader;
-		Mesh *mesh;
-		Material *material; 
-		SceneNode *node;
+		Shader* shader;
+		Mesh* mesh;
+		Material* material; 
+		SceneNode* node;
 		//Model *model;
 		glm::mat4 resultMatrix;
 
@@ -43,9 +44,9 @@ namespace AVTEngine
 
 	public:
 
-		Entity::Entity(SceneNode *node_, Shader *shader_, Mesh *mesh_);
+		Entity(SceneNode *node_, Shader *shader_, Mesh *mesh_);
 		Entity(Shader *shader_, Mesh *mesh_, float maxVelocity_, float maxTurnRate_, glm::vec3 orientation_);
-		Entity() = default;
+		Entity();
 
 		glm::mat4 ModelViewMatrix = glm::mat4(1.0); //Identity Matrix
 		glm::vec3 position;

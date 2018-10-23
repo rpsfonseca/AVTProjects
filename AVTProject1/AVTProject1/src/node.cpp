@@ -2,6 +2,7 @@
 //#include "utils\error.hpp"
 #include "node.h"
 #include "Material.h"
+#include "Entity.h"
 
 #define NODE_TAG "Scene SceneNode"
 

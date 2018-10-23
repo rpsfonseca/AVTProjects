@@ -2,6 +2,8 @@
 
 namespace AVTEngine
 {
+	Entity::Entity() {}
+
 	Entity::Entity(SceneNode *node_, Shader *shader_, Mesh *mesh_):
 		node(node_), shader(shader_), mesh(mesh_){
 	}
@@ -23,6 +25,11 @@ namespace AVTEngine
 	//Uma entidade disabled nao "existe" no mapa, ou seja, nao sofre colisoes e nao e atualizada (apesar de ainda poder aparecer)
 	bool Entity::isDisabled() {
 		return !enabled;
+	}
+
+	bool Entity::isMoving()
+	{
+		return false;
 	}
 
 	glm::vec3 Entity::getOrientation() {

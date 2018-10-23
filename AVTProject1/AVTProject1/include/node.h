@@ -2,7 +2,6 @@
 
 #include "Material.h"
 #include "Shader.h"
-#include "Entity.h"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/glm.hpp>
