@@ -4,11 +4,7 @@
 namespace AVTEngine
 {
 
-	Orange::Orange(SceneNode *node_, Shader *shader_, Mesh *mesh_, float levelWidth_, float levelHeight_){
-
-		DynamicEntity::DynamicEntity(node_, shader_, mesh_, glm::vec3(1, 0, 0), ORANGE_MAX_VELOCITY, ORANGE_MAX_TURNRATE);
-
-		Entity::Entity(shader_, mesh_, 100, 3, glm::vec3(1, 0, 0));
+	Orange::Orange(SceneNode *node_, float levelWidth_, float levelHeight_) : DynamicEntity(node_, ORANGE_MAX_VELOCITY, ORANGE_MAX_TURNRATE) {
 
 		velocity = getRandomRate() * 10; //Oranges shouldn't all behave the same
 
@@ -27,14 +23,9 @@ namespace AVTEngine
 		respawnTimer = 0;
 		dead = false;
 
-		
-		//Node.add(this); Adicionar o carro à cena?
-
 		position = pos;
+		setPosition(pos);
 		position.y = ORANGE_DEFAULT_RADIUS; //Set minimum height, so the orange isn't inside the table
-
-		//name = "orange"; Not needed?
-							
 	};
 	
 	
@@ -66,6 +57,7 @@ namespace AVTEngine
 		glm::vec3 temp = movementOrientation;
 		glm::vec3 velocityVector = temp * (velocity * delta_); //Calculate the speed vector
 		position += velocityVector; //Add the speed vector to the current position
+		setPosition(position); //Update node position
 
 		// calcula quanto temos de rodar para coincidir com a velocidade atual
 		float turnRateTemp = (velocity*delta_) / ORANGE_DEFAULT_RADIUS;
@@ -80,8 +72,11 @@ namespace AVTEngine
 		float rot = 90 * (M_PI / 180);
 
 		normalized = glm::rotateY(normalized, rot); //Rodar o vector para obter um eixo de rotacao adequado ao movimento
-		
+
+		Entity::orangeRotate(turnRate_, normalized); ////Tells the Entity class to tell the Node class that the node needs to update
+		/*
 		ModelViewMatrix = glm::rotate(ModelViewMatrix, turnRate_ , normalized); //Rotate the model by the right amount, and considering the current axis
+		*/
 	}
 
 	glm::vec3 Orange::getDirection(glm::vec3 pos_) {
@@ -102,18 +97,24 @@ namespace AVTEngine
 		bool side1 = rand() < 0.5;
 		bool side2 = rand() < 0.5;
 
+		int lw = levelWidth;
+		int lh = levelHeight;
+
 		float x;
 		float z;
 		
 		if (side1) { 
 			z = (side2 ? levelHeight : -levelHeight) / 2; // Começa ou no topo ou em baixo
 			//x = ((Math.random() * this.levelWidth * 2) - this.levelWidth) / 2;
-			x = ((rand() * levelWidth * 2) - levelWidth) / 2;
+			////int randNum = rand()%(max-min + 1) + min;
+			//x = ((rand() * levelWidth * 2) - levelWidth) / 2;
+			x = rand() % (lw - (-lw) + 1) + lw;
 		}
 		else { 
 			x = (side2 ? levelWidth : -levelWidth) / 2; // Começa a esquerda ou a direita
 			//z = ((Math.random() * this.levelHeight * 2) - this.levelHeight) / 2;
-			z = ((rand() * levelHeight * 2) - levelHeight) / 2;
+			//z = ((rand() * levelHeight * 2) - levelHeight) / 2;
+			z = rand() % (lh - (-lh) + 1) + lh;
 		}
 
 		return glm::vec3(x, 0, z);
@@ -137,7 +138,7 @@ namespace AVTEngine
 		DynamicEntity::reset();
 
 		position = initialPos;
-		orangeRotation(-rotationAccum); // roda no sentido contrario da soma de todas as rotacoes, ou seja, volta ao inicial
+		//orangeRotation(-rotationAccum); // roda no sentido contrario da soma de todas as rotacoes, ou seja, volta ao inicial
 
 		velocity = getRandomRate() * 10;
 		setPosition(getRandomPosition());
@@ -147,7 +148,7 @@ namespace AVTEngine
 	}
 
 	void Orange::kill() {
-		orangeRotation(-rotationAccum);
+		//orangeRotation(-rotationAccum);
 		setPosition(getRandomPosition());
 		position.y = ORANGE_DEFAULT_RADIUS;
 		setOrientation(getDirection(getPosition()));

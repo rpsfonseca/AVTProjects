@@ -72,6 +72,18 @@ namespace AVTEngine
 		orientation = glm::rotateY(orientation, angle_);
 	}
 
+	void Entity::orangeRotate(float angle_, glm::vec3 axis_) {
+
+		rotationAccum += angle_;
+
+		//Rotate model
+		glm::quat quaternion = glm::angleAxis(rotationAccum, axis_);
+		node->setRotation(quaternion);
+
+		//Also update orientation, for movement calculation purposes
+		orientation = glm::rotateY(orientation, angle_);
+	}
+
 	void Entity::setMesh(Mesh* mesh_) {
 		mesh = mesh_;
 	}

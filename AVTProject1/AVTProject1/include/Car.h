@@ -23,11 +23,9 @@ namespace AVTEngine
 
 	public:
 
-		Car(SceneNode *node_, Shader *shader_, Mesh *mesh_, glm::vec3 startPos_, float rotation_);
-		Car() = default;
-
-		//TODO teste
 		Car(SceneNode *node_, glm::vec3 startPos_, float rotation_);
+		Car() = default;
+		
 
 		glm::vec3 initialPos;
 

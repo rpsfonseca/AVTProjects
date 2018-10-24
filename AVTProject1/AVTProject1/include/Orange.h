@@ -21,19 +21,13 @@ namespace AVTEngine
 
 	public:
 
-		Orange(SceneNode *node_, Shader *shader_, Mesh *mesh_, float levelWidth_, float levelHeight_);
+		Orange(SceneNode *node_, float levelWidth_, float levelHeight_);
 		Orange() = default;
 
 		glm::vec3 initialPos;
 
 		float levelWidth;
 		float levelHeight;
-
-		/*
-		Light spotlight1;
-		Light spotlight2;
-		*/
-
 		float increaseSpeedTimer;
 		float respawnTimer;
 		bool dead;
