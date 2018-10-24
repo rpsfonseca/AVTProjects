@@ -4,9 +4,7 @@
 namespace AVTEngine
 {
 
-	Cheerio::Cheerio(SceneNode *node_, Shader *shader_, Mesh *mesh_, glm::vec3 startPos_) {
-
-		DynamicEntity::DynamicEntity(node_, shader_, mesh_, glm::vec3(0, 1, 0), CHEERIO_MAX_VELOCITY, CHEERIO_MAX_TURNRATE);
+	Cheerio::Cheerio(SceneNode *node_, glm::vec3 startPos_) : DynamicEntity::DynamicEntity(node_, startPos_, CHEERIO_MAX_VELOCITY, CHEERIO_MAX_TURNRATE) {
 
 		initialPos = startPos_;
 

@@ -36,7 +36,7 @@ namespace AVTEngine
 
 	bool Entity::isMoving()
 	{
-		return false;
+		return false; //TODO change this, or else objects don't slow down
 	}
 
 	glm::vec3 Entity::getOrientation() {

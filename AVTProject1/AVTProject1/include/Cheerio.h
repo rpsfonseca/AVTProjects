@@ -23,7 +23,7 @@ namespace AVTEngine
 
 	public:
 
-		Cheerio(SceneNode *node_, Shader *shader_, Mesh *mesh_, glm::vec3 startPos_);
+		Cheerio(SceneNode *node_, glm::vec3 startPos_);
 		Cheerio();
 
 		glm::vec3 initialPos;
