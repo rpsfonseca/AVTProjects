@@ -171,10 +171,9 @@ namespace AVTEngine
 		std::cout << "Orange collision\n";
 
 		//stop car
-		//Application::getInstance()->getGameState()->lives--;
-		//car->reset();
-		car->setPosition(glm::vec3(0, 0, -50));
-		return true;
+		Application::getInstance()->getGameState().lives--;
+		car->reset();
+		return false;
 	}
 
 }
