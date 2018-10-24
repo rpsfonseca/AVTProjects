@@ -3,7 +3,7 @@
 namespace AVTEngine
 {
 	struct GameState {
-		int lives = 0;
+		int lives = 5;
 		int points = 0;
 		bool paused = false;
 	};

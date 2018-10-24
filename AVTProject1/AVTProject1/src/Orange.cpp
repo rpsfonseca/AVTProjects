@@ -1,4 +1,6 @@
 #include "Orange.h"
+#include "Car.h"
+#include "Application.h"
 
 
 namespace AVTEngine
@@ -155,6 +157,24 @@ namespace AVTEngine
 		dead = true;
 		visible = false;
 		respawnTimer = TEMPO_REAPARECER_LARANJAS;
+	}
+
+	AABB Orange::getBoundingBox() {
+		auto position = node->position;
+		return AABB(
+			position.x - 1.5f, position.x + 1.5f,
+			position.y - 1.f, position.y + 1.f,
+			position.z - 1.5f, position.z + 1.5f);
+	}
+
+	bool Orange::handleCarCollision(Car* car) {
+		std::cout << "Orange collision\n";
+
+		//stop car
+		//Application::getInstance()->getGameState()->lives--;
+		//car->reset();
+		car->setPosition(glm::vec3(0, 0, -50));
+		return true;
 	}
 
 }

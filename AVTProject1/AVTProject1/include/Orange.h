@@ -47,6 +47,9 @@ namespace AVTEngine
 		void reset();
 		void kill();
 
+		AABB getBoundingBox() override;
+		bool handleCarCollision(Car* car) override;
+
 	};
 }
 
