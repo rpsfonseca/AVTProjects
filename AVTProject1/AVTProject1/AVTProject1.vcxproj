@@ -156,6 +156,7 @@
     <ClCompile Include="src\HUD.cpp" />
     <ClCompile Include="src\GameState.cpp" />
     <ClCompile Include="src\load_bmp.cpp" />
+    <ClCompile Include="src\MaterialLibrary.cpp" />
     <ClCompile Include="src\node.cpp" />
     <ClCompile Include="src\OBJLoader.cpp" />
     <ClCompile Include="src\Orange.cpp" />
@@ -172,6 +173,8 @@
     <ClCompile Include="src\ResourcesManager.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\StaticEntity.cpp" />
+    <ClCompile Include="src\Texture.cpp" />
+    <ClCompile Include="src\TextureLoader.cpp" />
     <ClCompile Include="src\TextureMappedFont.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -191,6 +194,7 @@
     <ClInclude Include="include\Input.h" />
     <ClInclude Include="include\load_bmp.h" />
     <ClInclude Include="include\Material.h" />
+    <ClInclude Include="include\MaterialLibrary.h" />
     <ClInclude Include="include\Mesh.h" />
     <ClInclude Include="include\Model.h" />
     <ClInclude Include="include\OBJLoader.h" />
@@ -205,6 +209,8 @@
     <ClInclude Include="include\StringUtils.h" />
     <ClInclude Include="include\node.h" />
     <ClInclude Include="include\scene.h" />
+    <ClInclude Include="include\Texture.h" />
+    <ClInclude Include="include\TextureLoader.h" />
     <ClInclude Include="include\TextureMappedFont.h" />
   </ItemGroup>
   <ItemGroup>

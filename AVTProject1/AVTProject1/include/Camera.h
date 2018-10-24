@@ -17,6 +17,7 @@ namespace AVTEngine
 
 		glm::mat4 getProjection() { return projection; }
 		virtual glm::mat4 getView() = 0;
+		virtual glm::vec3 getPosition() = 0;
 
 		glm::mat4 getViewProjection() { return getProjection() * getView(); }
 
@@ -32,6 +33,9 @@ namespace AVTEngine
 		glm::mat4 getView() override {
 			return view;
 		}
+		glm::vec3 getPosition() override {
+			return view[3];
+		}
 	};
 
 	class ArcballCamera : public Camera {
@@ -39,6 +43,9 @@ namespace AVTEngine
 		using Camera::Camera;
 		glm::mat4 getView() override {
 			return glm::lookAt(position + arcBallOffset, position, glm::vec3(0, 1, 0));
+		}
+		glm::vec3 getPosition() override {
+			return position + arcBallOffset;
 		}
 	};
 }

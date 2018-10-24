@@ -5,6 +5,7 @@
 #include <map>
 
 #include "Entity.h"
+#include "Car.h"
 
 /*
 #include "graphics\camera\camera.hpp"
@@ -19,6 +20,7 @@ namespace AVTEngine
 	class Mesh;
 	class Material;
 	class Renderer;
+	class Car;
 
 	/**
 	*	Scene is a specific kind of node. It's the head of the scene graph. Houses a camera and a set of nodes.
@@ -38,6 +40,8 @@ namespace AVTEngine
 		std::map<std::string, SceneNode*> nodes; /** Hashtable to store all scene nodes */
 		std::map<std::string, Entity*> entities; /** Hashtable to store all entities */
 
+		Car* car;
+
 		Renderer* renderer;
 
 		//TODO teste
@@ -49,8 +53,12 @@ namespace AVTEngine
 		Scene();
 
 		static SceneNode* createSceneNode(Mesh* mesh, Material* material);
-		static Entity* createCar(SceneNode* node_, glm::vec3 startPos_, float rotation_);
+		//static Entity* createCar(SceneNode* node_, glm::vec3 startPos_, float rotation_);
 		static Entity* createCheerio(SceneNode* node_, glm::vec3 startPos_);
+		static Car* createCar(SceneNode* node_, glm::vec3 startPos_, float rotation_);
+
+		Car* getCar() { return car; }
+
 
 		void setupSceneManager();
 

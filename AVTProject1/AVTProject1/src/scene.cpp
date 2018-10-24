@@ -33,9 +33,9 @@ namespace AVTEngine
 		return node;
 	}
 
-	Entity* Scene::createCar(SceneNode* node_, glm::vec3 startPos_, float rotation_)
+	Car* Scene::createCar(SceneNode* node_, glm::vec3 startPos_, float rotation_)
 	{
-		Entity* car = new Car(node_, startPos_, rotation_);
+		Car* car = new Car(node_, startPos_, rotation_);
 
 		return car;
 	}
@@ -103,7 +103,7 @@ namespace AVTEngine
 		Mesh* testMesh2 = ResourcesManager::loadOBJ("car_with_wheels");
 		SceneNode* planeNode2 = Scene::createSceneNode(testMesh2, new Material("basic"));
 		glm::vec3 teste = glm::vec3(0);
-		Entity* car = Scene::createCar(planeNode2, teste, 0);
+		car = Scene::createCar(planeNode2, teste, 0);
 
 		planeNode2->material->setAmbient(glm::vec3(1.f, 0.5f, 0.31f));
 		planeNode2->material->setDiffuse(glm::vec3(1.0f, 0.5f, 0.31f));

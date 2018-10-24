@@ -4,11 +4,15 @@
 #include "Mesh.h"
 #include "OBJLoader.h"
 #include "Shader.h"
+//#include "Texture.h"
+#include "TextureLoader.h"
 
 namespace AVTEngine
 {
 	std::string ResourcesManager::resourcesPath = "";
 	std::map<std::string, Shader> ResourcesManager::shaders = std::map<std::string, Shader>();
+	std::map<std::string, Mesh*> ResourcesManager::meshes = std::map<std::string, Mesh*>();
+	std::map<std::string, Texture> ResourcesManager::textures = std::map<std::string, Texture>();
 
 	void ResourcesManager::init()
 	{
@@ -34,5 +38,25 @@ namespace AVTEngine
 		modelPath += filename + ".obj";
 		OBJLoader loader = OBJLoader(modelPath);
 		return loader.toMesh();
+	}
+
+	Texture* ResourcesManager::loadTexture(std::string textureName, std::string path, GLenum target, GLenum format, bool srgb)
+	{
+		// if texture already exists, return that handle
+		if (ResourcesManager::textures.find(textureName) != ResourcesManager::textures.end())
+			return &ResourcesManager::textures[textureName];
+
+		Texture texture = TextureLoader::loadTexture(path, target, format, srgb);
+
+		// make sure texture got properly loaded
+		if (texture.width > 0)
+		{
+			ResourcesManager::textures[textureName] = texture;
+			return &ResourcesManager::textures[textureName];
+		}
+		else
+		{
+			return nullptr;
+		}
 	}
 }
