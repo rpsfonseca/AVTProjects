@@ -28,6 +28,11 @@ namespace AVTEngine
 		*/
 	};
 
+	//Butter
+	DynamicEntity::DynamicEntity(SceneNode *node_, glm::vec3 startPos_) : Entity(node_) {
+		setPosition(startPos_);
+	};
+
 
 	void DynamicEntity::integrate(float accel_, float turnRate_, float delta_) { //Delta makes it fps independent
 

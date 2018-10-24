@@ -10,6 +10,7 @@
 #include "Car.h"
 #include "Cheerio.h"
 #include "Orange.h"
+#include "Butter.h"
 
 #include <glm/glm.hpp>
 #include <GL/glew.h>
@@ -53,6 +54,13 @@ namespace AVTEngine
 		Entity* orange = new Orange(node_, levelWidth_, levelHeight_);
 
 		return orange;
+	}
+
+	Entity* Scene::createButter(SceneNode* node_, glm::vec3 startPos_)
+	{
+		Entity* butter = new Butter(node_, startPos_);
+
+		return butter;
 	}
 
 	// Sets up the scene manager.
@@ -150,6 +158,9 @@ namespace AVTEngine
 		for (int j = 0; j < NUM_ORANGES; j++) {
 			insertOrange(LEVEL_WIDTH, LEVEL_HEIGHT);
 		}
+
+		//Butters
+		insertButter(10, 0, 10);
 	}
 
 
@@ -292,6 +303,26 @@ namespace AVTEngine
 		rootSceneNode->addChild(a);
 		nodes.insert(std::pair<std::string, SceneNode*>("orange", a));
 		entities.insert(std::pair<std::string, Entity*>("orange", orange));
+	}
+
+	void Scene::insertButter(int x, int y, int z) {
+
+		Mesh* butterMesh = ResourcesManager::loadOBJ("untitled");
+		SceneNode* a = Scene::createSceneNode(butterMesh, new Material("basic"));
+		glm::vec3 posVec = glm::vec3(x, y, z);
+		Entity* butter = Scene::createButter(a, posVec);
+
+		a->material->setAmbient(glm::vec3(1.f, 1.f, 0.f));
+		a->material->setDiffuse(glm::vec3(1.0f, 1.f, 0.0f));
+		a->material->setSpecular(glm::vec3(1.f, 1.f, 1.f));
+		a->material->setShininess(90.f);
+
+		a->setPosition(posVec);
+		a->setScale(glm::vec3(1.8, 2, 3));
+
+		rootSceneNode->addChild(a);
+		nodes.insert(std::pair<std::string, SceneNode*>("butter", a));
+		entities.insert(std::pair<std::string, Entity*>("butter", butter));
 	}
 
 
