@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Texture.h"
+
 #include <map>
 #include "glm\glm.hpp"
 
@@ -20,6 +22,8 @@ namespace AVTEngine
 		Material();
 		Material(std::string shaderName);
 		Material(Shader* _shader);
+
+		void setTexture(std::string name, Texture* value, unsigned int unit = 0);
 
 		inline Shader* getShader() { return shader; };
 		inline glm::vec3 getAmbient() { return ambient; }
