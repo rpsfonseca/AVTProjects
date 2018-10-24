@@ -78,7 +78,11 @@ namespace AVTEngine
 		planeNode->material->setDiffuse(glm::vec3(1.0f, 0.5f, 0.31f));
 		planeNode->material->setSpecular(glm::vec3(0.5f, 0.5f, 0.5f));
 		planeNode->material->setShininess(32.f);
+<<<<<<< HEAD
+		planeNode->setPosition(glm::vec3(0.0f, -1.0f, 0.0f));
+=======
 		planeNode->setPosition(glm::vec3(0.0f, -2.0f, 0.0f));
+>>>>>>> origin/master
 		planeNode->setScale(glm::vec3(10, 1, 10));
 		/*planeNode->setScale(Vec3(4.0f));
 		planeNode->model->setPosition(Vec3(0, 0, -1.0f));
