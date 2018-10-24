@@ -15,7 +15,7 @@ namespace AVTEngine
 	int startX, startY, tracking = 0;
 	// Camera Spherical Coordinates
 	float alpha = 39.0f, beta = 51.0f;
-	float r = 5.0f; // distance to center
+	float r = 10.0f; // distance to center
 
 	Input::Input()
 	{

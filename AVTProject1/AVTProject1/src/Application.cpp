@@ -188,7 +188,7 @@ namespace AVTEngine
 		float deltaTime = timeSinceStart - oldTimeSinceStart;
 		oldTimeSinceStart = timeSinceStart;
 
-
+		getInstance()->followCamera.setPosition(getInstance()->scene->car->getPosition());
 		getInstance()->renderer->currentCamera = getInstance()->currentCamera;
 		getInstance()->renderer->setProjectionMatrix(getInstance()->currentCamera->getProjection());
 		getInstance()->renderer->setViewMatrix(getInstance()->currentCamera->getView());
