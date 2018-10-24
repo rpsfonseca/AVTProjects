@@ -184,16 +184,17 @@ namespace AVTEngine
 
 	void Application::display() //Every frame
 	{
-		float timeSinceStart = glutGet(GLUT_ELAPSED_TIME);
+		float timeSinceStart = glutGet(GLUT_ELAPSED_TIME) / 1000.f;
 		float deltaTime = timeSinceStart - oldTimeSinceStart;
 		oldTimeSinceStart = timeSinceStart;
 
-
+		getInstance()->followCamera.setPosition(getInstance()->scene->car->getPosition());
 		getInstance()->renderer->currentCamera = getInstance()->currentCamera;
 		getInstance()->renderer->setProjectionMatrix(getInstance()->currentCamera->getProjection());
 		getInstance()->renderer->setViewMatrix(getInstance()->currentCamera->getView());
 
 		getInstance()->scene->updateEntities(deltaTime);
+		getInstance()->scene->pushToRender();
 		getInstance()->renderer->preDraw();
 		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		/*if (renderFunction != nullptr)

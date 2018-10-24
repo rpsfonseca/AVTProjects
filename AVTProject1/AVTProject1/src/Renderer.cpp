@@ -110,6 +110,8 @@ namespace AVTEngine
 			renderCommand(&renderCommands[i], currentCamera);
 		}
 
+		commandBuffer->clear();
+
 		OpenGLError::checkOpenGLError("ERROR: Could not draw scene.");
 	}
 
@@ -161,7 +163,7 @@ namespace AVTEngine
 		// setup view for light calculations
 		if (camera != nullptr)
 		{
-			material->getShader()->setVec3("viewPos", camera->position + camera->arcBallOffset);
+			material->getShader()->setVec3("viewPos", camera->getPosition());
 		}
 
 		// setup lights
