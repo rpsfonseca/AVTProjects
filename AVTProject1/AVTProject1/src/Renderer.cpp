@@ -235,7 +235,7 @@ namespace AVTEngine
 		auto orientationNormalized = car->getOrientation();
 		
 		// spotLight
-		material->getShader()->setVec3("spotLight.position", car->getPosition() + glm::rotateY(orientationNormalized, 90.f) * 2);
+		material->getShader()->setVec3("spotLight.position", car->getPosition() + glm::rotateY(orientationNormalized, 90.f) * 1.2f + glm::vec3(0, .5f, 0));
 		material->getShader()->setVec3("spotLight.direction", glm::fastNormalize(car->getOrientation()));
 		material->getShader()->setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
 		material->getShader()->setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
@@ -246,7 +246,7 @@ namespace AVTEngine
 		material->getShader()->setFloat("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
 		material->getShader()->setFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
 		// spotLight 2
-		material->getShader()->setVec3("spotLight2.position", car->getPosition() + glm::rotateY(orientationNormalized, -90.f) * 2);
+		material->getShader()->setVec3("spotLight2.position", car->getPosition() + glm::rotateY(orientationNormalized, -90.f) * 1.2f + glm::vec3(0, .5f, 0));
 		material->getShader()->setVec3("spotLight2.direction", glm::fastNormalize(car->getOrientation()));
 		material->getShader()->setVec3("spotLight2.ambient", 0.0f, 0.0f, 0.0f);
 		material->getShader()->setVec3("spotLight2.diffuse", 1.0f, 1.0f, 1.0f);
