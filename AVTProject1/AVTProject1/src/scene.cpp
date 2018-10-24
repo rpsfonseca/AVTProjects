@@ -111,7 +111,7 @@ namespace AVTEngine
 		planeNode2->material->setDiffuse(glm::vec3(0.0f, 0.8f, 1.f));
 		planeNode2->material->setSpecular(glm::vec3(0.0f, 0.8f, 1.f));
 		planeNode2->material->setShininess(100.f);
-		planeNode2->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+		planeNode2->setPosition(glm::vec3(0.0f, -1.0f, 0.0f));
 		/*planeNode->setScale(Vec3(4.0f));
 		planeNode->model->setPosition(Vec3(0, 0, -1.0f));
 		planeNode->model->setRotation(0.0f);
@@ -124,13 +124,13 @@ namespace AVTEngine
 
 
 		//Track
-		/*
+		
 		//Outter Lines
 		createStraightLine(-70, 70, -60, -60, 1);
-		createStraightLine(-70, 70, 60, 60, 1);
-		createStraightLine(-70, -70, -60, 60, 0);
+		//createStraightLine(-70, 70, 60, 60, 1);
+		//createStraightLine(-70, -70, -60, 60, 0);
 		createStraightLine(70, 70, -60, 60, 0);
-
+		/*
 		//Inner Lines
 		createStraightLine(-50, 50, -40, -40, 1);
 		createStraightLine(-50, 50, 40, 40, 1);
@@ -240,6 +240,8 @@ namespace AVTEngine
 		
 	}
 
+	int cheerioId = 0;
+
 	void Scene::insertCheerio(int x, int y, int z) {
 
 		Mesh* cheerioMesh = ResourcesManager::loadOBJ("torus");
@@ -254,7 +256,9 @@ namespace AVTEngine
 		a->setPosition(posVec);
 
 		rootSceneNode->addChild(a);
-		nodes.insert(std::pair<std::string, SceneNode*>("cheerio", a));
-		entities.insert(std::pair<std::string, Entity*>("cheerio", cheerio));
+		std::string id = "cheerio" + std::to_string(cheerioId);
+		cheerioId++;
+		nodes.insert(std::pair<std::string, SceneNode*>(id, a));
+		entities.insert(std::pair<std::string, Entity*>(id, cheerio));
 	}
 }

@@ -1,4 +1,7 @@
 #include "Car.h"
+#include "Entity.h"
+#include "scene.h"
+#include <utility>
 
 
 namespace AVTEngine
@@ -61,7 +64,7 @@ namespace AVTEngine
 		else if (Input::isKeyDown('p')) { //seta direita
 			turnRate = -maxTurnRate;
 		}
-		
+
 		float accel = 0;
 
 		/* Speed input */
@@ -72,9 +75,36 @@ namespace AVTEngine
 		else if (Input::isKeyDown('a')) { //seta abaixo
 			accel = -deceleration;
 		}
-		
+
 		//Update
+		auto oldPos = getPosition();
 		DynamicEntity::integrate(accel, turnRate, delta_);
+
+		// check collisions
+		auto myAABB = getBoundingBox();
+
+		for (std::map<std::string, Entity*>::iterator it = Application::getInstance()->scene->entities.begin();
+			it != Application::getInstance()->scene->entities.end();
+			++it)
+		{
+			if (myAABB.collidesWith(it->second->getBoundingBox())) {
+				if (it->second->handleCarCollision(this)) {
+					// undo movement and stop moving
+					setPosition(oldPos);
+					velocity = 0;
+				}
+			}
+		}
 	}
 
+	AABB Car::getBoundingBox() {
+		return AABB(
+			position.x - 3.f,
+			position.x + 3.f,
+			position.y,
+			position.y + 3.f,
+			position.z - 3.f,
+			position.z + 3.f
+			);
+	}
 }

@@ -29,7 +29,9 @@ namespace AVTEngine
 		glm::vec3 initialPos;
 
 		void reset();
+		AABB getBoundingBox() override;
 		void update(float delta);
+		bool handleCarCollision(Car* car) override;
 	};
 }
 

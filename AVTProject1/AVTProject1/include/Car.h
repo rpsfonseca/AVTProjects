@@ -39,6 +39,8 @@ namespace AVTEngine
 		void reset();
 		void update(float delta);
 
+		AABB getBoundingBox() override;
+
 	};
 }
 

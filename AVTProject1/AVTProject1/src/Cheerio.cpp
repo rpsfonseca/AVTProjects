@@ -1,5 +1,5 @@
 #include "Cheerio.h"
-
+#include "Car.h"
 
 namespace AVTEngine
 {
@@ -32,5 +32,21 @@ namespace AVTEngine
 	void Cheerio::reset() {
 		DynamicEntity::reset();
 		setPosition(initialPos); //Voltar à posição inicial do cheerio
+	}
+
+	AABB Cheerio::getBoundingBox() {
+		auto position = node->position;
+		return AABB(
+			position.x - 1.5f, position.x + 1.5f,
+			position.y - 1.f, position.y + 1.f,
+			position.z - 1.5f, position.z + 1.5f);
+	}
+
+	bool Cheerio::handleCarCollision(Car* car) {
+		std::cout << "cheerio collision\n";
+		// move a little
+		auto playerDirection = glm::normalize(this->getPosition() - car->getPosition());
+		this->setPosition(this->getPosition() + playerDirection);
+		return true;
 	}
 }
