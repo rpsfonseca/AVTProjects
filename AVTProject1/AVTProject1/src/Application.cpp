@@ -188,12 +188,14 @@ namespace AVTEngine
 		float deltaTime = timeSinceStart - oldTimeSinceStart;
 		oldTimeSinceStart = timeSinceStart;
 
+		if(!getInstance()->gameState.paused)
+			getInstance()->scene->updateEntities(deltaTime);
+
 		getInstance()->followCamera.setPosition(getInstance()->scene->car->getPosition());
 		getInstance()->renderer->currentCamera = getInstance()->currentCamera;
 		getInstance()->renderer->setProjectionMatrix(getInstance()->currentCamera->getProjection());
 		getInstance()->renderer->setViewMatrix(getInstance()->currentCamera->getView());
 
-		getInstance()->scene->updateEntities(deltaTime);
 		getInstance()->scene->pushToRender();
 		getInstance()->renderer->preDraw();
 		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

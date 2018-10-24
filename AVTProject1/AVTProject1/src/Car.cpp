@@ -56,32 +56,22 @@ namespace AVTEngine
 		float turnRate = 0;
 
 		/* Turn inputs */
-		if (Input::isKeyDown('a')) { //seta esquerda
+		if (Input::isKeyDown('o')) { //seta esquerda
 			turnRate = maxTurnRate;
-			printf("tecla A");
 		}
-		else if (Input::isKeyDown('d')) { //seta direita
+		else if (Input::isKeyDown('p')) { //seta direita
 			turnRate = -maxTurnRate;
 		}
 		
 		float accel = 0;
 
 		/* Speed input */
-		if (Input::isKeyDown('w')) { //seta acima
+		if (Input::isKeyDown('q')) { //seta acima
 			accel = acceleration;
 			//printf();
 		}
-		else if (Input::isKeyDown('s')) { //seta abaixo
+		else if (Input::isKeyDown('a')) { //seta abaixo
 			accel = -deceleration;
-		}
-
-		/* TODO Lights input */
-		if (Input::isKeyDown(72)) { //tecla H //Turn lights on or off
-			/*
-			keyboard.unpressKey(TECLA_H);
-			this.spotLight1.intensity = 1 - this.spotLight1.intensity;
-			this.spotLight2.intensity = 1 - this.spotLight2.intensity;
-			*/
 		}
 		
 		//Update
