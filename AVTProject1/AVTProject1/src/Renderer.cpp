@@ -170,12 +170,12 @@ namespace AVTEngine
 
 		// setup lights
 		glm::vec3 pointLightPositions[] = {
-			glm::vec3(0.7f,  0.2f,  2.0f),
-			glm::vec3(2.3f, -3.3f, -4.0f),
-			glm::vec3(-4.0f,  2.0f, -12.0f),
-			glm::vec3(0.0f,  0.0f, -3.0f),
-			glm::vec3(5.0f,  3.0f, -7.0f),
-			glm::vec3(-3.0f,  1.0f, -2.0f)
+			glm::vec3(7.f,  0.f,  2.0f),
+			glm::vec3(30.f, 0.f, -40.0f),
+			glm::vec3(40.0f,  0.f, -30.0f),
+			glm::vec3(25.0f,  0.0f, 25.0f),
+			glm::vec3(-37.0f,  0.0f, 45.0f),
+			glm::vec3(10.f,  0.0f, -10.0f)
 		};
 
 		material->getShader()->setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
