@@ -163,7 +163,7 @@ namespace AVTEngine
 		// setup view for light calculations
 		if (camera != nullptr)
 		{
-			material->getShader()->setVec3("viewPos", camera->position + camera->arcBallOffset);
+			material->getShader()->setVec3("viewPos", camera->getPosition());
 		}
 
 		// setup lights
