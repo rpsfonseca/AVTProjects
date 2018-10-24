@@ -6,6 +6,8 @@
 #include "Camera.h"
 #include "node.h"
 #include "OpenGLError.h"
+#include "Application.h"
+#include "scene.h"
 
 #include <glm/ext.hpp>
 
@@ -228,9 +230,13 @@ namespace AVTEngine
 		material->getShader()->setFloat("pointLights[5].constant", 1.0f);
 		material->getShader()->setFloat("pointLights[5].linear", 0.09);
 		material->getShader()->setFloat("pointLights[5].quadratic", 0.032);
+
+		auto* car = Application::getInstance()->scene->getCar();
+		auto orientationNormalized = car->getOrientation();
+		
 		// spotLight
-		material->getShader()->setVec3("spotLight.position", glm::vec3(0));
-		material->getShader()->setVec3("spotLight.direction", glm::fastNormalize(glm::vec3(1)));
+		material->getShader()->setVec3("spotLight.position", car->getPosition() + glm::rotateY(orientationNormalized, 90.f) * 2);
+		material->getShader()->setVec3("spotLight.direction", glm::fastNormalize(car->getOrientation()));
 		material->getShader()->setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
 		material->getShader()->setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
 		material->getShader()->setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
@@ -240,8 +246,8 @@ namespace AVTEngine
 		material->getShader()->setFloat("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
 		material->getShader()->setFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
 		// spotLight 2
-		material->getShader()->setVec3("spotLight2.position", glm::vec3(0));
-		material->getShader()->setVec3("spotLight2.direction", glm::fastNormalize(glm::vec3(1)));
+		material->getShader()->setVec3("spotLight2.position", car->getPosition() + glm::rotateY(orientationNormalized, -90.f) * 2);
+		material->getShader()->setVec3("spotLight2.direction", glm::fastNormalize(car->getOrientation()));
 		material->getShader()->setVec3("spotLight2.ambient", 0.0f, 0.0f, 0.0f);
 		material->getShader()->setVec3("spotLight2.diffuse", 1.0f, 1.0f, 1.0f);
 		material->getShader()->setVec3("spotLight2.specular", 1.0f, 1.0f, 1.0f);
