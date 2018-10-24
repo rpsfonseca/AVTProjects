@@ -39,6 +39,7 @@ namespace AVTEngine
 		void integrate(float accel_, float turnRate_, float delta_); //Update velocity and rotation
 		void reset();
 		int getRandomRate();
+		bool isMoving();
 	};
 }
 

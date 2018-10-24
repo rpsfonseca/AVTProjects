@@ -8,7 +8,7 @@ namespace AVTEngine
 	DynamicEntity::DynamicEntity(SceneNode *node_, Shader *shader_, Mesh *mesh_, glm::vec3 startPos_, int maxVelocity_, int maxTurnRate_) : 
 		maxVelocity(maxVelocity_), maxTurnRate(maxTurnRate_) {
 
-		Entity::Entity(shader_, mesh_, 100, 3, glm::vec3(1, 0, 0));
+		Entity::Entity(shader_, mesh_, 60, 3, glm::vec3(1, 0, 0));
 		setPosition(startPos_);
 		orientation = glm::vec3(1, 0, 0);
 		maxTurnRate = maxTurnRate_;
@@ -38,7 +38,7 @@ namespace AVTEngine
 		//Calculate Speed
 		velocity += accel_ * delta_;
 		if (isMoving()) {
-			velocity *= 0.995;	// Aplica forca de atrito para desacelarar 
+			velocity *= 0.98;	// Aplica forca de atrito para desacelarar 
 		}
 
 		if (abs(velocity) < abs(minVelocity)) { //Forces car to stop
@@ -66,6 +66,11 @@ namespace AVTEngine
 		int max = 5;
 		int randNum = rand() % (max - min + 1) + min;
 		return randNum;
+	}
+
+	bool DynamicEntity::isMoving()
+	{
+		return abs(velocity) > minVelocity;
 	}
 
 }

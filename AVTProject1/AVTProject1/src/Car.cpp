@@ -13,8 +13,7 @@ namespace AVTEngine
 		deceleration = 10;
 		initialPos = startPos_;
 
-		minVelocity = 0.1; // Velocidade para qual o algoritmo arredonda para 0
-		minDrag = MIN_DRAG; // Forca minima de fricao
+		minVelocity = 0.2; // Velocidade para qual o algoritmo arredonda para 0
 
 		rotate(rotation_);
 		//TODO SceneNode.add(this); Adicionar o carro à cena?

@@ -74,7 +74,6 @@ namespace AVTEngine
 		void disable(); 
 		void enable();
 		bool isDisabled();
-		bool isMoving();
 		glm::vec3 getOrientation();
 		glm::vec3 getPosition();
 		void setPosition(glm::vec3 position_);
