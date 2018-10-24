@@ -9,6 +9,7 @@
 #include "Cube.h"
 #include "Car.h"
 #include "Cheerio.h"
+#include "Orange.h"
 
 #include <glm/glm.hpp>
 #include <GL/glew.h>
@@ -45,6 +46,13 @@ namespace AVTEngine
 		Entity* cheerio = new Cheerio(node_, startPos_);
 
 		return cheerio;
+	}
+
+	Entity* Scene::createOrange(SceneNode* node_, float levelWidth_, float levelHeight_)
+	{
+		Entity* orange = new Orange(node_, levelWidth_, levelHeight_);
+
+		return orange;
 	}
 
 	// Sets up the scene manager.
@@ -101,7 +109,7 @@ namespace AVTEngine
 		rootSceneNode->addChild(planeNode2);*/
 
 
-		//TODO teste com o carro
+		//Carro
 		Mesh* testMesh2 = ResourcesManager::loadOBJ("car_with_wheels");
 		SceneNode* planeNode2 = Scene::createSceneNode(testMesh2, new Material("basic"));
 		glm::vec3 teste = glm::vec3(0);
@@ -137,6 +145,11 @@ namespace AVTEngine
 		createStraightLine(-50, -50, -40, 40, 0);
 		createStraightLine(50, 50, -40, 40, 0);
 		*/
+
+		//Oranges
+		for (int j = 0; j < NUM_ORANGES; j++) {
+			insertOrange(LEVEL_WIDTH, LEVEL_HEIGHT);
+		}
 	}
 
 
@@ -257,4 +270,25 @@ namespace AVTEngine
 		nodes.insert(std::pair<std::string, SceneNode*>("cheerio", a));
 		entities.insert(std::pair<std::string, Entity*>("cheerio", cheerio));
 	}
+
+	void Scene::insertOrange(float levelWidth_, float levelHeight_) {
+
+		Mesh* orangeMesh = ResourcesManager::loadOBJ("orange");
+		SceneNode* a = Scene::createSceneNode(orangeMesh, new Material("basic"));
+		Entity* orange = Scene::createOrange(a, levelWidth_, levelHeight_);
+
+		a->material->setAmbient(glm::vec3(1.f, 1.f, 0.f));
+		a->material->setDiffuse(glm::vec3(1.0f, 1.f, 0.0f));
+		a->material->setSpecular(glm::vec3(1.f, 1.f, 1.f));
+		a->material->setShininess(64.f);
+
+		glm::vec3 posVec = glm::vec3(1);
+		a->setPosition(posVec);
+
+		rootSceneNode->addChild(a);
+		nodes.insert(std::pair<std::string, SceneNode*>("orange", a));
+		entities.insert(std::pair<std::string, Entity*>("orange", orange));
+	}
+
+
 }

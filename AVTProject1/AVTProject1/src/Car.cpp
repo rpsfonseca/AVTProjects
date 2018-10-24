@@ -4,21 +4,6 @@
 namespace AVTEngine
 {
 
-	Car::Car(SceneNode *node_, Shader *shader_, Mesh *mesh_, glm::vec3 startPos_, float rotation_){
-
-		DynamicEntity::DynamicEntity(node_, shader_, mesh_, glm::vec3(1, 0, 0), CAR_MAX_VELOCITY, CAR_MAX_TURNRATE);
-
-		
-		acceleration = 20;
-		deceleration = 10;
-		initialPos = startPos_;
-
-		minVelocity = 0.2; // Velocidade para qual o algoritmo arredonda para 0
-
-		rotate(rotation_);
-		//TODO SceneNode.add(this); Adicionar o carro à cena?
-	};
-
 	//TODO teste
 	Car::Car(SceneNode *node_, glm::vec3 startPos_, float rotation_) : DynamicEntity(node_, glm::vec3(1, 0, 0), CAR_MAX_VELOCITY, CAR_MAX_TURNRATE) {
 
@@ -27,7 +12,6 @@ namespace AVTEngine
 		initialPos = startPos_;
 
 		minVelocity = 0.1; // Velocidade para qual o algoritmo arredonda para 0
-		minDrag = MIN_DRAG; // Forca minima de fricao
 
 		rotate(rotation_);
 	};
