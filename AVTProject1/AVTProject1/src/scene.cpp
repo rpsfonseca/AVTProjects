@@ -120,14 +120,14 @@ namespace AVTEngine
 		//Carro
 		Mesh* testMesh2 = ResourcesManager::loadOBJ("car_with_wheels");
 		SceneNode* planeNode2 = Scene::createSceneNode(testMesh2, new Material("basic"));
-		glm::vec3 teste = glm::vec3(0);
-		car = Scene::createCar(planeNode2, teste, 0);
+		glm::vec3 startPos = glm::vec3(0, 0, -50);
+		car = Scene::createCar(planeNode2, startPos, 0);
 
 		planeNode2->material->setAmbient(glm::vec3(0.f, 0.8f, 1.f));
 		planeNode2->material->setDiffuse(glm::vec3(0.0f, 0.8f, 1.f));
 		planeNode2->material->setSpecular(glm::vec3(0.0f, 0.8f, 1.f));
 		planeNode2->material->setShininess(100.f);
-		planeNode2->setPosition(glm::vec3(0.0f, -1.0f, 0.0f));
+		//planeNode2->setPosition(glm::vec3(0.0f, -1.0f, 0.0f));
 		/*planeNode->setScale(Vec3(4.0f));
 		planeNode->model->setPosition(Vec3(0, 0, -1.0f));
 		planeNode->model->setRotation(0.0f);
@@ -143,16 +143,16 @@ namespace AVTEngine
 		
 		//Outter Lines
 		createStraightLine(-70, 70, -60, -60, 1);
-		//createStraightLine(-70, 70, 60, 60, 1);
-		//createStraightLine(-70, -70, -60, 60, 0);
+		createStraightLine(-70, 70, 60, 60, 1);
+		createStraightLine(-70, -70, -60, 60, 0);
 		createStraightLine(70, 70, -60, 60, 0);
-		/*
+		
 		//Inner Lines
 		createStraightLine(-50, 50, -40, -40, 1);
 		createStraightLine(-50, 50, 40, 40, 1);
 		createStraightLine(-50, -50, -40, 40, 0);
 		createStraightLine(50, 50, -40, 40, 0);
-		*/
+		/**/
 
 		//Oranges
 		for (int j = 0; j < NUM_ORANGES; j++) {
@@ -161,6 +161,10 @@ namespace AVTEngine
 
 		//Butters
 		insertButter(10, 0, 10);
+		insertButter(-20, 0, -30);
+		insertButter(-20, 0, 30);
+		insertButter(20, 0, -30);
+		insertButter(20, 0, 30);
 	}
 
 
@@ -264,8 +268,8 @@ namespace AVTEngine
 		
 	}
 
-	int cheerioId = 0;
 
+	int cheerioId = 0;
 	void Scene::insertCheerio(int x, int y, int z) {
 
 		Mesh* cheerioMesh = ResourcesManager::loadOBJ("torus");
@@ -286,6 +290,8 @@ namespace AVTEngine
 		entities.insert(std::pair<std::string, Entity*>(id, cheerio));
 	}
 
+
+	int orangeId = 0;
 	void Scene::insertOrange(float levelWidth_, float levelHeight_) {
 
 		Mesh* orangeMesh = ResourcesManager::loadOBJ("orange");
@@ -297,14 +303,19 @@ namespace AVTEngine
 		a->material->setSpecular(glm::vec3(1.f, 1.f, 1.f));
 		a->material->setShininess(64.f);
 
-		glm::vec3 posVec = glm::vec3(1);
-		a->setPosition(posVec);
+		//glm::vec3 posVec = glm::vec3(1);
+		//a->setPosition(posVec);
 
 		rootSceneNode->addChild(a);
-		nodes.insert(std::pair<std::string, SceneNode*>("orange", a));
-		entities.insert(std::pair<std::string, Entity*>("orange", orange));
+		std::string id = "orange" + std::to_string(orangeId);
+		orangeId++;
+
+		nodes.insert(std::pair<std::string, SceneNode*>(id, a));
+		entities.insert(std::pair<std::string, Entity*>(id, orange));
 	}
 
+
+	int butterId = 0;
 	void Scene::insertButter(int x, int y, int z) {
 
 		Mesh* butterMesh = ResourcesManager::loadOBJ("untitled");
@@ -321,8 +332,11 @@ namespace AVTEngine
 		a->setScale(glm::vec3(1.8, 2, 3));
 
 		rootSceneNode->addChild(a);
-		nodes.insert(std::pair<std::string, SceneNode*>("butter", a));
-		entities.insert(std::pair<std::string, Entity*>("butter", butter));
+		std::string id = "butter" + std::to_string(butterId);
+		butterId++;
+
+		nodes.insert(std::pair<std::string, SceneNode*>(id, a));
+		entities.insert(std::pair<std::string, Entity*>(id, butter));
 	}
 
 

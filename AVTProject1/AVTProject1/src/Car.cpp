@@ -8,7 +8,7 @@ namespace AVTEngine
 {
 
 	//TODO teste
-	Car::Car(SceneNode *node_, glm::vec3 startPos_, float rotation_) : DynamicEntity(node_, glm::vec3(1, 0, 0), CAR_MAX_VELOCITY, CAR_MAX_TURNRATE) {
+	Car::Car(SceneNode *node_, glm::vec3 startPos_, float rotation_) : DynamicEntity(node_, startPos_, CAR_MAX_VELOCITY, CAR_MAX_TURNRATE) {
 
 		acceleration = 20;
 		deceleration = 10;

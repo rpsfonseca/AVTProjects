@@ -25,7 +25,7 @@ namespace AVTEngine {
 	#define CAR_DECELERATION 10
 
 	//Orange constants
-	#define ORANGE_DEFAULT_RADIUS 5
+	#define ORANGE_DEFAULT_RADIUS 2
 	#define TEMPO_REAPARECER_LARANJAS 3 // 3 segundos
 	#define TEMPO_ACELERAR_LARANJAS 5  // 5 segundos
 	#define MAX_ORANGE_RANDOM_ANGLE (M_PI / 6) //isto veio de JS

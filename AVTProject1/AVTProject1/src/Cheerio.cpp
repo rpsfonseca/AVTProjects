@@ -37,9 +37,9 @@ namespace AVTEngine
 	AABB Cheerio::getBoundingBox() {
 		auto position = node->position;
 		return AABB(
-			position.x - 1.5f, position.x + 1.5f,
+			position.x - 1.f, position.x + 1.f,
 			position.y - 1.f, position.y + 1.f,
-			position.z - 1.5f, position.z + 1.5f);
+			position.z - 1.f, position.z + 1.f);
 	}
 
 	bool Cheerio::handleCarCollision(Car* car) {
