@@ -143,7 +143,7 @@ namespace AVTEngine
 		
 		//Outter Lines
 		createStraightLine(-70, 70, -60, -60, 1);
-		createStraightLine(-70, 70, 60, 60, 1);
+		/*createStraightLine(-70, 70, 60, 60, 1);
 		createStraightLine(-70, -70, -60, 60, 0);
 		createStraightLine(70, 70, -60, 60, 0);
 		
@@ -152,7 +152,7 @@ namespace AVTEngine
 		createStraightLine(-50, 50, 40, 40, 1);
 		createStraightLine(-50, -50, -40, 40, 0);
 		createStraightLine(50, 50, -40, 40, 0);
-		/**/
+		*/
 
 		//Oranges
 		for (int j = 0; j < NUM_ORANGES; j++) {
