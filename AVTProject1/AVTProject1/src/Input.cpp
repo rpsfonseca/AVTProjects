@@ -87,6 +87,9 @@ namespace AVTEngine
 		case 'h':
 			Application::getInstance()->renderer->spotLightsOn = !Application::getInstance()->renderer->spotLightsOn;
 			break;
+		case 's':
+			Application::getInstance()->getGameState().paused = !Application::getInstance()->getGameState().paused;
+			break;
 		}
 	}
 

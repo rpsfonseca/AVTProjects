@@ -53,9 +53,12 @@ namespace AVTEngine
 		Scene();
 
 		static SceneNode* createSceneNode(Mesh* mesh, Material* material);
+		//static Entity* createCar(SceneNode* node_, glm::vec3 startPos_, float rotation_);
+		static Entity* createCheerio(SceneNode* node_, glm::vec3 startPos_);
 		static Car* createCar(SceneNode* node_, glm::vec3 startPos_, float rotation_);
 
 		Car* getCar() { return car; }
+
 
 		void setupSceneManager();
 
@@ -75,7 +78,8 @@ namespace AVTEngine
 		void setRenderer(Renderer* _renderer);
 
 		void updateEntities(float delta_);
-
+		void createStraightLine(int xin, int xfin, int zin, int zfin, int dir);
+		void insertCheerio(int x, int y, int z);
 	
 	};
 }
