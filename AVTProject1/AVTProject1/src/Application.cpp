@@ -188,8 +188,10 @@ namespace AVTEngine
 		float deltaTime = timeSinceStart - oldTimeSinceStart;
 		oldTimeSinceStart = timeSinceStart;
 
-		if(!getInstance()->gameState.paused)
+		if (!getInstance()->gameState.paused) {
 			getInstance()->scene->updateEntities(deltaTime);
+			getInstance()->getGameState().points++;
+		}
 
 		getInstance()->followCamera.setPosition(getInstance()->scene->car->getPosition());
 		getInstance()->renderer->currentCamera = getInstance()->currentCamera;
