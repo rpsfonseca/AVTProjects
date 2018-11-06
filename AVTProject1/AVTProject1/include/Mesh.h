@@ -37,10 +37,10 @@ namespace AVTEngine
 
 		void setUbo(unsigned int uboId);
 
-		unsigned int getIndicesSize();
-		unsigned int getVerticesSize();
-		unsigned int getNormalsSize();
-		unsigned int getUVsSize();
+		int getIndicesSize();
+		int getVerticesSize();
+		int getNormalsSize();
+		int getUVsSize();
 
 		glm::vec3 getPosition();
 		void setPosition(glm::vec3& pos);

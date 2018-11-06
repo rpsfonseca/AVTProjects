@@ -53,7 +53,7 @@ namespace AVTEngine
 		_shader.AddAttribute("vTexCoord");
 		_shader.AddUniform("texture0");
 		_shader.AddUniform("selected");*/
-		_shader.setInteger("texture0", 0);
+		_shader.setInteger("texture0", 2);
 		_shader.setInteger("selected", 0);
 		glUseProgram(0);
 		_fontSize = fontSize;
@@ -125,6 +125,7 @@ namespace AVTEngine
 
 		float texCoords[8];
 
+		glActiveTexture(GL_TEXTURE2);
 		glBindTexture(GL_TEXTURE_2D, _textureID);
 
 		GL_CHECK_ERRORS
@@ -177,6 +178,8 @@ namespace AVTEngine
 
 			GL_CHECK_ERRORS
 		}
+
+		glBindTexture(GL_TEXTURE_2D, 0);
 		glBindVertexArray(0);
 		GL_CHECK_ERRORS
 

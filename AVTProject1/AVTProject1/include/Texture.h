@@ -12,14 +12,14 @@ namespace AVTEngine
 	class Texture
 	{
 	public:
-		unsigned int id;
+		GLuint id;
 		// TODO(Joey): these should be private and only accessed w/ getters/setters s.t. we can 
 		// directly change the texture state where relevant from within the setters.
 		GLenum target = GL_TEXTURE_2D;           // what type of texture we're dealing with
-		GLenum internalFormat = GL_RGBA;                 // number of color components
-		GLenum format = GL_RGBA;                 // the format each texel is stored in
+		GLenum internalFormat = GL_RGB;                 // number of color components
+		GLenum format = GL_RGB;                 // the format each texel is stored in
 		GLenum type = GL_UNSIGNED_BYTE;
-		GLenum filterMin = GL_LINEAR_MIPMAP_LINEAR; // what filter method to use during minification
+		GLenum filterMin = GL_LINEAR; // what filter method to use during minification
 		GLenum filterMax = GL_LINEAR;               // what filter method to use during magnification
 		GLenum wrapS = GL_REPEAT;               // wrapping method of the S coordinate
 		GLenum wrapT = GL_REPEAT;               // wrapping method of the T coordinate
@@ -40,7 +40,7 @@ namespace AVTEngine
 		// resizes the texture; allocates new (empty) texture memory
 		void resize(unsigned int width, unsigned int height = 0, unsigned int depth = 0);
 
-		void bind(int unit = -1);
+		void bind(int unit = 0);
 		void unbind();
 
 		// update relevant texture state

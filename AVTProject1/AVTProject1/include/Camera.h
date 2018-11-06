@@ -10,7 +10,7 @@ namespace AVTEngine
 		glm::mat4 projection;
 		glm::mat4 view;
 		glm::vec3 position = glm::vec3(0, 0, -1);
-		glm::vec3 arcBallOffset = glm::vec3(0);
+		glm::vec3 arcBallOffset = glm::vec3(5);
 
 	public:
 		Camera(glm::mat4&& projection, glm::mat4&& view) : projection(projection), view(view) { }

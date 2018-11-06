@@ -1,6 +1,9 @@
 #include "Mesh.h"
 #include "GL\glew.h"
 
+#include "glm/ext.hpp"
+
+
 #include <iostream>
 #include <sstream>
 
@@ -45,6 +48,39 @@ namespace AVTEngine
 	{
 		glGenVertexArrays(1, &vao);
 
+		std::vector<glm::vec3> vectorOfVertices = {
+			glm::vec3(0.0f, 1.0f, 1.0f),
+			glm::vec3(0.0f, 0.0f, 1.0f),
+			glm::vec3(1.0f, 0.0f, 1.0f),
+			glm::vec3(1.0f, 1.0f, 1.0f),
+
+			glm::vec3(1.0f, 1.0f, 0.0f),
+			glm::vec3(1.0f, 0.0f, 0.0f),
+			glm::vec3(0.0f, 0.0f, 0.0f),
+			glm::vec3(0.0f, 1.0f, 0.0f),
+
+			glm::vec3(1.0f, 1.0f, 1.0f),
+			glm::vec3(1.0f, 0.0f, 1.0f),
+			glm::vec3(1.0f, 0.0f, 0.0f),
+			glm::vec3(1.0f, 1.0f, 0.0f),
+
+			glm::vec3(0.0f, 1.0f, 0.0f),
+			glm::vec3(0.0f, 1.0f, 1.0f),
+			glm::vec3(1.0f, 1.0f, 1.0f),
+			glm::vec3(1.0f, 1.0f, 0.0f),
+
+			glm::vec3(0.0f, 1.0f, 0.0f),
+			glm::vec3(0.0f, 0.0f, 0.0f),
+			glm::vec3(0.0f, 0.0f, 1.0f),
+			glm::vec3(0.0f, 1.0f, 1.0f),
+
+			glm::vec3(0.0f, 0.0f, 1.0f),
+			glm::vec3(0.0f, 0.0f, 0.0f),
+			glm::vec3(1.0f, 0.0f, 0.0f),
+			glm::vec3(1.0f, 0.0f, 1.0f)
+		};
+		//vertices = vectorOfVertices;
+
 		int numOfVbos = 1;
 		if (normals.size() > 0)
 		{
@@ -55,7 +91,44 @@ namespace AVTEngine
 		{
 			hasTextures = true;
 			numOfVbos++;
+			for (int i = 0; i < getUVsSize(); i++)
+			{
+				std::cout << "HAS TEXTURES! X = " << uvs[i].x << " || Y = " << uvs[i].y << std::endl;
+			}
+			std::vector<glm::vec2> vectorOfTexCoords = {
+				glm::vec2(0.0f, 1.0f),
+				glm::vec2(0.0f, 0.0f),
+				glm::vec2(1.0f, 0.0f),
+				glm::vec2(1.0f, 1.0f),
+
+				glm::vec2(0.0f, 1.0f),
+				glm::vec2(0.0f, 0.0f),
+				glm::vec2(1.0f, 0.0f),
+				glm::vec2(1.0f, 1.0f),
+
+				glm::vec2(0.0f, 1.0f),
+				glm::vec2(0.0f, 0.0f),
+				glm::vec2(1.0f, 0.0f),
+				glm::vec2(1.0f, 1.0f),
+
+				glm::vec2(0.0f, 1.0f),
+				glm::vec2(0.0f, 0.0f),
+				glm::vec2(1.0f, 0.0f),
+				glm::vec2(1.0f, 1.0f),
+
+				glm::vec2(0.0f, 1.0f),
+				glm::vec2(0.0f, 0.0f),
+				glm::vec2(1.0f, 0.0f),
+				glm::vec2(1.0f, 1.0f),
+
+				glm::vec2(0.0f, 1.0f),
+				glm::vec2(0.0f, 0.0f),
+				glm::vec2(1.0f, 0.0f),
+				glm::vec2(1.0f, 1.0f),
+			};
+			//uvs = vectorOfTexCoords;
 		}
+
 
 		glGenBuffers(numOfVbos, vbos);
 
@@ -115,22 +188,22 @@ namespace AVTEngine
 		ubo = uboId;
 	}
 
-	unsigned int Mesh::getIndicesSize()
+	int Mesh::getIndicesSize()
 	{
 		return indices.size();
 	}
 
-	unsigned int Mesh::getVerticesSize()
+	int Mesh::getVerticesSize()
 	{
 		return vertices.size();
 	}
 
-	unsigned int Mesh::getNormalsSize()
+	int Mesh::getNormalsSize()
 	{
 		return normals.size();
 	}
 
-	unsigned int Mesh::getUVsSize()
+	int Mesh::getUVsSize()
 	{
 		return uvs.size();
 	}

@@ -16,7 +16,7 @@ namespace AVTEngine
 		static std::string resourcesPath;
 		static std::map<std::string, Shader> shaders;
 		static std::map<std::string, Mesh*> meshes;
-		static std::map<std::string, Texture> textures;
+		static std::map<std::string, Texture*> textures;
 
 	private:
 		ResourcesManager();

@@ -17,6 +17,6 @@ namespace AVTEngine
 	class TextureLoader
 	{
 	public:
-		static Texture loadTexture(std::string path, GLenum target, GLenum internalFormat, bool srgb = false);
+		static Texture* loadTexture(std::string path, GLenum target, GLenum internalFormat, bool srgb = false);
 	};
 }

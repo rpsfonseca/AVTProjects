@@ -12,7 +12,7 @@ namespace AVTEngine
 	std::string ResourcesManager::resourcesPath = "";
 	std::map<std::string, Shader> ResourcesManager::shaders = std::map<std::string, Shader>();
 	std::map<std::string, Mesh*> ResourcesManager::meshes = std::map<std::string, Mesh*>();
-	std::map<std::string, Texture> ResourcesManager::textures = std::map<std::string, Texture>();
+	std::map<std::string, Texture*> ResourcesManager::textures = std::map<std::string, Texture*>();
 
 	void ResourcesManager::init()
 	{
@@ -21,6 +21,7 @@ namespace AVTEngine
 
 	Shader* ResourcesManager::loadShader(std::string shaderName)
 	{
+		std::cout << "SHADER NAME: " << shaderName << std::endl;
 		if (!(shaders.find(shaderName) != shaders.end()))
 		{
 			std::string shaderPath = resourcesPath + "shaders\\";
@@ -43,16 +44,16 @@ namespace AVTEngine
 	Texture* ResourcesManager::loadTexture(std::string textureName, std::string path, GLenum target, GLenum format, bool srgb)
 	{
 		// if texture already exists, return that handle
-		if (ResourcesManager::textures.find(textureName) != ResourcesManager::textures.end())
-			return &ResourcesManager::textures[textureName];
-
-		Texture texture = TextureLoader::loadTexture(path, target, format, srgb);
+		/*if (ResourcesManager::textures.find(textureName) != ResourcesManager::textures.end())
+			return &ResourcesManager::textures[textureName];*/
+		path = resourcesPath + path;
+		Texture* texture = TextureLoader::loadTexture(path, target, format, srgb);
 
 		// make sure texture got properly loaded
-		if (texture.width > 0)
+		if (texture->width > 0)
 		{
 			ResourcesManager::textures[textureName] = texture;
-			return &ResourcesManager::textures[textureName];
+			return ResourcesManager::textures[textureName];
 		}
 		else
 		{

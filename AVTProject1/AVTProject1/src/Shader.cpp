@@ -136,7 +136,7 @@ namespace AVTEngine
 
 	void Shader::setFloat(const GLchar* field, GLfloat value)
 	{
-		GLfloat loc = glGetUniformLocation(shaderID, field);
+		GLint loc = glGetUniformLocation(shaderID, field);
 		glUniform1f(loc, value);
 	}
 

@@ -70,14 +70,14 @@ namespace AVTEngine
 
 
 		//Mesh* testMesh = ResourcesManager::loadOBJ("untitled");
-		Mesh* testMesh = ResourcesManager::loadOBJ("table");
-		SceneNode* planeNode = Scene::createSceneNode(testMesh, new Material("basic"));
-		planeNode->material->setAmbient(glm::vec3(1.f, 0.5f, 0.31f));
-		planeNode->material->setDiffuse(glm::vec3(1.0f, 0.5f, 0.31f));
-		planeNode->material->setSpecular(glm::vec3(0.5f, 0.5f, 0.5f));
-		planeNode->material->setShininess(32.f);
+		Mesh* testMesh = ResourcesManager::loadOBJ("table_test");
+		SceneNode* planeNode = Scene::createSceneNode(testMesh, renderer->getMaterial("table"));
+		planeNode->material->setAmbient(glm::vec3(0.2f, 0.15f, 0.1f));
+		planeNode->material->setDiffuse(glm::vec3(0.8f, 0.6f, 0.4f));
+		planeNode->material->setSpecular(glm::vec3(0.8f, 0.8f, 0.8f));
+		planeNode->material->setShininess(100.f);
 		planeNode->setPosition(glm::vec3(0.0f, -10.0f, 0.0f));
-		planeNode->setScale(glm::vec3(10, 1, 10));
+		planeNode->setScale(glm::vec3(10, 10, 10));
 		/*planeNode->setScale(Vec3(4.0f));
 		planeNode->model->setPosition(Vec3(0, 0, -1.0f));
 		planeNode->model->setRotation(0.0f);
@@ -100,7 +100,7 @@ namespace AVTEngine
 
 
 		//TODO teste com o carro
-		Mesh* testMesh2 = ResourcesManager::loadOBJ("car_with_wheels");
+		/*Mesh* testMesh2 = ResourcesManager::loadOBJ("car_with_wheels");
 		SceneNode* planeNode2 = Scene::createSceneNode(testMesh2, new Material("basic"));
 		glm::vec3 teste = glm::vec3(0);
 		car = Scene::createCar(planeNode2, teste, 0);
@@ -113,12 +113,12 @@ namespace AVTEngine
 		/*planeNode->setScale(Vec3(4.0f));
 		planeNode->model->setPosition(Vec3(0, 0, -1.0f));
 		planeNode->model->setRotation(0.0f);
-		planeNode->model->setScale(Vec3(1.0f));*/
-		rootSceneNode->addChild(planeNode2);
+		planeNode->model->setScale(Vec3(1.0f));
+		rootSceneNode->addChild(planeNode2);*/
 		
-		//nodes.insert(std::pair<std::string, SceneNode*>("plane", planeNode));
-		nodes.insert(std::pair<std::string, SceneNode*>("plane2", planeNode2));
-		entities.insert(std::pair<std::string, Entity*>("car", car));
+		nodes.insert(std::pair<std::string, SceneNode*>("plane", planeNode));
+		//nodes.insert(std::pair<std::string, SceneNode*>("plane2", planeNode2));
+		//entities.insert(std::pair<std::string, Entity*>("car", car));
 
 
 		//Teste Cheerios
@@ -150,7 +150,7 @@ namespace AVTEngine
 			z += 5;
 		} */
 
-		createStraightLine(-20, 20, -10, -10, 0);
+		//createStraightLine(-20, 20, -10, -10, 0);
 
 	}
 

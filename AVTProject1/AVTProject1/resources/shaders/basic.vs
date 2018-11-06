@@ -7,6 +7,7 @@ uniform mat4 projectionMatrix;
 in vec3 in_Position;
 //in vec4 VertexColor;
 in vec3 VertexNormal;
+in vec2 texCoord;
 
 //out vec4 Color;
 out vec3 Normal;

@@ -64,14 +64,14 @@ namespace AVTEngine
 
 		//car = new Car();
 
-		scene = new Scene();
-		renderer = new Renderer();
-
-		scene->setRenderer(renderer);
 
 		setupGLUT(argc, argv);
 		setupGLEW();
 
+		scene = new Scene();
+		renderer = new Renderer();
+
+		scene->setRenderer(renderer);
 		scene->setupSceneManager();
 
 		setupOpenGL();
@@ -191,7 +191,7 @@ namespace AVTEngine
 		if(!getInstance()->gameState.paused)
 			getInstance()->scene->updateEntities(deltaTime);
 
-		getInstance()->followCamera.setPosition(getInstance()->scene->car->getPosition());
+		//getInstance()->followCamera.setPosition(getInstance()->scene->car->getPosition());
 		getInstance()->renderer->currentCamera = getInstance()->currentCamera;
 		getInstance()->renderer->setProjectionMatrix(getInstance()->currentCamera->getProjection());
 		getInstance()->renderer->setViewMatrix(getInstance()->currentCamera->getView());

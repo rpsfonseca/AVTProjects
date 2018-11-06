@@ -49,6 +49,38 @@ std::vector<unsigned int> indices = {
 	20,21,22,20,22,23
 };
 
+std::vector<glm::vec2> vectorOfTexCoords = {
+	glm::vec2(0.0f, 1.0f),
+	glm::vec2(0.0f, 0.0f),
+	glm::vec2(1.0f, 0.0f),
+	glm::vec2(1.0f, 1.0f),
+
+	glm::vec2(0.0f, 1.0f),
+	glm::vec2(0.0f, 0.0f),
+	glm::vec2(1.0f, 0.0f),
+	glm::vec2(1.0f, 1.0f),
+
+	glm::vec2(0.0f, 1.0f),
+	glm::vec2(0.0f, 0.0f),
+	glm::vec2(1.0f, 0.0f),
+	glm::vec2(1.0f, 1.0f),
+
+	glm::vec2(0.0f, 1.0f),
+	glm::vec2(0.0f, 0.0f),
+	glm::vec2(1.0f, 0.0f),
+	glm::vec2(1.0f, 1.0f),
+
+	glm::vec2(0.0f, 1.0f),
+	glm::vec2(0.0f, 0.0f),
+	glm::vec2(1.0f, 0.0f),
+	glm::vec2(1.0f, 1.0f),
+
+	glm::vec2(0.0f, 1.0f),
+	glm::vec2(0.0f, 0.0f),
+	glm::vec2(1.0f, 0.0f),
+	glm::vec2(1.0f, 1.0f),
+};
+
 float vertices[] = {
 	0.0f, 1.0f, 1.0f, 1.0f,
 	0.0f, 0.0f, 1.0f, 1.0f,

@@ -93,7 +93,10 @@ int LoadBMP(char *p_filename)
      
     GLuint error = glGetError();
 
-    glBindTexture(GL_TEXTURE_2D, num_texture); // Bind the ID texture specified by the 2nd parameter
+	unsigned int id;
+	glGenTextures(1, &id);
+	glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, id); // Bind the ID texture specified by the 2nd parameter
 
     // The next commands sets the texture parameters
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // If the u,v coordinates overflow the range 0,1 the image is repeated
@@ -114,7 +117,8 @@ int LoadBMP(char *p_filename)
 
 	glGenerateMipmap(GL_TEXTURE_2D);
 
+	glBindTexture(GL_TEXTURE_2D, 0); // Bind the ID texture specified by the 2nd parameter
     free(l_texture); // Free the memory we used to load the texture
 
-    return (num_texture); // Returns the current texture OpenGL ID
+    return (id); // Returns the current texture OpenGL ID
 }

@@ -69,6 +69,8 @@ namespace AVTEngine
 	{
 		Mesh* result = new Mesh(vertices, normals, uvs);
 
+		std::cout << "VERTICES SIZE: " << result->getVerticesSize() << std::endl;
+		std::cout << "UVS SIZE: " << result->getUVsSize() << std::endl;
 		if (result->getNormalsSize())
 		{
 			result->hasNormals = true;

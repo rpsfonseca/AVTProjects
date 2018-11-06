@@ -1,6 +1,7 @@
 #include "Texture.h"
 
 #include <assert.h>
+#include <iostream>
 
 namespace AVTEngine
 {
@@ -20,19 +21,21 @@ namespace AVTEngine
 		glGenTextures(1, &id);
 
 		width = _width;
-		height = height;
+		height = _height;
 		depth = 0;
 		internalFormat = _internalFormat;
 		format = _format;
 		type = _type;
 
-		assert(target == GL_TEXTURE_2D);
+		//assert(target == GL_TEXTURE_2D);
+		//glActiveTexture(GL_TEXTURE0);
+		//glBindTexture(GL_TEXTURE_2D, id);
 		bind();
-		glTexImage2D(target, 0, internalFormat, width, height, 0, format, type, data);
-		glTexParameteri(target, GL_TEXTURE_MIN_FILTER, filterMin);
-		glTexParameteri(target, GL_TEXTURE_MAG_FILTER, filterMax);
-		glTexParameteri(target, GL_TEXTURE_WRAP_S, wrapS);
-		glTexParameteri(target, GL_TEXTURE_WRAP_T, wrapT);
+		glTexParameteri(target, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(target, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapS);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapT);
+		glTexImage2D(target, 0, GL_RGB, width, height, 0, GL_BGR, type, data);
 		if (mipmapping)
 			glGenerateMipmap(target);
 		unbind();
@@ -44,7 +47,7 @@ namespace AVTEngine
 		if (target == GL_TEXTURE_2D)
 		{
 			assert(height > 0);
-			glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, _width, _height, 0, format, type, 0);
+			glTexImage2D(target, 0, internalFormat, _width, _height, 0, format, type, 0);
 		}
 	}
 	// --------------------------------------------------------------------------------------------
@@ -57,7 +60,7 @@ namespace AVTEngine
 	// --------------------------------------------------------------------------------------------
 	void Texture::unbind()
 	{
-		glBindTexture(target, 0);
+		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 	// --------------------------------------------------------------------------------------------
 	void Texture::setWrapMode(GLenum wrapMode, bool _bind)

@@ -14,6 +14,8 @@ namespace AVTEngine
 	class SceneNode;
 	class Camera;
 	class CommandBuffer;
+	class Material;
+	class MaterialLibrary;
 	struct RenderCommand;
 
 	/**
@@ -40,6 +42,8 @@ namespace AVTEngine
 	
 	private:
 		CommandBuffer* commandBuffer;
+
+		MaterialLibrary* materialLibrary;
 
 	public:
 		/**
@@ -90,6 +94,8 @@ namespace AVTEngine
 
 		void setProjectionMatrix(const glm::mat4& mat);
 		void setViewMatrix(const glm::mat4& mat);
+
+		Material* getMaterial(std::string matName);
 
 	private:
 		void renderCommand(RenderCommand* command, Camera* camera);

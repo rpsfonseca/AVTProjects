@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Texture.h"
-
+#include "ShadingTypes.h"
+#include <string>
 #include <map>
 #include "glm\glm.hpp"
 
@@ -12,11 +13,14 @@ namespace AVTEngine
 	class Material
 	{
 	private:
+		std::string matName;
 		Shader* shader;
 		glm::vec3 ambient = glm::vec3(1.f);
 		glm::vec3 diffuse = glm::vec3(1.f);
 		glm::vec3 specular = glm::vec3(1.f);
 		float shininess = 32.f;
+
+		std::map<std::string, UniformValueSampler> samplerUniforms;
 		
 	public:
 		Material();
@@ -24,6 +28,9 @@ namespace AVTEngine
 		Material(Shader* _shader);
 
 		void setTexture(std::string name, Texture* value, unsigned int unit = 0);
+
+		inline std::string getMaterialName() { return matName; }
+		inline std::map<std::string, UniformValueSampler>* getSamplerUniforms() { return &samplerUniforms; }
 
 		inline Shader* getShader() { return shader; };
 		inline glm::vec3 getAmbient() { return ambient; }
