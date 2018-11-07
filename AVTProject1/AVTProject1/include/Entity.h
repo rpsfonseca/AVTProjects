@@ -13,10 +13,12 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 #include <math.h>
+#include "AABB.h"
 
 
 namespace AVTEngine
 {
+	class Car;
 
 	struct EntityTexture
 	{
@@ -74,14 +76,18 @@ namespace AVTEngine
 		void disable(); 
 		void enable();
 		bool isDisabled();
-		bool isMoving();
 		glm::vec3 getOrientation();
 		glm::vec3 getPosition();
 		void setPosition(glm::vec3 position_);
 		void rotate(float angle_);
+		void orangeRotate(float angle_, glm::vec3 axis_);
 		void setMesh(Mesh* mesh_);
 		void setMaterial(Material* material_);
 		virtual void update(float delta_);
+		virtual AABB getBoundingBox() {
+			return AABB(99999999.f, 99999999.f, 99999999.f, 99999999.f, 99999999.f, 99999999.f);
+		}
+		virtual bool handleCarCollision(Car* car) { return false; } // returns whether collision makes player stop
 	};
 }
 

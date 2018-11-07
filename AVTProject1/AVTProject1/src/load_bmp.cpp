@@ -95,7 +95,7 @@ int LoadBMP(char *p_filename)
 
 	unsigned int id;
 	glGenTextures(1, &id);
-	glActiveTexture(GL_TEXTURE0);
+	glActiveTexture(GL_TEXTURE2);
     glBindTexture(GL_TEXTURE_2D, id); // Bind the ID texture specified by the 2nd parameter
 
     // The next commands sets the texture parameters

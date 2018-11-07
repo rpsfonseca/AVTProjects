@@ -7,6 +7,8 @@
 #include "node.h"
 #include "MaterialLibrary.h"
 #include "OpenGLError.h"
+#include "Application.h"
+#include "scene.h"
 
 #include <glm/ext.hpp>
 
@@ -174,16 +176,17 @@ namespace AVTEngine
 		// setup view for light calculations
 		if (camera != nullptr)
 		{
-			material->getShader()->setVec3("viewPos", -camera->getPosition());
+			material->getShader()->setVec3("viewPos", camera->getPosition());
 		}
 
-		material->getShader()->setVec3("dirLight.direction", 0.2f, 0.8f, 0.3f);
-		material->getShader()->setVec3("dirLight.ambient", 0.2f, 0.2f, 0.2f);
-		material->getShader()->setVec3("dirLight.diffuse", 0.4f, 0.4f, 0.4f);
-		material->getShader()->setVec3("dirLight.specular", 1.0f, 1.0f, 1.0f);
+		// setup material properties
+		material->getShader()->setVec3("material.diffuse", material->getDiffuse());
+		material->getShader()->setVec3("material.ambient", material->getAmbient());
+		material->getShader()->setVec3("material.specular", material->getSpecular());
+		material->getShader()->setFloat("material.shininess", material->getShininess());
 
-		if (material->getMaterialName() != "table")
-		{
+		//if (material->getMaterialName() != "table")
+		//{
 			// setup lights
 			glm::vec3 pointLightPositions[] = {
 				glm::vec3(0.7f,  0.2f,  2.0f),
@@ -193,12 +196,6 @@ namespace AVTEngine
 				glm::vec3(5.0f,  3.0f, -7.0f),
 				glm::vec3(-3.0f,  1.0f, -2.0f)
 			};
-
-			// setup material properties
-			material->getShader()->setVec3("material.diffuse", material->getDiffuse());
-			material->getShader()->setVec3("material.ambient", material->getAmbient());
-			material->getShader()->setVec3("material.specular", material->getSpecular());
-			material->getShader()->setFloat("material.shininess", material->getShininess());
 
 			// point light 1
 			material->getShader()->setVec3("pointLights[0].position", pointLightPositions[0]);
@@ -249,8 +246,43 @@ namespace AVTEngine
 			material->getShader()->setFloat("pointLights[5].linear", 0.09);
 			material->getShader()->setFloat("pointLights[5].quadratic", 0.032);
 			// spotLight
-			material->getShader()->setVec3("spotLight.position", glm::vec3(0));
-			material->getShader()->setVec3("spotLight.direction", glm::fastNormalize(glm::vec3(1)));
+			//material->getShader()->setVec3("spotLight.position", glm::vec3(0));
+			//material->getShader()->setVec3("spotLight.direction", glm::fastNormalize(glm::vec3(1)));
+			//material->getShader()->setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
+			//material->getShader()->setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
+			//material->getShader()->setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
+			//material->getShader()->setFloat("spotLight.constant", 1.0f);
+			//material->getShader()->setFloat("spotLight.linear", 0.09);
+			//material->getShader()->setFloat("spotLight.quadratic", 0.032);
+			//material->getShader()->setFloat("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
+			//material->getShader()->setFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
+			//// spotLight 2
+			//material->getShader()->setVec3("spotLight2.position", glm::vec3(0));
+			//material->getShader()->setVec3("spotLight2.direction", glm::fastNormalize(glm::vec3(1)));
+			//material->getShader()->setVec3("spotLight2.ambient", 0.0f, 0.0f, 0.0f);
+			//material->getShader()->setVec3("spotLight2.diffuse", 1.0f, 1.0f, 1.0f);
+			//material->getShader()->setVec3("spotLight2.specular", 1.0f, 1.0f, 1.0f);
+			//material->getShader()->setFloat("spotLight2.constant", 1.0f);
+			//material->getShader()->setFloat("spotLight2.linear", 0.09);
+			//material->getShader()->setFloat("spotLight2.quadratic", 0.032);
+			//material->getShader()->setFloat("spotLight2.cutOff", glm::cos(glm::radians(12.5f)));
+			//material->getShader()->setFloat("spotLight2.outerCutOff", glm::cos(glm::radians(15.0f)));
+		//}
+
+		material->getShader()->setVec3("dirLight.direction", 0.2f, -0.1f, 0.3f);
+		material->getShader()->setVec3("dirLight.ambient", 0.2f, 0.2f, 0.2f);
+		material->getShader()->setVec3("dirLight.diffuse", 0.4f, 0.4f, 0.4f);
+		material->getShader()->setVec3("dirLight.specular", 1.0f, 1.0f, 1.0f);
+		
+		//if (material->getMaterialName() != "table")
+		//{
+
+			auto* car = Application::getInstance()->scene->getCar();
+			auto orientationNormalized = car->getOrientation();
+
+			// spotLight
+			material->getShader()->setVec3("spotLight.position", car->getPosition() + glm::rotateY(orientationNormalized, 90.f) * 1.2f + glm::vec3(0, .5f, 0));
+			material->getShader()->setVec3("spotLight.direction", glm::fastNormalize(car->getOrientation()));
 			material->getShader()->setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
 			material->getShader()->setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
 			material->getShader()->setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
@@ -260,8 +292,8 @@ namespace AVTEngine
 			material->getShader()->setFloat("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
 			material->getShader()->setFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
 			// spotLight 2
-			material->getShader()->setVec3("spotLight2.position", glm::vec3(0));
-			material->getShader()->setVec3("spotLight2.direction", glm::fastNormalize(glm::vec3(1)));
+			material->getShader()->setVec3("spotLight2.position", car->getPosition() + glm::rotateY(orientationNormalized, -90.f) * 1.2f + glm::vec3(0, .5f, 0));
+			material->getShader()->setVec3("spotLight2.direction", glm::fastNormalize(car->getOrientation()));
 			material->getShader()->setVec3("spotLight2.ambient", 0.0f, 0.0f, 0.0f);
 			material->getShader()->setVec3("spotLight2.diffuse", 1.0f, 1.0f, 1.0f);
 			material->getShader()->setVec3("spotLight2.specular", 1.0f, 1.0f, 1.0f);
@@ -270,22 +302,12 @@ namespace AVTEngine
 			material->getShader()->setFloat("spotLight2.quadratic", 0.032);
 			material->getShader()->setFloat("spotLight2.cutOff", glm::cos(glm::radians(12.5f)));
 			material->getShader()->setFloat("spotLight2.outerCutOff", glm::cos(glm::radians(15.0f)));
-		}
+		//}
 
 		material->getShader()->setMat4("projectionMatrix", projectionMatrix);
 		material->getShader()->setMat4("viewMatrix", viewMatrix);
 		material->getShader()->setMat4("modelMatrix", command->transform);
 		//material->getShader()->setMat4("modelMatrix", camera->getViewProjection());
-		
-		if (material->getMaterialName() == "table")
-		{
-			material->getShader()->setVec3("material.diffuse", material->getDiffuse());
-			material->getShader()->setVec3("material.ambient", material->getAmbient());
-			material->getShader()->setVec3("material.specular", material->getSpecular());
-			material->getShader()->setFloat("material.shininess", material->getShininess());
-
-			//material->getSamplerUnit("lightwood")->bind(0);
-		}
 
 		renderMesh(mesh);
 

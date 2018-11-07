@@ -12,7 +12,7 @@
 namespace AVTEngine
 {
 
-	class Car: public DynamicEntity
+	class Butter : public DynamicEntity
 	{
 
 	protected:
@@ -23,22 +23,10 @@ namespace AVTEngine
 
 	public:
 
-		Car(SceneNode *node_, glm::vec3 startPos_, float rotation_);
-		Car() = default;
-		
-
-		glm::vec3 initialPos;
-
-		/* TODO
-		Light spotlight1;
-		Light spotlight2;
-		*/
-
-		void reset();
+		Butter(SceneNode *node_, glm::vec3 startPos_);
 		void update(float delta);
-
 		AABB getBoundingBox() override;
-
+		bool handleCarCollision(Car* car) override;
 	};
 }
 

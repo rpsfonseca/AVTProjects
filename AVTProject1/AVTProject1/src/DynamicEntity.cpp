@@ -5,19 +5,7 @@ namespace AVTEngine
 	DynamicEntity::DynamicEntity() {
 	};
 
-	DynamicEntity::DynamicEntity(SceneNode *node_, Shader *shader_, Mesh *mesh_, glm::vec3 startPos_, int maxVelocity_, int maxTurnRate_) : 
-		maxVelocity(maxVelocity_), maxTurnRate(maxTurnRate_) {
-
-		Entity::Entity(shader_, mesh_, 100, 3, glm::vec3(1, 0, 0));
-		setPosition(startPos_);
-		orientation = glm::vec3(1, 0, 0);
-		maxTurnRate = maxTurnRate_;
-
-		velocity = 0;	// Velocidade inicial
-		minVelocity = 0.1; // Velocidade para qual o algoritmo arredonda para 0
-	};
-
-	//TODO teste
+	//Car
 	DynamicEntity::DynamicEntity(SceneNode *node_, glm::vec3 startPos_, int maxVelocity_, int maxTurnRate_) :
 		maxVelocity(maxVelocity_), maxTurnRate(maxTurnRate_), Entity(node_) {
 
@@ -26,6 +14,23 @@ namespace AVTEngine
 
 		velocity = 0;	// Velocidade inicial
 		minVelocity = 0.1; // Velocidade para qual o algoritmo arredonda para 0
+	};
+
+	//Orange
+	DynamicEntity::DynamicEntity(SceneNode *node_, int maxVelocity_, int maxTurnRate_) :
+		maxVelocity(maxVelocity_), maxTurnRate(maxTurnRate_), Entity(node_) {
+
+		/*
+		orientation = glm::vec3(1, 0, 0);
+
+		velocity = 0;	// Velocidade inicial
+		minVelocity = 0.1; // Velocidade para qual o algoritmo arredonda para 0
+		*/
+	};
+
+	//Butter
+	DynamicEntity::DynamicEntity(SceneNode *node_, glm::vec3 startPos_) : Entity(node_) {
+		setPosition(startPos_);
 	};
 
 
@@ -38,7 +43,7 @@ namespace AVTEngine
 		//Calculate Speed
 		velocity += accel_ * delta_;
 		if (isMoving()) {
-			velocity *= 0.995;	// Aplica forca de atrito para desacelarar 
+			velocity *= 0.98;	// Aplica forca de atrito para desacelarar 
 		}
 
 		if (abs(velocity) < abs(minVelocity)) { //Forces car to stop
@@ -66,6 +71,11 @@ namespace AVTEngine
 		int max = 5;
 		int randNum = rand() % (max - min + 1) + min;
 		return randNum;
+	}
+
+	bool DynamicEntity::isMoving()
+	{
+		return abs(velocity) > minVelocity;
 	}
 
 }

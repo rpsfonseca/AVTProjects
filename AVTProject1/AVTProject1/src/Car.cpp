@@ -1,34 +1,20 @@
 #include "Car.h"
+#include "Entity.h"
+#include "scene.h"
+#include <utility>
 
 
 namespace AVTEngine
 {
 
-	Car::Car(SceneNode *node_, Shader *shader_, Mesh *mesh_, glm::vec3 startPos_, float rotation_){
-
-		DynamicEntity::DynamicEntity(node_, shader_, mesh_, glm::vec3(1, 0, 0), CAR_MAX_VELOCITY, CAR_MAX_TURNRATE);
-
-		
-		acceleration = 20;
-		deceleration = 10;
-		initialPos = startPos_;
-
-		minVelocity = 0.1; // Velocidade para qual o algoritmo arredonda para 0
-		minDrag = MIN_DRAG; // Forca minima de fricao
-
-		rotate(rotation_);
-		//TODO SceneNode.add(this); Adicionar o carro à cena?
-	};
-
 	//TODO teste
-	Car::Car(SceneNode *node_, glm::vec3 startPos_, float rotation_) : DynamicEntity(node_, glm::vec3(1, 0, 0), CAR_MAX_VELOCITY, CAR_MAX_TURNRATE) {
+	Car::Car(SceneNode *node_, glm::vec3 startPos_, float rotation_) : DynamicEntity(node_, startPos_, CAR_MAX_VELOCITY, CAR_MAX_TURNRATE) {
 
 		acceleration = 20;
 		deceleration = 10;
 		initialPos = startPos_;
 
 		minVelocity = 0.1; // Velocidade para qual o algoritmo arredonda para 0
-		minDrag = MIN_DRAG; // Forca minima de fricao
 
 		rotate(rotation_);
 	};
@@ -62,7 +48,7 @@ namespace AVTEngine
 		else if (Input::isKeyDown('p')) { //seta direita
 			turnRate = -maxTurnRate;
 		}
-		
+
 		float accel = 0;
 
 		/* Speed input */
@@ -73,9 +59,36 @@ namespace AVTEngine
 		else if (Input::isKeyDown('a')) { //seta abaixo
 			accel = -deceleration;
 		}
-		
+
 		//Update
+		auto oldPos = getPosition();
 		DynamicEntity::integrate(accel, turnRate, delta_);
+
+		// check collisions
+		auto myAABB = getBoundingBox();
+
+		for (std::map<std::string, Entity*>::iterator it = Application::getInstance()->scene->entities.begin();
+			it != Application::getInstance()->scene->entities.end();
+			++it)
+		{
+			if (myAABB.collidesWith(it->second->getBoundingBox())) {
+				if (it->second->handleCarCollision(this)) {
+					// undo movement and stop moving
+					setPosition(oldPos);
+					velocity = 0;
+				}
+			}
+		}
 	}
 
+	AABB Car::getBoundingBox() {
+		return AABB(
+			position.x - 3.f,
+			position.x + 3.f,
+			position.y,
+			position.y + 3.f,
+			position.z - 3.f,
+			position.z + 3.f
+			);
+	}
 }
