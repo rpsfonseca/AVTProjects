@@ -29,6 +29,7 @@ namespace AVTEngine
 		Mesh(std::vector<glm::vec3> vertices);
 		Mesh(std::vector<glm::vec3> vertices, std::vector<unsigned int> indices);
 		Mesh(std::vector<glm::vec3> _vertices, std::vector<glm::vec3> _normals, std::vector<glm::vec2> _uvs);
+		Mesh(std::vector<glm::vec3> _vertices, std::vector<unsigned int> indices, std::vector<glm::vec2> _uvs);
 		~Mesh();
 
 		unsigned int getVao();

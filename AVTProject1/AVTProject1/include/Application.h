@@ -17,6 +17,7 @@ namespace AVTEngine
 
 	class Renderer;
 	class Scene;
+	class LensFlare;
 
 	class Application
 	{
@@ -33,6 +34,7 @@ namespace AVTEngine
 		Camera* currentCamera = &topPerspectiveCamera;
 		GameState gameState;
 		HUD* hud;
+		LensFlare* lensFlare;
 
 		static int windowWidth;
 		static int windowHeight;

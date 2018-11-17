@@ -26,5 +26,6 @@ namespace AVTEngine
 		static Shader* loadShader(std::string shaderName);
 		static Mesh* loadOBJ(std::string modelName);
 		static Texture* loadTexture(std::string name, std::string path, GLenum target = GL_TEXTURE_2D, GLenum format = GL_RGBA, bool srgb = false);
+		static Texture* loadTextureWithAlpha(std::string name, std::string path, GLenum target = GL_TEXTURE_2D, GLenum format = GL_RGBA, bool srgb = false);
 	};
 }
