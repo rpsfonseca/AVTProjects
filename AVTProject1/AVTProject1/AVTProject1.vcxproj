@@ -157,6 +157,7 @@
     <ClCompile Include="src\Entity.cpp" />
     <ClCompile Include="src\HUD.cpp" />
     <ClCompile Include="src\GameState.cpp" />
+    <ClCompile Include="src\LensFlare.cpp" />
     <ClCompile Include="src\load_bmp.cpp" />
     <ClCompile Include="src\MaterialLibrary.cpp" />
     <ClCompile Include="src\node.cpp" />
@@ -197,6 +198,7 @@
     <ClInclude Include="include\GameState.h" />
     <ClInclude Include="include\HUD.h" />
     <ClInclude Include="include\Input.h" />
+    <ClInclude Include="include\LensFlare.h" />
     <ClInclude Include="include\load_bmp.h" />
     <ClInclude Include="include\Material.h" />
     <ClInclude Include="include\MaterialLibrary.h" />

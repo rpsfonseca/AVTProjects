@@ -36,6 +36,7 @@ namespace AVTEngine
 
 		// 2D texture generation
 		void generate(unsigned int width, unsigned int height, GLenum internalFormat, GLenum format, GLenum type, void* data);
+		void generateWithAlpha(unsigned int width, unsigned int height, GLenum internalFormat, GLenum format, GLenum type, void* data);
 
 		// resizes the texture; allocates new (empty) texture memory
 		void resize(unsigned int width, unsigned int height = 0, unsigned int depth = 0);

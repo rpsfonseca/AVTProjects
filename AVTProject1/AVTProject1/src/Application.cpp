@@ -3,6 +3,7 @@
 #include "Input.h"
 #include "Renderer.h"
 #include "scene.h"
+#include "LensFlare.h"
 
 #include <iostream>
 #include <sstream>
@@ -79,6 +80,7 @@ namespace AVTEngine
 
 
 		hud = new HUD();
+		lensFlare = new LensFlare();
 	}
 
 	void Application::mainLoop()
@@ -208,6 +210,7 @@ namespace AVTEngine
 		getInstance()->renderer->renderPushedCommands();
 		getInstance()->renderer->postDraw();
 
+		getInstance()->lensFlare->draw();
 		getInstance()->hud->draw();
 
 		glutSwapBuffers();

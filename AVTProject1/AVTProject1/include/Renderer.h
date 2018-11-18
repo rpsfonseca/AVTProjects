@@ -39,9 +39,9 @@ namespace AVTEngine
 		unsigned int uboId; // The actual uniform block ID
 
 		Camera* currentCamera;
+		CommandBuffer* commandBuffer;
 	
 	private:
-		CommandBuffer* commandBuffer;
 
 		MaterialLibrary* materialLibrary;
 
