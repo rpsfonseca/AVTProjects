@@ -25,6 +25,7 @@ namespace AVTEngine
 	{
 		nodes = std::map<std::string, SceneNode*>();
 		entities = std::map<std::string, Entity*>();
+		walls = std::map<std::string, Wall*>();
 	}
 
 	// Creates a new scene node and inits it with a model.
@@ -63,10 +64,28 @@ namespace AVTEngine
 		return butter;
 	}
 
+	int wallId = 0;
+	void Scene::createWall(int minX_, int minY_, int minZ_, int maxX_, int maxY_, int maxZ_)
+	{
+		Wall* wall = new Wall(minX_, minY_, minZ_, maxX_, maxY_, maxZ_);
+
+		std::string id = "wall" + std::to_string(wallId);
+		wallId++;
+
+		walls.insert(std::pair<std::string, Wall*>(id, wall));
+	}
+
 	// Sets up the scene manager.
 	// Takes care of creating the uniform block for the shader and creating the scene nodes.
 	void Scene::setupSceneManager()
 	{
+
+		//Walls
+		createWall(-100, 0, -68, 100, 10, -68);
+		createWall(-100, 0, 68, 100, 10, 68);
+		createWall(-80, 0, -68, -80, 10, 68);
+		createWall(80, 0, -68, 80, 10, 68);
+
 		//renderer->setupRenderer();
 
 		/*glGenBuffers(1, &uniformBlockId);
@@ -192,17 +211,20 @@ namespace AVTEngine
 		createStraightLine(50, 50, -40, 40, 0);
 		*/
 
-		//Oranges
-		for (int j = 0; j < NUM_ORANGES; j++) {
-			insertOrange(LEVEL_WIDTH, LEVEL_HEIGHT);
-		}
-
+		
 		//Butters
 		insertButter(10, 0, 10);
 		insertButter(-20, 0, -30);
 		insertButter(-20, 0, 30);
 		insertButter(20, 0, -30);
 		insertButter(20, 0, 30);
+
+		//Oranges
+		for (int j = 0; j < NUM_ORANGES; j++) {
+			insertOrange(LEVEL_WIDTH, LEVEL_HEIGHT);
+		}
+
+		
 	}
 
 
@@ -379,6 +401,4 @@ namespace AVTEngine
 		nodes.insert(std::pair<std::string, SceneNode*>(id, a));
 		entities.insert(std::pair<std::string, Entity*>(id, butter));
 	}
-
-
 }

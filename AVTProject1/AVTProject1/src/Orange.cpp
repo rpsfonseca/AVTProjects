@@ -2,6 +2,8 @@
 #include "Car.h"
 #include "Application.h"
 
+#include "scene.h"
+#include <utility>
 
 namespace AVTEngine
 {
@@ -41,6 +43,7 @@ namespace AVTEngine
 			velocity += 10; 
         }
 
+		//Respawn calculations
         if(dead){
             respawnTimer -= delta_;
             if(respawnTimer < 0){
@@ -50,6 +53,21 @@ namespace AVTEngine
                 return;
             }
         }
+
+
+		//Check for wall colisions
+		auto myAABB = getBoundingBox();
+
+		for (std::map<std::string, Wall*>::iterator it = Application::getInstance()->scene->walls.begin();
+			it != Application::getInstance()->scene->walls.end();
+			++it)
+		{
+			if (myAABB.collidesWith(it->second->getBoundingBox())) {
+				handleWallCollision();
+			}
+		}
+
+		checkOffLimits();
 
         orangeMovement(delta_);
 	}
@@ -88,7 +106,7 @@ namespace AVTEngine
 
 		direction = normalize(direction);
 		int temp = MAX_ORANGE_RANDOM_ANGLE;
-		float rotAngle = rand() % (temp*2 - temp + 1) + temp; //int randNum = rand()%(max-min + 1) + min;
+		float rotAngle = rand() % (temp*2 - temp + 1) - temp; //int randNum = rand()%(max-min + 1) + min;
 		direction = rotateY(direction, rotAngle); //Dar direcção aleatória
 
 		return direction;
@@ -110,13 +128,14 @@ namespace AVTEngine
 			//x = ((Math.random() * this.levelWidth * 2) - this.levelWidth) / 2;
 			////int randNum = rand()%(max-min + 1) + min;
 			//x = ((rand() * levelWidth * 2) - levelWidth) / 2;
-			x = rand() % (lw - (-lw) + 1) + lw;
+			x = rand() % (lw - (-lw) + 1) + (-lw);
 		}
 		else { 
 			x = (side2 ? levelWidth : -levelWidth) / 2; // Começa a esquerda ou a direita
 			//z = ((Math.random() * this.levelHeight * 2) - this.levelHeight) / 2;
 			//z = ((rand() * levelHeight * 2) - levelHeight) / 2;
-			z = rand() % (lh - (-lh) + 1) + lh;
+			z = rand() % (lh - (-lh) + 1) + (-lh);
+
 		}
 
 		return glm::vec3(x, 0, z);
@@ -126,23 +145,13 @@ namespace AVTEngine
 		movementOrientation = orientation_;
 	}
 
-	/* TODO Stuff for collision detection
-	get type() {   //Para saber que tipo de colisão se trata
-	return TYPE.ORANGE;
-	}
-
-	getBoundingVolume(){ //Raio da caixa para colisao
-        return new Circle(this.getPosition(),ORANGE_DEFAULT_RADIUS);
-    }
-	*/
-
 	void Orange::reset() {
 		DynamicEntity::reset();
 
 		position = initialPos;
 		//orangeRotation(-rotationAccum); // roda no sentido contrario da soma de todas as rotacoes, ou seja, volta ao inicial
 
-		velocity = getRandomRate() * 10;
+		velocity = getRandomRate() * 2.5;
 		setPosition(getRandomPosition());
 		position.y = ORANGE_DEFAULT_RADIUS;
 		setOrientation(getDirection(getPosition()));
@@ -174,6 +183,23 @@ namespace AVTEngine
 		Application::getInstance()->getGameState().lives--;
 		car->reset();
 		return false;
+	}
+
+	bool Orange::handleWallCollision() {
+		std::cout << "Orange collided with wall\n";
+
+		//Kill orange
+		this->kill();
+		return false;
+	}
+
+	//Work around for booting problem
+	void Orange::checkOffLimits() {
+		if (position.x < -150 || position.x > 150)
+			kill();
+
+		if (position.z < -150 || position.z > 150)
+			kill();
 	}
 
 }

@@ -4,8 +4,8 @@ namespace AVTEngine {
 
 	//Level constants
 	#define _USE_MATH_DEFINES
-	#define LEVEL_WIDTH 140
-	#define LEVEL_HEIGHT 140
+	#define LEVEL_WIDTH 65
+	#define LEVEL_HEIGHT 65
 	#define NUM_ORANGES 3
 
 	#define Y_AXIS glm::vec3(0,1,0)

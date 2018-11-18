@@ -178,6 +178,7 @@
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\TextureLoader.cpp" />
     <ClCompile Include="src\TextureMappedFont.cpp" />
+    <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h" />
@@ -216,6 +217,7 @@
     <ClInclude Include="include\Texture.h" />
     <ClInclude Include="include\TextureLoader.h" />
     <ClInclude Include="include\TextureMappedFont.h" />
+    <ClInclude Include="include\Wall.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\basic.fs" />

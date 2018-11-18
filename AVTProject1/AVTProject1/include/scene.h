@@ -6,6 +6,7 @@
 
 #include "Entity.h"
 #include "Car.h"
+#include "Wall.h"
 
 /*
 #include "graphics\camera\camera.hpp"
@@ -39,6 +40,7 @@ namespace AVTEngine
 
 		std::map<std::string, SceneNode*> nodes; /** Hashtable to store all scene nodes */
 		std::map<std::string, Entity*> entities; /** Hashtable to store all entities */
+		std::map<std::string, Wall*> walls; /** Hashtable to store all walls */
 
 		Car* car;
 
@@ -84,6 +86,7 @@ namespace AVTEngine
 		void insertCheerio(int x, int y, int z);
 		void insertOrange(float levelWidth_, float levelHeight_);
 		void insertButter(int x, int y, int z);
+		void createWall(int minX_, int minY_, int minZ_, int maxX_, int maxY_, int maxZ_);
 	
 	};
 }
