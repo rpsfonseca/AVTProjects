@@ -18,6 +18,7 @@ namespace AVTEngine
 	class Renderer;
 	class Scene;
 	class LensFlare;
+	class ParticleSystem;
 
 	class Application
 	{
@@ -35,6 +36,7 @@ namespace AVTEngine
 		GameState gameState;
 		HUD* hud;
 		LensFlare* lensFlare;
+		ParticleSystem* particleSystem;
 
 		static int windowWidth;
 		static int windowHeight;

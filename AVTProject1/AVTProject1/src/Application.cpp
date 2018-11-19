@@ -4,6 +4,7 @@
 #include "Renderer.h"
 #include "scene.h"
 #include "LensFlare.h"
+#include "ParticleSystem.h"
 
 #include <iostream>
 #include <sstream>
@@ -81,6 +82,7 @@ namespace AVTEngine
 
 		hud = new HUD();
 		lensFlare = new LensFlare();
+		particleSystem = new ParticleSystem();
 	}
 
 	void Application::mainLoop()
@@ -210,6 +212,8 @@ namespace AVTEngine
 		getInstance()->renderer->renderPushedCommands();
 		getInstance()->renderer->postDraw();
 
+		getInstance()->particleSystem->step();
+		getInstance()->particleSystem->draw();
 		getInstance()->lensFlare->draw();
 		getInstance()->hud->draw();
 

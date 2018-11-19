@@ -18,7 +18,7 @@ namespace AVTEngine
 			  2, 3, 0 },
 			{ glm::vec2(0, 0), glm::vec2(0, 1), glm::vec2(1, 1), glm::vec2(1, 0) }
 		);
-
+		
 		for (int i = 0; i < nPieces; i++) {
 			element[i] = FlareElement(
 				ResourcesManager::loadTextureWithAlpha("flare" + std::to_string(i), "textures\\flare" + std::to_string(i) + ".png"),
@@ -153,8 +153,6 @@ namespace AVTEngine
 			//float alpha = (flaredist*(el->argb >> 24)) / maxflaredist;
 			float alpha = (float)flaredist / maxflaredist;
 
-			std::cout << lx << " " << ly << " " << px << " " << py << " " << flaredist << " " << flarescale << " " << el->fSize << " " << width << " " << dx << " " << dy << " " << alpha << "\n";
-
 			if (width > 1)
 			{
 				//unsigned int    argb = (alpha << 24) | (el->argb & 0x00ffffff);
@@ -169,7 +167,6 @@ namespace AVTEngine
 					argb & 0x000000FF,
 					alpha * 255.f) / 255.f;
 				material.getShader()->setVec4("tint", tint);
-				std::cout << tint.r << " " << tint.g << " " << tint.b << " " << tint.a << " ";
 
 				// bind/active uniform sampler/texture objects
 				auto* samplers = material.getSamplerUniforms();
