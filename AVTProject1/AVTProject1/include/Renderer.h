@@ -100,5 +100,7 @@ namespace AVTEngine
 	private:
 		void renderCommand(RenderCommand* command, Camera* camera);
 		void renderMesh(Mesh* mesh);
+		void renderMeshReflection(Mesh* mesh);
+		void renderMeshStencilSetup(Mesh* mesh);
 	};
 }

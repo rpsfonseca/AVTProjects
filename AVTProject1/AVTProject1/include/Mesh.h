@@ -23,6 +23,9 @@ namespace AVTEngine
 		bool usingIndices = true;
 		bool hasNormals = false;
 		bool hasTextures = false;
+		bool isFloor = false;
+		bool isReflection = false;
+		bool isSetup = false;
 		TOPOLOGY topology = TRIANGLES;
 		
 		Mesh();

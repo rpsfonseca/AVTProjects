@@ -13,5 +13,7 @@ namespace AVTEngine
 		glm::mat4 previousTransform;
 		Mesh*      mesh;
 		Material*  material;
+		bool isReflection = false;
+		bool isStencilSetup = false;
 	};
 }

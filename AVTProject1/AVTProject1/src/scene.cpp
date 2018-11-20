@@ -26,6 +26,7 @@ namespace AVTEngine
 		nodes = std::map<std::string, SceneNode*>();
 		entities = std::map<std::string, Entity*>();
 		walls = std::map<std::string, Wall*>();
+		testboolean = true;
 	}
 
 	// Creates a new scene node and inits it with a model.
@@ -116,6 +117,8 @@ namespace AVTEngine
 
 		//Mesa
 		Mesh* testMesh = ResourcesManager::loadOBJ("table");
+		//testMesh->isFloor = true; //Floor mesh
+		//testMesh->isSetup = true; //Floor mesh
 		SceneNode* planeNode = Scene::createSceneNode(testMesh, renderer->getMaterial("table"));
 		planeNode->material->setAmbient(glm::vec3(1.f, 0.5f, 0.31f));
 		planeNode->material->setDiffuse(glm::vec3(1.0f, 0.5f, 0.31f));
@@ -123,11 +126,21 @@ namespace AVTEngine
 		planeNode->material->setShininess(32.f);
 		planeNode->setPosition(glm::vec3(0.0f, -1.0f, 0.0f));
 		planeNode->setScale(glm::vec3(10, 1, 10));
+		planeNode->setMirrored(false); 
+		rootSceneNode->addChild(planeNode);
+		//TODO add this node to the floor node slot
+		//rootSceneNode->
+		//std::cout << "Floor added to scene";
+			
+			
+		//Don't reflect the table
 		/*planeNode->setScale(Vec3(4.0f));
 		planeNode->model->setPosition(Vec3(0, 0, -1.0f));
 		planeNode->model->setRotation(0.0f);
 		planeNode->model->setScale(Vec3(1.0f));*/
-		rootSceneNode->addChild(planeNode);
+		
+
+		
 
 		//rootSceneNode->childNodes = std::vector<SceneNode*>(1, planeNode);
 
@@ -162,40 +175,10 @@ namespace AVTEngine
 		planeNode->model->setScale(Vec3(1.0f));*/
 		rootSceneNode->addChild(planeNode2);
 		
-		//nodes.insert(std::pair<std::string, SceneNode*>("plane", planeNode));
 		nodes.insert(std::pair<std::string, SceneNode*>("plane2", planeNode2));
 		entities.insert(std::pair<std::string, Entity*>("car", car));
 
-		//Teste Cheerios
-		/*
-		int x = 5;
-		int y = 2;
-		int z = 5;
 
-		for (int i = 0; i < 2; i++) {
-			Mesh* cheerioMesh = ResourcesManager::loadOBJ("torus");
-			SceneNode* a = Scene::createSceneNode(cheerioMesh, new Material("basic"));
-			glm::vec3 testeVec = glm::vec3(x, y, z);
-			Entity* cheerio = Scene::createCheerio(a, testeVec);
-
-			a->material->setAmbient(glm::vec3(1.f, 0.5f, 0.31f));
-			a->material->setDiffuse(glm::vec3(1.0f, 0.5f, 0.31f));
-			a->material->setSpecular(glm::vec3(0.5f, 0.5f, 0.5f));
-			a->material->setShininess(32.f);
-			a->setPosition(testeVec);
-			/*planeNode->setScale(Vec3(4.0f));
-			planeNode->model->setPosition(Vec3(0, 0, -1.0f));
-			planeNode->model->setRotation(0.0f);
-			planeNode->model->setScale(Vec3(1.0f));
-			rootSceneNode->addChild(a);
-			nodes.insert(std::pair<std::string, SceneNode*>("cheerio", a));
-			entities.insert(std::pair<std::string, Entity*>("cheerio", cheerio));
-
-			x += 5;
-			z += 5;
-		} */
-
-		//createStraightLine(-20, 20, -10, -10, 0);
 		//Track
 		
 		//Outter Lines
@@ -213,11 +196,11 @@ namespace AVTEngine
 
 		
 		//Butters
-		insertButter(10, 0, 10);
-		insertButter(-20, 0, -30);
-		insertButter(-20, 0, 30);
-		insertButter(20, 0, -30);
-		insertButter(20, 0, 30);
+		insertButter(10, 1, 10);
+		insertButter(-20, 1, -30);
+		insertButter(-20, 1, 30);
+		insertButter(20, 1, -30);
+		insertButter(20, 1, 30);
 
 		//Oranges
 		for (int j = 0; j < NUM_ORANGES; j++) {
