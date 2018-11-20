@@ -13,6 +13,11 @@ AVTEngine::Material::Material(std::string shaderName)
 	matName = shaderName;
 	shader = ResourcesManager::loadShader(shaderName);
 
+	/*if (shaderName != "billboard")
+	{
+
+	}*/
+
 	glBindAttribLocation(shader->shaderID, 0, "in_Position");
 	glBindAttribLocation(shader->shaderID, 1, "VertexNormal");
 	glBindAttribLocation(shader->shaderID, 2, "texCoord");

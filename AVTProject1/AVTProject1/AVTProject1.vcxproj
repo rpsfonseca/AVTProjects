@@ -150,6 +150,7 @@
   <ItemGroup>
     <ClCompile Include="src\AABB.cpp" />
     <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\Billboard.cpp" />
     <ClCompile Include="src\Butter.cpp" />
     <ClCompile Include="src\Car.cpp" />
     <ClCompile Include="src\Cheerio.cpp" />
@@ -178,11 +179,13 @@
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\TextureLoader.cpp" />
     <ClCompile Include="src\TextureMappedFont.cpp" />
+    <ClCompile Include="src\Tree.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h" />
     <ClInclude Include="include\AABB.h" />
     <ClInclude Include="include\Application.h" />
+    <ClInclude Include="include\Billboard.h" />
     <ClInclude Include="include\Butter.h" />
     <ClInclude Include="include\Camera.h" />
     <ClInclude Include="include\Car.h" />
@@ -216,6 +219,7 @@
     <ClInclude Include="include\Texture.h" />
     <ClInclude Include="include\TextureLoader.h" />
     <ClInclude Include="include\TextureMappedFont.h" />
+    <ClInclude Include="include\Tree.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\basic.fs" />

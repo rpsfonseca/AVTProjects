@@ -56,9 +56,6 @@ void createShaderProgram()
 
 void destroyShaderProgram()
 {
-	glUseProgram(0);
-	shader->deleteProgram();
-
 	OpenGLError::checkOpenGLError("ERROR: Could not destroy shaders.");
 }
 
@@ -153,7 +150,6 @@ void renderScene()
 
 void cleanup()
 {
-	destroyShaderProgram();
 	destroyBufferObjects();
 }
 
@@ -164,8 +160,8 @@ void init(int argc, char* argv[])
 	transform = glm::rotate(glm::translate(transform, glm::vec3(0.0f, 0.0f, 0.0f)), 50.f, glm::vec3(1.f, 0.3f, 0.6f));
 	transform2 = glm::translate(transform2, glm::vec3(-1.0f, -1.0f, 0.0f));
 
-	createShaderProgram();
-	createBufferObjects();
+	//createShaderProgram();
+	//createBufferObjects();
 }
 
 int main(int argc, char* argv[])

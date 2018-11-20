@@ -21,6 +21,7 @@ namespace AVTEngine
 		std::string mName;
 
 		std::vector<Uniform> uniforms;
+		std::vector<VertexAttribute> attributes;
 
 	public:
 		Shader();

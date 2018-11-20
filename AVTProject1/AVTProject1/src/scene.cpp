@@ -11,6 +11,7 @@
 #include "Cheerio.h"
 #include "Orange.h"
 #include "Butter.h"
+#include "Tree.h"
 
 #include <glm/glm.hpp>
 #include <GL/glew.h>
@@ -124,12 +125,25 @@ namespace AVTEngine
 		planeNode2->model->setScale(Vec3(1.0f));
 		rootSceneNode->addChild(planeNode2);*/
 
+		/*Mesh* testMesh = ResourcesManager::loadOBJ("quad");
+		SceneNode* tree = Scene::createSceneNode(testMesh, new Material("billboard"));*/
+		// Tree* tree
+
+		Tree* tree = new Tree();
+		SceneNode* treeNode = Scene::createSceneNode(tree->getMesh(), renderer->getMaterial("tree"));
+		treeNode->setPosition(glm::vec3(0.0f, 3.0f, 0.0f));
+		treeNode->setRotation(glm::quat(glm::vec3(90.0f, 0.0f, 0.0f)));
+		rootSceneNode->addChild(treeNode);
+		nodes.insert(std::pair<std::string, SceneNode*>("tree", treeNode));
+
+
+
 
 		//TODO teste com o carro
 		//Carro
 		Mesh* testMesh2 = ResourcesManager::loadOBJ("car_with_wheels");
 		SceneNode* planeNode2 = Scene::createSceneNode(testMesh2, new Material("basic"));
-		glm::vec3 startPos = glm::vec3(0, 0, -50);
+		glm::vec3 startPos = glm::vec3(0, 0, 0);
 		car = Scene::createCar(planeNode2, startPos, 0);
 
 		planeNode2->material->setAmbient(glm::vec3(0.f, 0.8f, 1.f));
@@ -281,7 +295,8 @@ namespace AVTEngine
 	}
 	*/
 
-	void Scene::updateEntities(float delta_) {
+	void Scene::updateEntities(float delta_)
+	{
 		for (std::map<std::string, Entity*>::iterator it = entities.begin(); it != entities.end(); ++it)
 		{
 			it->second->update(delta_);

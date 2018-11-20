@@ -20,4 +20,11 @@ namespace AVTEngine
 
 		UniformValueSampler() {}
 	};
+
+	struct VertexAttribute
+	{
+		std::string  name;
+		int          size;
+		unsigned int location;
+	};
 }

@@ -58,6 +58,7 @@ namespace AVTEngine
 		glm::vec3 orientation;
 		glm::vec3 movementOrientation;
 
+		glm::quat rotation;
 		
 		
 		
@@ -78,9 +79,11 @@ namespace AVTEngine
 		bool isDisabled();
 		glm::vec3 getOrientation();
 		glm::vec3 getPosition();
+		glm::quat getRotation();
 		void setPosition(glm::vec3 position_);
 		void rotate(float angle_);
 		void orangeRotate(float angle_, glm::vec3 axis_);
+		Mesh* getMesh() { return mesh; }
 		void setMesh(Mesh* mesh_);
 		void setMaterial(Material* material_);
 		virtual void update(float delta_);

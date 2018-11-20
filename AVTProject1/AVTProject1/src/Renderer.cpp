@@ -156,6 +156,8 @@ namespace AVTEngine
 		Material* material = command->material;
 		Mesh* mesh = command->mesh;
 
+		camera->updateCameraVectors();
+
 		material->getShader()->use();
 
 		// bind/active uniform sampler/texture objects
@@ -167,27 +169,68 @@ namespace AVTEngine
 
 		//material->getShader()->setInteger("lightwood", 0);
 
-		// setup lights
-		material->getShader()->setBool("dirLightEnabled", directionalLightOn);
-		material->getShader()->setBool("pointLightsEnabled", pointLightsOn);
-		material->getShader()->setBool("spotLightsEnabled", spotLightsOn);
-
-
-		// setup view for light calculations
-		if (camera != nullptr)
+		if (material->getMaterialName() == "billboard")
 		{
-			material->getShader()->setVec3("viewPos", camera->getPosition());
+			glm::vec3 lookAt = glm::vec3(0,0,1);
+			glm::vec3 objToCamProj;
+			glm::vec3 upAux;
+			float angleCosine;
+
+			glm::vec4 pos = command->transform[3];
+			command->transform = glm::mat4(1);
+			command->transform[3] = glm::vec4(pos.x, 0.0f, pos.z, pos.w);
+			// objToCamProj is the vector in world coordinates from the local origin to the camera
+			// projected in the XZ plane
+			objToCamProj.x = camera->getPosition().x - pos.x;
+			objToCamProj.y = 0;
+			objToCamProj.z = camera->getPosition().z - pos.z;
+
+
+			// normalize both vectors to get the cosine directly afterwards
+			objToCamProj = glm::normalize(objToCamProj);
+
+			// easy fix to determine wether the angle is negative or positive
+			// for positive angles upAux will be a vector pointing in the 
+			// positive y direction, otherwise upAux will point downwards
+			// effectively reversing the rotation.
+
+			upAux = glm::cross(lookAt, objToCamProj);
+
+			// compute the angle
+			angleCosine = glm::dot(lookAt, objToCamProj);
+
+			// perform the rotation. The if statement is used for stability reasons
+			// if the lookAt and v vectors are too close together then |aux| could
+			// be bigger than 1 due to lack of precision
+			if ((angleCosine < 0.99990) && (angleCosine > -0.9999))
+				//rotate(MODEL, acos(angleCosine) * 180 / 3.14, upAux[0], upAux[1], upAux[2]);
+				command->transform = glm::rotate(command->transform, glm::acos(angleCosine), upAux);
+			//command->transform = glm::mat4(1);
+			//command->transform[3] = pos;
+			command->transform[3] = pos;
+			command->transform = glm::rotate(command->transform, glm::radians(90.0f), glm::vec3(1,0,0));
 		}
-
-		// setup material properties
-		material->getShader()->setVec3("material.diffuse", material->getDiffuse());
-		material->getShader()->setVec3("material.ambient", material->getAmbient());
-		material->getShader()->setVec3("material.specular", material->getSpecular());
-		material->getShader()->setFloat("material.shininess", material->getShininess());
-
-		//if (material->getMaterialName() != "table")
-		//{
+		else
+		{
 			// setup lights
+			material->getShader()->setBool("dirLightEnabled", directionalLightOn);
+			material->getShader()->setBool("pointLightsEnabled", pointLightsOn);
+			material->getShader()->setBool("spotLightsEnabled", spotLightsOn);
+
+			if (camera != nullptr)
+			{
+				material->getShader()->setVec3("viewPos", camera->getPosition());
+			}
+
+			// setup material properties
+			material->getShader()->setVec3("material.diffuse", material->getDiffuse());
+			material->getShader()->setVec3("material.ambient", material->getAmbient());
+			material->getShader()->setVec3("material.specular", material->getSpecular());
+			material->getShader()->setFloat("material.shininess", material->getShininess());
+
+			//if (material->getMaterialName() != "table")
+			//{
+				// setup lights
 			glm::vec3 pointLightPositions[] = {
 				glm::vec3(0.7f,  0.2f,  2.0f),
 				glm::vec3(2.3f, -3.3f, -4.0f),
@@ -269,13 +312,13 @@ namespace AVTEngine
 			//material->getShader()->setFloat("spotLight2.outerCutOff", glm::cos(glm::radians(15.0f)));
 		//}
 
-		material->getShader()->setVec3("dirLight.direction", 0.2f, -0.1f, 0.3f);
-		material->getShader()->setVec3("dirLight.ambient", 0.2f, 0.2f, 0.2f);
-		material->getShader()->setVec3("dirLight.diffuse", 0.4f, 0.4f, 0.4f);
-		material->getShader()->setVec3("dirLight.specular", 1.0f, 1.0f, 1.0f);
-		
-		//if (material->getMaterialName() != "table")
-		//{
+			material->getShader()->setVec3("dirLight.direction", 0.2f, -0.1f, 0.3f);
+			material->getShader()->setVec3("dirLight.ambient", 0.2f, 0.2f, 0.2f);
+			material->getShader()->setVec3("dirLight.diffuse", 0.4f, 0.4f, 0.4f);
+			material->getShader()->setVec3("dirLight.specular", 1.0f, 1.0f, 1.0f);
+
+			//if (material->getMaterialName() != "table")
+			//{
 
 			auto* car = Application::getInstance()->scene->getCar();
 			auto orientationNormalized = car->getOrientation();
@@ -302,8 +345,8 @@ namespace AVTEngine
 			material->getShader()->setFloat("spotLight2.quadratic", 0.032);
 			material->getShader()->setFloat("spotLight2.cutOff", glm::cos(glm::radians(12.5f)));
 			material->getShader()->setFloat("spotLight2.outerCutOff", glm::cos(glm::radians(15.0f)));
-		//}
-
+			//}
+		}
 		material->getShader()->setMat4("projectionMatrix", projectionMatrix);
 		material->getShader()->setMat4("viewMatrix", viewMatrix);
 		material->getShader()->setMat4("modelMatrix", command->transform);
@@ -311,7 +354,7 @@ namespace AVTEngine
 
 		renderMesh(mesh);
 
-		if (material->getMaterialName() == "table")
+		if (material->getMaterialName() == "table" || material->getMaterialName() == "billboard")
 		{
 			//materialLibrary->defaultMaterials[material->getMaterialName()]->getSamplerUnit("texmap1")->unbind();
 			for (auto it = samplers->begin(); it != samplers->end(); ++it)

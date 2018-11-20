@@ -80,16 +80,16 @@ namespace AVTEngine
 
 	void Shader::fillAttributesAndUniforms()
 	{
-		//int nAttrib;
+		int nAttrib;
 		int nUniform;
-		//glGetProgramiv(shaderID, GL_ACTIVE_ATTRIBUTES, &nAttrib);
+		glGetProgramiv(shaderID, GL_ACTIVE_ATTRIBUTES, &nAttrib);
 		glGetProgramiv(shaderID, GL_ACTIVE_UNIFORMS, &nUniform);
 
-		//attributes.resize(nAttrib);
+		attributes.resize(nAttrib);
 		uniforms.resize(nUniform);
 
 		char buffer[128];
-		/*for (int i = 0; i < nAttrib; i++)
+		for (int i = 0; i < nAttrib; i++)
 		{
 			GLenum glType;
 			glGetActiveAttrib(shaderID, i, sizeof(buffer), 0, &attributes[i].size, &glType, buffer);
@@ -97,7 +97,8 @@ namespace AVTEngine
 			attributes[i].name = std::string(buffer);
 			//attributes[i].type = std::string(buffer);
 			attributes[i].location = glGetAttribLocation(shaderID, buffer);
-		}*/
+			std::cout << "ATTRIBUTE: " << buffer << std::endl;
+		}
 
 		for (int i = 0; i < nUniform; i++)
 		{

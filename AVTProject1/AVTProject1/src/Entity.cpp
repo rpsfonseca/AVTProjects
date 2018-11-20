@@ -66,6 +66,7 @@ namespace AVTEngine
 
 		//Rotate model
 		glm::quat quaternion = glm::angleAxis(rotationAccum, y_axis);
+		rotation = quaternion;
 		node->setRotation(quaternion);
 		
 		//Also update orientation, for movement calculation purposes

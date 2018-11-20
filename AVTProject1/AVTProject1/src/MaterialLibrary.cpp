@@ -27,14 +27,16 @@ namespace AVTEngine
 	// --------------------------------------------------------------------------------------------    
 	void MaterialLibrary::generateDefaultMaterials()
 	{
-		// default render material (deferred path)
 		Material* defaultMat = new Material("basic");
 		defaultMaterials["basic"] = defaultMat;
-
 
 		Material* tableMat = new Material("table");
 		tableMat->setTexture("lightwood", ResourcesManager::loadTexture("wood", "textures\\lightwood.png", GL_TEXTURE_2D, GL_RGBA), 0);
 		tableMat->setTexture("checker", ResourcesManager::loadTexture("checker", "textures\\checker.png", GL_TEXTURE_2D, GL_RGBA), 1);
 		defaultMaterials["table"] = tableMat;
+
+		Material* treeMat = new Material("billboard");
+		treeMat->setTexture("myTextureSampler", ResourcesManager::loadTexture("tree", "textures\\tree.png", GL_TEXTURE_2D, GL_RGBA), 3);
+		defaultMaterials["tree"] = treeMat;
 	}
 }

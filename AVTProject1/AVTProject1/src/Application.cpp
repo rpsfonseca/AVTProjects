@@ -188,7 +188,8 @@ namespace AVTEngine
 		float deltaTime = timeSinceStart - oldTimeSinceStart;
 		oldTimeSinceStart = timeSinceStart;
 
-		if (!getInstance()->gameState.paused) {
+		if (!getInstance()->gameState.paused)
+		{
 			getInstance()->scene->updateEntities(deltaTime);
 			getInstance()->getGameState().points++;
 		}
