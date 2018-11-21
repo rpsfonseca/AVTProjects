@@ -158,11 +158,13 @@
     <ClCompile Include="src\Entity.cpp" />
     <ClCompile Include="src\HUD.cpp" />
     <ClCompile Include="src\GameState.cpp" />
+    <ClCompile Include="src\LensFlare.cpp" />
     <ClCompile Include="src\load_bmp.cpp" />
     <ClCompile Include="src\MaterialLibrary.cpp" />
     <ClCompile Include="src\node.cpp" />
     <ClCompile Include="src\OBJLoader.cpp" />
     <ClCompile Include="src\Orange.cpp" />
+    <ClCompile Include="src\ParticleSystem.cpp" />
     <ClCompile Include="src\scene.cpp" />
     <ClCompile Include="src\CommandBuffer.cpp" />
     <ClCompile Include="src\FileSystem.cpp" />
@@ -180,6 +182,7 @@
     <ClCompile Include="src\TextureLoader.cpp" />
     <ClCompile Include="src\TextureMappedFont.cpp" />
     <ClCompile Include="src\Tree.cpp" />
+    <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h" />
@@ -199,6 +202,7 @@
     <ClInclude Include="include\GameState.h" />
     <ClInclude Include="include\HUD.h" />
     <ClInclude Include="include\Input.h" />
+    <ClInclude Include="include\LensFlare.h" />
     <ClInclude Include="include\load_bmp.h" />
     <ClInclude Include="include\Material.h" />
     <ClInclude Include="include\MaterialLibrary.h" />
@@ -207,6 +211,7 @@
     <ClInclude Include="include\OBJLoader.h" />
     <ClInclude Include="include\OpenGLError.h" />
     <ClInclude Include="include\Orange.h" />
+    <ClInclude Include="include\ParticleSystem.h" />
     <ClInclude Include="include\RenderCommand.h" />
     <ClInclude Include="include\Renderer.h" />
     <ClInclude Include="include\ResourcesManager.h" />
@@ -220,6 +225,7 @@
     <ClInclude Include="include\TextureLoader.h" />
     <ClInclude Include="include\TextureMappedFont.h" />
     <ClInclude Include="include\Tree.h" />
+    <ClInclude Include="include\Wall.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\basic.fs" />

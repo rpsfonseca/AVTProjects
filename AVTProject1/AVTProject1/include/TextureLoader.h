@@ -18,5 +18,6 @@ namespace AVTEngine
 	{
 	public:
 		static Texture* loadTexture(std::string path, GLenum target, GLenum internalFormat, bool srgb = false);
+		static Texture* loadTextureWithAlpha(std::string path, GLenum target, GLenum internalFormat, bool srgb = false);
 	};
 }

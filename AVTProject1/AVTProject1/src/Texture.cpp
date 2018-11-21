@@ -40,6 +40,31 @@ namespace AVTEngine
 			glGenerateMipmap(target);
 		unbind();
 	}
+	// WORKAROUND TO BROKEN TEXTURE LOADER THAT DOESN'T SUPPORT TEXTURES WITH ALPHA
+	void Texture::generateWithAlpha(unsigned int _width, unsigned int _height, GLenum _internalFormat, GLenum _format, GLenum _type, void* data)
+	{
+		glGenTextures(1, &id);
+
+		width = _width;
+		height = _height;
+		depth = 0;
+		internalFormat = _internalFormat;
+		format = _format;
+		type = _type;
+
+		//assert(target == GL_TEXTURE_2D);
+		//glActiveTexture(GL_TEXTURE0);
+		//glBindTexture(GL_TEXTURE_2D, id);
+		bind();
+		glTexParameteri(target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapS);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapT);
+		glTexImage2D(target, 0, GL_RGBA, width, height, 0, GL_BGRA, type, data);
+		if (mipmapping)
+			glGenerateMipmap(target);
+		unbind();
+	}
 	// --------------------------------------------------------------------------------------------
 	void Texture::resize(unsigned int _width, unsigned int _height, unsigned int _depth)
 	{

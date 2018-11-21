@@ -60,4 +60,25 @@ namespace AVTEngine
 			return nullptr;
 		}
 	}
+
+	// WORKAROUND TO BROKEN TEXTURE LOADER THAT DOESN'T SUPPORT TEXTURES WITH ALPHA
+	Texture* ResourcesManager::loadTextureWithAlpha(std::string textureName, std::string path, GLenum target, GLenum format, bool srgb)
+	{
+		// if texture already exists, return that handle
+		/*if (ResourcesManager::textures.find(textureName) != ResourcesManager::textures.end())
+			return &ResourcesManager::textures[textureName];*/
+		path = resourcesPath + path;
+		Texture* texture = TextureLoader::loadTextureWithAlpha(path, target, format, srgb);
+
+		// make sure texture got properly loaded
+		if (texture->width > 0)
+		{
+			ResourcesManager::textures[textureName] = texture;
+			return ResourcesManager::textures[textureName];
+		}
+		else
+		{
+			return nullptr;
+		}
+	}
 }

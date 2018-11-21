@@ -79,6 +79,20 @@ namespace AVTEngine
 				}
 			}
 		}
+
+		for (std::map<std::string, Wall*>::iterator it = Application::getInstance()->scene->walls.begin();
+			it != Application::getInstance()->scene->walls.end();
+			++it)
+		{
+			if (myAABB.collidesWith(it->second->getBoundingBox())) {
+				if (it->second->handleCarCollision(this)) {
+					// undo movement and stop moving
+					setPosition(oldPos);
+					velocity = 0;
+				}
+			}
+		}
+
 	}
 
 	AABB Car::getBoundingBox() {
