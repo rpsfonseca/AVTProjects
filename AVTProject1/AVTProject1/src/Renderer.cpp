@@ -285,7 +285,15 @@ namespace AVTEngine
 			//command->transform = glm::mat4(1);
 			//command->transform[3] = pos;
 			command->transform[3] = pos;
-			command->transform = glm::scale(command->transform, glm::vec3(5.0f, 5.0f, 0.0f));
+			if (command->isReflection)
+			{
+				//command->transform = glm::translate(command->transform, glm::vec3(0, -1, 0));
+				command->transform = glm::scale(command->transform, glm::vec3(5, -5, 0));
+			}
+			else
+			{
+				command->transform = glm::scale(command->transform, glm::vec3(5.0f, 5.0f, 0.0f));
+			}
 			command->transform = glm::rotate(command->transform, glm::radians(90.0f), glm::vec3(1,0,0));
 		}
 		//else
