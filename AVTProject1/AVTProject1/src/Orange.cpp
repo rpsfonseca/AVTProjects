@@ -10,7 +10,7 @@ namespace AVTEngine
 
 	Orange::Orange(SceneNode *node_, float levelWidth_, float levelHeight_) : DynamicEntity(node_, ORANGE_MAX_VELOCITY, ORANGE_MAX_TURNRATE) {
 
-		velocity = getRandomRate() * 10; //Oranges shouldn't all behave the same
+		velocity = getRandomRate() * 2; //Oranges shouldn't all behave the same
 
 		//Margin for when orange exits table
 		float change = ORANGE_DEFAULT_RADIUS + 0.1; //Work around
@@ -40,7 +40,7 @@ namespace AVTEngine
             increaseSpeedTimer = TEMPO_ACELERAR_LARANJAS - increaseSpeedTimer; // 
 		
 			//int randNum = rand() % (2 - 1 + 1) + 1; //int randNum = rand()%(max-min + 1) + min; //Random velocity increase (5 or 10)
-			velocity += 10; 
+			velocity += 5; 
         }
 
 		//Respawn calculations
