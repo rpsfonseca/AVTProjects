@@ -27,9 +27,6 @@ namespace AVTEngine
 		format = _format;
 		type = _type;
 
-		//assert(target == GL_TEXTURE_2D);
-		//glActiveTexture(GL_TEXTURE0);
-		//glBindTexture(GL_TEXTURE_2D, id);
 		bind();
 		glTexParameteri(target, GL_TEXTURE_MIN_FILTER, filterMin);
 		glTexParameteri(target, GL_TEXTURE_MAG_FILTER, filterMax);
@@ -52,9 +49,6 @@ namespace AVTEngine
 		format = _format;
 		type = _type;
 
-		//assert(target == GL_TEXTURE_2D);
-		//glActiveTexture(GL_TEXTURE0);
-		//glBindTexture(GL_TEXTURE_2D, id);
 		bind();
 		glTexParameteri(target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

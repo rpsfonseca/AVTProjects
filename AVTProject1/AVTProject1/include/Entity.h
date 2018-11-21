@@ -64,14 +64,6 @@ namespace AVTEngine
 		
 		float rotationAccum;
 		bool enabled = false; // Se o objecto deve detectar colisões ou não
-		
-		/* Possibly needed variables
-			int id
-			string name
-			quaternion de rotaçao
-			vec3 scale
-			boolean visible
-		*/
 
 		//Methods
 		void disable(); 

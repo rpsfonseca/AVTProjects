@@ -8,21 +8,9 @@ namespace AVTEngine
 
 		initialPos = startPos_;
 
-		//TODO not sure if needed
 		minVelocity = 0.1; // Velocidade para qual o algoritmo arredonda para 0
 		minDrag = MIN_DRAG; // Forca minima de fricao
-
 	};
-
-	/* TODO Stuff for collision detection
-	get type() {   //Para saber que tipo de colisão se trata
-	return TYPE.CHEERIO;
-	}
-
-	getBoundingVolume() { //Raio da caixa para colisao
-	return new Circle(this.getPosition(), 1.75);
-	}
-	*/
 
 	void Cheerio::update(float delta_) { //
 		//Update

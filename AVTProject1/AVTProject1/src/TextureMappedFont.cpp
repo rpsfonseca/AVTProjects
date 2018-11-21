@@ -24,11 +24,6 @@
 
 namespace AVTEngine
 {
-	/*TextureMappedFont::TextureMappedFont(void)
-	{
-		_textureID = -1;
-		_fontSize = 16;
-	}*/
 
 	TextureMappedFont::~TextureMappedFont(void)
 	{
@@ -49,10 +44,6 @@ namespace AVTEngine
 		delete[] buf;
 		
 		_shader.use();
-		/*_shader.AddAttribute("vVertex");
-		_shader.AddAttribute("vTexCoord");
-		_shader.AddUniform("texture0");
-		_shader.AddUniform("selected");*/
 		_shader.setInteger("texture0", 2);
 		_shader.setInteger("selected", 0);
 		glUseProgram(0);
@@ -112,8 +103,6 @@ namespace AVTEngine
 
 	void TextureMappedFont::DrawString(float x, float y, const std::string& str, bool sel)
 	{
-		// static float modelviewMatrix[16];
-		 //static float projectionMatrix[16];
 
 		GL_CHECK_ERRORS
 
@@ -187,7 +176,6 @@ namespace AVTEngine
 
 		GL_CHECK_ERRORS
 
-			//if(test[0])
 			glEnable(GL_DEPTH_TEST);
 	}
 }

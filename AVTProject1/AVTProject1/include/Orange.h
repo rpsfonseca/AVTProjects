@@ -32,7 +32,6 @@ namespace AVTEngine
 		float respawnTimer;
 		bool dead;
 		bool visible; //If it should be rendered or not
-		//char name;
 
 		//Methods
 		void update(float delta);
@@ -42,8 +41,6 @@ namespace AVTEngine
 		glm::vec3 getRandomPosition();
 		void setOrientation(glm::vec3 orientation_);
 
-		//void getType()
-		//void getBoundingVolume();
 		void reset();
 		void kill();
 

@@ -10,7 +10,6 @@ namespace AVTEngine
 	class TextureMappedFont
 	{
 	public:
-		/*TextureMappedFont(void);*/
 		TextureMappedFont(const std::string& fontTexture, Shader& shader, float fontSize = 16.0f);
 		~TextureMappedFont(void);
 

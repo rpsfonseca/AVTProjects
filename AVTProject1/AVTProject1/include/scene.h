@@ -29,11 +29,6 @@ namespace AVTEngine
 	class Scene
 	{
 	public:
-		/*
-		Camera *sceneCamera;
-		GlobalLight globalLight = GlobalLight(Vec3(0.f, 1.f, 0.f));
-		RenderTarget *renderTarget;
-		*/
 
 		static SceneNode* rootSceneNode; /** The root node of our node hierarchy */
 		static int nodeCounterId; /** Counter to keep track of the current node id to give to a new node */
@@ -45,8 +40,6 @@ namespace AVTEngine
 		Car* car;
 
 		Renderer* renderer;
-
-		//TODO teste
 		Entity* entity;
 
 		bool testboolean;
@@ -58,7 +51,6 @@ namespace AVTEngine
 		Scene();
 
 		static SceneNode* createSceneNode(std::string name, Mesh* mesh, Material* material);
-		//static Entity* createCar(SceneNode* node_, glm::vec3 startPos_, float rotation_);
 		static Entity* createCheerio(SceneNode* node_, glm::vec3 startPos_);
 		static Car* createCar(SceneNode* node_, glm::vec3 startPos_, float rotation_);
 		static Entity* createOrange(SceneNode* node_, float levelWidth_, float levelHeight_);
@@ -68,19 +60,9 @@ namespace AVTEngine
 
 
 		void setupSceneManager();
-
 		void pushToRender();
-
 		void draw();
-
 		void cleanup();
-
-		/*
-		void setCamera(Camera *camera_);
-		void setLight(GlobalLight &light_);
-		void setRenderTarget(RenderTarget *rendertarget_);
-		RenderTarget *getRenderTarget();
-		*/
 
 		void setRenderer(Renderer* _renderer);
 

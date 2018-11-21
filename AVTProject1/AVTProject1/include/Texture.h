@@ -13,8 +13,6 @@ namespace AVTEngine
 	{
 	public:
 		GLuint id;
-		// TODO(Joey): these should be private and only accessed w/ getters/setters s.t. we can 
-		// directly change the texture state where relevant from within the setters.
 		GLenum target = GL_TEXTURE_2D;           // what type of texture we're dealing with
 		GLenum internalFormat = GL_RGB;                 // number of color components
 		GLenum format = GL_RGB;                 // the format each texel is stored in

@@ -19,13 +19,6 @@ namespace AVTEngine
 	//Orange
 	DynamicEntity::DynamicEntity(SceneNode *node_, int maxVelocity_, int maxTurnRate_) :
 		maxVelocity(maxVelocity_), maxTurnRate(maxTurnRate_), Entity(node_) {
-
-		/*
-		orientation = glm::vec3(1, 0, 0);
-
-		velocity = 0;	// Velocidade inicial
-		minVelocity = 0.1; // Velocidade para qual o algoritmo arredonda para 0
-		*/
 	};
 
 	//Butter
@@ -58,7 +51,7 @@ namespace AVTEngine
 		glm::vec3 ori = orientation;
 		glm::vec3 velocityVector = ori * (velocity * delta_);
 		
-		position += velocityVector; //TODO send this to Entity
+		position += velocityVector;
 		Entity::setPosition(position); //Tells the Entity class to tell the Node class that the node needs to update
 	}
 
