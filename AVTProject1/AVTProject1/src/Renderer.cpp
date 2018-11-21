@@ -21,6 +21,7 @@
 namespace AVTEngine
 {
 	glm::vec3 Renderer::CLEAR_COLOR = glm::vec3(0.1f, 0.1f, 0.1f);
+	static Mesh* stencilMesh;
 
 	// Default constructor.
 	// Does nothing other than constructing a variable of its type.
@@ -51,11 +52,14 @@ namespace AVTEngine
 		glDepthMask(GL_TRUE);
 		glDepthRange(0.0, 1.0);
 		glClearDepth(1.0);
+		glClearStencil(0);
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
 		glFrontFace(GL_CCW);
 
-
+		stencilMesh = new Mesh({ glm::vec3(-7.9, 0.5, -6.6), glm::vec3(-7.9, 0.5, 6.6), glm::vec3(7.9, 0.5, 6.6), glm::vec3(7.9, 0.5, -6.6) },
+			{ 0, 1, 2,
+			  2, 3, 0 });
 		//Stencil
 		/*glEnable(GL_STENCIL_TEST);
 		glStencilFunc(GL_ALWAYS, 1, 0xFF); // Set any stencil to 1
@@ -127,36 +131,49 @@ namespace AVTEngine
 		std::vector<RenderCommand> renderCommands = commandBuffer->getRenderCommands();
 
 
-		glEnable(GL_STENCIL_TEST);
 
-		/*for (unsigned int i = 0; i < renderCommands.size(); ++i)
+		/* Pre-requisites for floor reflection */
+		/* Don't update color or depth. */
+		glDisable(GL_DEPTH_TEST);
+		glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+
+		/* Draw 1 into the stencil buffer. */
+		glEnable(GL_STENCIL_TEST);
+		glEnable(GL_DEPTH_TEST);
+		glStencilFunc(GL_ALWAYS, 1, 1);
+		glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
+
+		for (unsigned int i = 0; i < renderCommands.size(); ++i)
 		{
-			if ( (renderCommands[i].material->getMaterialName() == "table" ) ) { //First floor render needs to setup stencil
-				renderCommands[i].isStencilSetup = true;
-				renderCommand(&renderCommands[i], currentCamera); //TODO setup stencil
-				renderCommands[i].isStencilSetup = false;
-				return;
+			if (renderCommands[i].material->getMaterialName() == "table") { //First floor render needs to setup stencil
+				auto material = renderCommands[i].material;
+				material->getShader()->use();
+				material->getShader()->setMat4("projectionMatrix", projectionMatrix);
+				material->getShader()->setMat4("viewMatrix", viewMatrix);
+				material->getShader()->setMat4("modelMatrix", renderCommands[i].transform);
+				renderMeshStencilSetup(stencilMesh);
+				break;
 			}
-		}*/
-		//Stencil TODO
-		/* Now, only render where stencil is set to 1. */
+		}
+
+		///* Re-enable update of color and depth. */
+		glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 		
-		glStencilFunc(GL_EQUAL, 1, 1);  /* draw if stencil ==1 */
+		///* Now, only render where stencil is set to 1. */
 		glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+		glStencilFunc(GL_EQUAL, 1, 1);  /* draw if stencil ==1 */
 		glCullFace(GL_FRONT);
 		glClear(GL_DEPTH_BUFFER_BIT);
 
 		//Reflections
 		for (unsigned int i = 0; i < renderCommands.size(); ++i)
 		{
-			if (renderCommands[i].isReflection) { //First floor render needs to setup stencil
+			if (renderCommands[i].isReflection) {
 				renderCommand(&renderCommands[i], currentCamera);
 			}
 		}
 		glCullFace(GL_BACK);
 		glDisable(GL_STENCIL_TEST);
-
-		glClear(GL_DEPTH_BUFFER_BIT);
 
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -476,16 +493,6 @@ namespace AVTEngine
 	void Renderer::renderMeshStencilSetup(Mesh* mesh)
 	{
 		glBindVertexArray(mesh->getVao());
-
-		/* Pre-requisites for floor reflection */
-		/* Don't update color or depth. */
-		//glDisable(GL_DEPTH_TEST);
-		glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-		
-		/* Draw 1 into the stencil buffer. */
-		glEnable(GL_STENCIL_TEST);
-		glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
-		glStencilFunc(GL_ALWAYS, 1, 1);
 		
 		/* Now drawing the floor just tags the floor pixels as stencil value 1. */
 		if (mesh->usingIndices)
@@ -496,11 +503,6 @@ namespace AVTEngine
 		{
 		glDrawArrays(mesh->topology == TRIANGLE_STRIP ? GL_TRIANGLE_STRIP : GL_TRIANGLES, 0, mesh->getVerticesSize());
 		}
-
-		/* Re-enable update of color and depth. */
-		glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-		glEnable(GL_DEPTH_TEST);
-		//glDisable(GL_STENCIL_TEST);
 		std::cout << "Floor drawn";
 	}
 }

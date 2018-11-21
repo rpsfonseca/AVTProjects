@@ -49,7 +49,7 @@ namespace AVTEngine
 
 		AABB getBoundingBox() override;
 		bool handleCarCollision(Car* car) override;
-		bool Orange::handleWallCollision();
+		bool handleWallCollision();
 
 		void checkOffLimits();
 
