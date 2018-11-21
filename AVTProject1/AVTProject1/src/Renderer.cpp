@@ -245,6 +245,9 @@ namespace AVTEngine
 
 		if (material->getMaterialName() == "billboard")
 		{
+
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			glm::vec3 lookAt = glm::vec3(0,0,1);
 			glm::vec3 objToCamProj;
 			glm::vec3 upAux;
@@ -437,6 +440,10 @@ namespace AVTEngine
 			renderMesh(mesh);
 		}
 		
+		if (material->getMaterialName() == "billboard")
+		{
+			glDisable(GL_BLEND);
+		}
 
 		if (material->getMaterialName() == "table" || material->getMaterialName() == "billboard")
 		{

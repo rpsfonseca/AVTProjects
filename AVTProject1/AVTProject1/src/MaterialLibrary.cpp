@@ -36,7 +36,7 @@ namespace AVTEngine
 		defaultMaterials["table"] = tableMat;
 
 		Material* treeMat = new Material("billboard");
-		treeMat->setTexture("myTextureSampler", ResourcesManager::loadTexture("tree", "textures\\tree.png", GL_TEXTURE_2D, GL_RGBA), 3);
+		treeMat->setTexture("myTextureSampler", ResourcesManager::loadTextureWithAlpha("tree", "textures\\tree.tga", GL_TEXTURE_2D, GL_RGBA), 3);
 		defaultMaterials["tree"] = treeMat;
 	}
 }

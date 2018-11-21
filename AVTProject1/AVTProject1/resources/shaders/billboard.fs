@@ -14,6 +14,16 @@ uniform sampler2D myTextureSampler;
 
 void main(){
 	// Output color = color of the texture at the specified UV
-	color = texture( myTextureSampler, TexCoords );
+	vec4 texel = texture( myTextureSampler, TexCoords );
+	if(texel.a == 0.0)
+	{
+		discard;
+	}
+	else
+	{
+		color = texel;
+		//colorOut = vec4(max(intensity*texel.rgb + spec, 0.1*texel.rgb), texel.a);
+	}
+
 	//color = vec4(1.0);
 }
