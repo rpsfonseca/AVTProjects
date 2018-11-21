@@ -9,13 +9,6 @@
 #include <glm/gtc/quaternion.hpp>
 #include <vector>
 
-/* TODO uncomment
-#include "graphics\material.hpp"
-#include "graphics\texture.hpp"
-#include "graphics\mesh.hpp"
-#include "graphics\globalLight.hpp"
-#include "graphics\camera\camera.hpp"
-*/
 
 namespace AVTEngine
 {
@@ -23,7 +16,6 @@ namespace AVTEngine
 	struct NodeTexture
 	{
 		std::string key;
-		//Texture *texture; TODO uncomment
 	};
 
 	class Mesh;
@@ -59,7 +51,6 @@ namespace AVTEngine
 
 		std::vector<NodeTexture> textureArray;
 		std::vector<std::string> uniformiArray;
-		//std::map<std::string, int> uniformiMap;
 		bool isEnabled = true;
 
 		
@@ -70,25 +61,20 @@ namespace AVTEngine
 		glm::mat4 resultMatrix;
 
 	public:
-		//TODO uncomment
 		SceneNode(std::string _name, Mesh* mesh, Material* material);
 		SceneNode(Entity* entity, Mesh* mesh, Material* material);
-		//SceneNode(Mesh *mesh);
 		SceneNode();
 		
 		void addChild(SceneNode *node_);
 		void addFloor(SceneNode *node_);
 		
-		//void addTexture(std::string key_, Texture *texture_); TODO uncomment
 		void addUniformi(std::string key_, int value_);
 		void setUniformi(std::string key_, int value_);
 
 		void enable();
 		void disable();
 
-		//void setMesh(Mesh *mesh_); //TODO uncomment
 		void setShader(Shader *shader_);
-		//void setMaterial(Material *material_); //TODO uncomment
 
 		glm::mat4 getTransform();
 		glm::mat4 getMirrorTransform();
@@ -111,10 +97,6 @@ namespace AVTEngine
 		
 
 		Shader *getCurrentShader(SceneNode *parent_);
-
-		//TODO uncomment
-		//Material *getCurrentMaterial(SceneNode *parent_);
-		//void drawSelf(Shader *shader_, Material *material_);
 	};
 }
 

@@ -17,40 +17,8 @@ namespace AVTEngine
 		Texture* texture = new Texture();
 		texture->target = target;
 		texture->internalFormat = internalFormat;
-		/*if (texture.internalFormat == GL_RGB || texture.internalFormat == GL_SRGB)
-			texture.internalFormat = srgb ? GL_SRGB : GL_RGB;
-		if (texture.internalFormat == GL_RGBA || texture.internalFormat == GL_SRGB_ALPHA)
-			texture.internalFormat = srgb ? GL_SRGB_ALPHA : GL_RGBA;*/
-
-			// flip textures on their y coordinate while loading
-			//stbi_set_flip_vertically_on_load(true);
-
+		
 		int width, height, nrComponents;
-		/*unsigned char *data = stbi_load(path.c_str(), &width, &height, &nrComponents, 0);
-		if (data)
-		{
-			GLenum format;
-			if (nrComponents == 1)
-				format = GL_RED;
-			else if (nrComponents == 3)
-				format = GL_RGB;
-			else if (nrComponents == 4)
-				format = GL_RGBA;
-
-			if (target == GL_TEXTURE_2D)
-			{
-				texture.generate(width, height, texture.internalFormat, texture.internalFormat, GL_UNSIGNED_BYTE, data);
-			}
-			stbi_image_free(data);
-		}
-		else
-		{
-			std::cout << "Texture failed to load at path: " << path << std::endl;
-			stbi_image_free(data);
-			return texture;
-		}
-		texture.width = width;
-		texture.height = height;*/
 
 		//image format
 		FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
@@ -101,17 +69,6 @@ namespace AVTEngine
 
 		texture->width = width;
 		texture->height = height;
-
-		/*for (int y = 0; y < height; y++)
-		{
-			BYTE* pixel = (BYTE*)bits;
-			for (int x = 0; x < width; x++)
-			{
-				std::cout << +pixel[FI_RGBA_RED] << " " << +pixel[FI_RGBA_GREEN] << " " << +pixel[FI_RGBA_BLUE] << std::endl;
-				pixel += 3;
-			}
-			bits += pitch;
-		}*/
 
 		FreeImage_Unload(dib);
 
@@ -176,17 +133,6 @@ namespace AVTEngine
 
 		texture->width = width;
 		texture->height = height;
-
-		/*for (int y = 0; y < height; y++)
-		{
-			BYTE* pixel = (BYTE*)bits;
-			for (int x = 0; x < width; x++)
-			{
-				std::cout << +pixel[FI_RGBA_RED] << " " << +pixel[FI_RGBA_GREEN] << " " << +pixel[FI_RGBA_BLUE] << std::endl;
-				pixel += 3;
-			}
-			bits += pitch;
-		}*/
 
 		FreeImage_Unload(dib);
 

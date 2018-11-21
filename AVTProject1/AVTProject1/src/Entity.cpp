@@ -14,7 +14,6 @@ namespace AVTEngine
 		orientation = orientation_;
 	};
 
-	//TODO teste
 	Entity::Entity(SceneNode *node_) : 
 		node(node_) {
 		enabled = true;
@@ -47,18 +46,6 @@ namespace AVTEngine
 		node->setPosition(position_); //Tell node to change position
 	}
 
-
-	//Aplicar rotaçao na matriz do modelo
-	/* 
-	void Entity::rotate(float angle_) {
-		rotationAccum += angle_;
-		glm::vec3 y_axis = Y_AXIS;
-
-		//Rotate model
-		ModelViewMatrix = glm::rotate(ModelViewMatrix, angle_, y_axis);
-		orientation = glm::rotateY(orientation, angle_);
-	}
-	*/
 	void Entity::rotate(float angle_) {
 
 		rotationAccum += angle_;

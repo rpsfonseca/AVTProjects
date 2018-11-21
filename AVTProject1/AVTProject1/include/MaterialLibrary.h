@@ -33,7 +33,5 @@ namespace AVTEngine
 	private:
 		// generate all default template materials
 		void generateDefaultMaterials();
-		// generate all internal materials used by the renderer; run in MaterialLibrary to improve readability.
-		//void generateInternalMaterials();
 	};
 }

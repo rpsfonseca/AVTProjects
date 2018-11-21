@@ -88,38 +88,8 @@ namespace AVTEngine
 		createWall(-80, 0, -68, -80, 10, 68);
 		createWall(80, 0, -68, 80, 10, 68);
 
-		//renderer->setupRenderer();
-
-		/*glGenBuffers(1, &uniformBlockId);
-
-		glBindBuffer(GL_UNIFORM_BUFFER, uniformBlockId);
-		glBufferData(GL_UNIFORM_BUFFER, sizeof(Mat4) * 2, 0, GL_STREAM_DRAW);
-		glBindBufferBase(GL_UNIFORM_BUFFER, renderer->uboBp, uniformBlockId);
-		glBindBuffer(GL_UNIFORM_BUFFER, 0);*/
-
-		// TODO: we could probably do
-		// glGenBuffers(1, &renderer->uboId);
-		// glBindBuffer(GL_UNIFORM_BUFFER, renderer->uboId);
-		// glBufferData(GL_UNIFORM_BUFFER, sizeof(Mat4) * 2, 0, GL_STREAM_DRAW);
-		// glBindBufferBase(GL_UNIFORM_BUFFER, renderer->uboBp, renderer->uboId);
-
-		//renderer->uboId = uniformBlockId;
-
-
-		//Mesh* testMesh = ResourcesManager::loadOBJ("untitled");
-		/*Mesh* testMesh = ResourcesManager::loadOBJ("table_test");
-		SceneNode* planeNode = Scene::createSceneNode(testMesh, renderer->getMaterial("table"));
-		planeNode->material->setAmbient(glm::vec3(0.2f, 0.15f, 0.1f));
-		planeNode->material->setDiffuse(glm::vec3(0.8f, 0.6f, 0.4f));
-		planeNode->material->setSpecular(glm::vec3(0.8f, 0.8f, 0.8f));
-		planeNode->material->setShininess(100.f);
-		planeNode->setPosition(glm::vec3(0.0f, -10.0f, 0.0f));
-		planeNode->setScale(glm::vec3(10, 10, 10));*/
-
 		//Mesa
 		Mesh* testMesh = ResourcesManager::loadOBJ("table");
-		//testMesh->isFloor = true; //Floor mesh
-		//testMesh->isSetup = true; //Floor mesh
 		SceneNode* planeNode = Scene::createSceneNode("table", testMesh, renderer->getMaterial("table"));
 		planeNode->material->setAmbient(glm::vec3(1.f, 0.5f, 0.31f));
 		planeNode->material->setDiffuse(glm::vec3(1.0f, 0.5f, 0.31f));
@@ -129,37 +99,6 @@ namespace AVTEngine
 		planeNode->setScale(glm::vec3(10, 1, 10));
 		planeNode->setMirrored(false); 
 		rootSceneNode->addChild(planeNode);
-		//TODO add this node to the floor node slot
-		//rootSceneNode->
-		//std::cout << "Floor added to scene";
-			
-			
-		//Don't reflect the table
-		/*planeNode->setScale(Vec3(4.0f));
-		planeNode->model->setPosition(Vec3(0, 0, -1.0f));
-		planeNode->model->setRotation(0.0f);
-		planeNode->model->setScale(Vec3(1.0f));*/
-		
-
-		
-
-		//rootSceneNode->childNodes = std::vector<SceneNode*>(1, planeNode);
-
-		/*SceneNode* planeNode2 = Scene::createSceneNode(new Mesh(vectorOfVertices, indices), new Material("basic"));
-		planeNode2->material->setAmbient(glm::vec3(1.f, 1.f, 0.3f));
-		planeNode2->material->setDiffuse(glm::vec3(0.5f, 0.5f, 1.f));
-		planeNode2->material->setSpecular(glm::vec3(1.f));
-		planeNode2->material->setShininess(32.f);
-		planeNode2->setPosition(glm::vec3(-1.0f, -1.0f, 0.0f));
-		/*planeNode2->setScale(Vec3(3.0f, 1.5f, 1.0f));
-		planeNode2->model->setPosition(Vec3(0.0f));
-		planeNode2->model->setRotation(0.0f);
-		planeNode2->model->setScale(Vec3(1.0f));
-		rootSceneNode->addChild(planeNode2);*/
-
-		/*Mesh* testMesh = ResourcesManager::loadOBJ("quad");
-		SceneNode* tree = Scene::createSceneNode(testMesh, new Material("billboard"));*/
-		// Tree* tree
 
 		//Trees
 		insertTree(0, 5, 0);
@@ -179,11 +118,6 @@ namespace AVTEngine
 		planeNode2->material->setDiffuse(glm::vec3(0.0f, 0.8f, 1.f));
 		planeNode2->material->setSpecular(glm::vec3(0.0f, 0.8f, 1.f));
 		planeNode2->material->setShininess(100.f);
-		//planeNode2->setPosition(glm::vec3(0.0f, -1.0f, 0.0f));
-		/*planeNode->setScale(Vec3(4.0f));
-		planeNode->model->setPosition(Vec3(0, 0, -1.0f));
-		planeNode->model->setRotation(0.0f);
-		planeNode->model->setScale(Vec3(1.0f));*/
 		rootSceneNode->addChild(planeNode2);
 		
 		nodes.insert(std::pair<std::string, SceneNode*>("plane2", planeNode2));
@@ -229,27 +163,7 @@ namespace AVTEngine
 
 	void Scene::draw()
 	{
-		//resultMatrix = glm::mat4(1.0); //Identity Matrix
-
-		/* TODO uncomment
-		if (renderTarget != nullptr)
-		{
-			renderTarget->bind();
-		}
-		*/
 		renderer->renderPushedCommands();
-
-		/*for (SceneNode* n : nodeArray)
-		{
-			n->draw(this);
-		}*/
-
-		/* TODO uncomment
-		if (renderTarget != nullptr)
-		{
-			renderTarget->unbind();
-		}
-		*/
 	}
 
 	void Scene::cleanup()
@@ -266,36 +180,6 @@ namespace AVTEngine
 	{
 		renderer = _renderer;
 	}
-
-	/* TODO uncomment
-	void Scene::setCamera(Camera *camera_)
-	{
-		sceneCamera = camera_;
-		sceneEnvironment.camera = sceneCamera;
-	}
-	*/
-
-	/* TODO uncomment
-	void Scene::setLight(GlobalLight &light_)
-	{
-		globalLight = light_;
-		sceneEnvironment.globalLight = &globalLight;
-	}
-	*/
-
-	/* TODO uncomment
-	void Scene::setRenderTarget(RenderTarget *renderTarget_)
-	{
-		renderTarget = renderTarget_;
-	}
-	*/
-
-	/* TODO uncomment
-	RenderTarget *Scene::getRenderTarget()
-	{
-		return renderTarget;
-	}
-	*/
 
 	void Scene::updateEntities(float delta_)
 	{
@@ -323,13 +207,11 @@ namespace AVTEngine
 		
 	}
 
-
 	int cheerioId = 0;
 	void Scene::insertCheerio(int x, int y, int z) {
 
 		Mesh* cheerioMesh = ResourcesManager::loadOBJ("torus");
 		SceneNode* a = Scene::createSceneNode("cheerio", cheerioMesh, renderer->getMaterial("basic"));
-		//SceneNode* a = Scene::createSceneNode(cheerioMesh, new Material("basic"));
 		glm::vec3 posVec = glm::vec3(x, y, z);
 		Entity* cheerio = Scene::createCheerio(a, posVec);
 
@@ -352,16 +234,12 @@ namespace AVTEngine
 
 		Mesh* orangeMesh = ResourcesManager::loadOBJ("orange");
 		SceneNode* a = Scene::createSceneNode("orange", orangeMesh, renderer->getMaterial("basic"));
-		//SceneNode* a = Scene::createSceneNode(orangeMesh, new Material("basic"));
 		Entity* orange = Scene::createOrange(a, levelWidth_, levelHeight_);
 
 		a->material->setAmbient(glm::vec3(1.f, 1.f, 0.f));
 		a->material->setDiffuse(glm::vec3(1.0f, 1.f, 0.0f));
 		a->material->setSpecular(glm::vec3(1.f, 1.f, 1.f));
 		a->material->setShininess(64.f);
-
-		//glm::vec3 posVec = glm::vec3(1);
-		//a->setPosition(posVec);
 
 		rootSceneNode->addChild(a);
 		std::string id = "orange" + std::to_string(orangeId);
@@ -377,7 +255,6 @@ namespace AVTEngine
 
 		Mesh* butterMesh = ResourcesManager::loadOBJ("untitled");
 		SceneNode* a = Scene::createSceneNode("butter", butterMesh, renderer->getMaterial("basic"));
-		//SceneNode* a = Scene::createSceneNode(butterMesh, new Material("basic"));
 		glm::vec3 posVec = glm::vec3(x, y, z);
 		Entity* butter = Scene::createButter(a, posVec);
 

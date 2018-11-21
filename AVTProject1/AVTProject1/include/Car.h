@@ -25,14 +25,8 @@ namespace AVTEngine
 
 		Car(SceneNode *node_, glm::vec3 startPos_, float rotation_);
 		Car() = default;
-		
-
+	
 		glm::vec3 initialPos;
-
-		/* TODO
-		Light spotlight1;
-		Light spotlight2;
-		*/
 
 		void reset();
 		void update(float delta);

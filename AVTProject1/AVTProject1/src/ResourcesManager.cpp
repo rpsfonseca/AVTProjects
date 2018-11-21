@@ -4,7 +4,6 @@
 #include "Mesh.h"
 #include "OBJLoader.h"
 #include "Shader.h"
-//#include "Texture.h"
 #include "TextureLoader.h"
 
 namespace AVTEngine

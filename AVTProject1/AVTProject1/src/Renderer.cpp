@@ -43,8 +43,6 @@ namespace AVTEngine
 	// - Sets up a few gl options, in terms of rendering.
 	void Renderer::setupRenderer()
 	{
-		/*currentShader = Shader("../../projects/engine/src/vertex_shader.glsl", "../../projects/engine/src/frag_shader.glsl");
-		uboBp = currentShader.uniformBlockBinding();*/
 
 		glClearColor(CLEAR_COLOR.x, CLEAR_COLOR.y, CLEAR_COLOR.z, 1.0f);
 		glEnable(GL_DEPTH_TEST);
@@ -60,11 +58,6 @@ namespace AVTEngine
 		stencilMesh = new Mesh({ glm::vec3(-7.9, 0.5, -6.6), glm::vec3(-7.9, 0.5, 6.6), glm::vec3(7.9, 0.5, 6.6), glm::vec3(7.9, 0.5, -6.6) },
 			{ 0, 1, 2,
 			  2, 3, 0 });
-		//Stencil
-		/*glEnable(GL_STENCIL_TEST);
-		glStencilFunc(GL_ALWAYS, 1, 0xFF); // Set any stencil to 1
-		glStencilMask(0xFF); // Write to stencil buffer
-		*/
 	}
 
 	void Renderer::pushRenderables(SceneNode* sceneNode)
@@ -113,17 +106,7 @@ namespace AVTEngine
 	// - Activates the currentShader
 	void Renderer::preDraw()
 	{
-		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		//Stencil
-		//glClear(GL_STENCIL_BUFFER_BIT); // Clear stencil buffer (0 by default)
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT); //TODO CHANGED
-
-
-		/*glBindBuffer(GL_UNIFORM_BUFFER, uboId);
-		glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), &viewMatrix);
-		glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), &projectionMatrix);
-		glBindBuffer(GL_UNIFORM_BUFFER, 0);*/
 	}
 
 	void Renderer::renderPushedCommands()
@@ -374,37 +357,14 @@ namespace AVTEngine
 			material->getShader()->setFloat("pointLights[5].constant", 1.0f);
 			material->getShader()->setFloat("pointLights[5].linear", 0.09);
 			material->getShader()->setFloat("pointLights[5].quadratic", 0.032);
-			// spotLight
-			//material->getShader()->setVec3("spotLight.position", glm::vec3(0));
-			//material->getShader()->setVec3("spotLight.direction", glm::fastNormalize(glm::vec3(1)));
-			//material->getShader()->setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
-			//material->getShader()->setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
-			//material->getShader()->setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
-			//material->getShader()->setFloat("spotLight.constant", 1.0f);
-			//material->getShader()->setFloat("spotLight.linear", 0.09);
-			//material->getShader()->setFloat("spotLight.quadratic", 0.032);
-			//material->getShader()->setFloat("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
-			//material->getShader()->setFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
-			//// spotLight 2
-			//material->getShader()->setVec3("spotLight2.position", glm::vec3(0));
-			//material->getShader()->setVec3("spotLight2.direction", glm::fastNormalize(glm::vec3(1)));
-			//material->getShader()->setVec3("spotLight2.ambient", 0.0f, 0.0f, 0.0f);
-			//material->getShader()->setVec3("spotLight2.diffuse", 1.0f, 1.0f, 1.0f);
-			//material->getShader()->setVec3("spotLight2.specular", 1.0f, 1.0f, 1.0f);
-			//material->getShader()->setFloat("spotLight2.constant", 1.0f);
-			//material->getShader()->setFloat("spotLight2.linear", 0.09);
-			//material->getShader()->setFloat("spotLight2.quadratic", 0.032);
-			//material->getShader()->setFloat("spotLight2.cutOff", glm::cos(glm::radians(12.5f)));
-			//material->getShader()->setFloat("spotLight2.outerCutOff", glm::cos(glm::radians(15.0f)));
-		//}
+			
 
 			material->getShader()->setVec3("dirLight.direction", 0.2f, -0.1f, 0.3f);
 			material->getShader()->setVec3("dirLight.ambient", 0.2f, 0.2f, 0.2f);
 			material->getShader()->setVec3("dirLight.diffuse", 0.4f, 0.4f, 0.4f);
 			material->getShader()->setVec3("dirLight.specular", 1.0f, 1.0f, 1.0f);
 
-			//if (material->getMaterialName() != "table")
-			//{
+
 
 			auto* car = Application::getInstance()->scene->getCar();
 			auto orientationNormalized = car->getOrientation();
@@ -431,12 +391,10 @@ namespace AVTEngine
 			material->getShader()->setFloat("spotLight2.quadratic", 0.032);
 			material->getShader()->setFloat("spotLight2.cutOff", glm::cos(glm::radians(12.5f)));
 			material->getShader()->setFloat("spotLight2.outerCutOff", glm::cos(glm::radians(15.0f)));
-			//}
-		//}
+
 		material->getShader()->setMat4("projectionMatrix", projectionMatrix);
 		material->getShader()->setMat4("viewMatrix", viewMatrix);
 		material->getShader()->setMat4("modelMatrix", command->transform);
-		//material->getShader()->setMat4("modelMatrix", camera->getViewProjection());
 
 
 		if (command->isStencilSetup) {
@@ -451,12 +409,10 @@ namespace AVTEngine
 		
 		if (material->getMaterialName() == "billboard")
 		{
-			//glDisable(GL_BLEND);
 		}
 
 		if (material->getMaterialName() == "table" || material->getMaterialName() == "billboard")
 		{
-			//materialLibrary->defaultMaterials[material->getMaterialName()]->getSamplerUnit("texmap1")->unbind();
 			for (auto it = samplers->begin(); it != samplers->end(); ++it)
 			{
 				it->second.texture->unbind();
@@ -466,76 +422,19 @@ namespace AVTEngine
 
 	void Renderer::renderMesh(Mesh* mesh)
 	{
-
-		//if (mesh->isFloor) {
-
-			//if (mesh->isSetup) { //In first execution, sets the stencil buffer
-				//mesh->isSetup = false;
-				//glBindVertexArray(mesh->getVao());
-
-				/* Pre-requisites for floor reflection */
-				/* Don't update color or depth. */
-				/*glDisable(GL_DEPTH_TEST);
-				glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-				*/
-				/* Draw 1 into the stencil buffer. */
-				/*glEnable(GL_STENCIL_TEST);
-				glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
-				glStencilFunc(GL_ALWAYS, 1, 0xffffffff);
-				*/
-
-				/* Now drawing the floor just tags the floor pixels
-				as stencil value 1. */
-				/*if (mesh->usingIndices)
-				{
-					glDrawElements(mesh->topology == TRIANGLE_STRIP ? GL_TRIANGLE_STRIP : GL_TRIANGLES, mesh->getIndicesSize(), GL_UNSIGNED_INT, 0);
-				}
-				else
-				{
-					glDrawArrays(mesh->topology == TRIANGLE_STRIP ? GL_TRIANGLE_STRIP : GL_TRIANGLES, 0, mesh->getVerticesSize());
-				}
-
-				/* Re-enable update of color and depth. */
-				/*glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-				glEnable(GL_DEPTH_TEST);
-				glDisable(GL_STENCIL_TEST);
-				std::cout << "Floor drawn";*/
-			//}
-			//else {
-				//Draw floor normaly
-				//TODO must be semi-transparent
-				/*if (mesh->usingIndices)
-				{
-				glDrawElements(mesh->topology == TRIANGLE_STRIP ? GL_TRIANGLE_STRIP : GL_TRIANGLES, mesh->getIndicesSize(), GL_UNSIGNED_INT, 0);
-				}
-				else
-				{
-				glDrawArrays(mesh->topology == TRIANGLE_STRIP ? GL_TRIANGLE_STRIP : GL_TRIANGLES, 0, mesh->getVerticesSize());
-				}
-
-				std::cout << "Floor drawn";
-			}
-
-		}*/
-		
-		//else { //Normal drawing
-
-			//glCullFace(GL_BACK);
-			glBindVertexArray(mesh->getVao());
-			if (mesh->usingIndices)
-			{
-				glDrawElements(mesh->topology == TRIANGLE_STRIP ? GL_TRIANGLE_STRIP : GL_TRIANGLES, mesh->getIndicesSize(), GL_UNSIGNED_INT, 0);
-			}
-			else
-			{
-				glDrawArrays(mesh->topology == TRIANGLE_STRIP ? GL_TRIANGLE_STRIP : GL_TRIANGLES, 0, mesh->getVerticesSize());
-			}
-		//}		
+		glBindVertexArray(mesh->getVao());
+		if (mesh->usingIndices)
+		{
+			glDrawElements(mesh->topology == TRIANGLE_STRIP ? GL_TRIANGLE_STRIP : GL_TRIANGLES, mesh->getIndicesSize(), GL_UNSIGNED_INT, 0);
+		}
+		else
+		{
+			glDrawArrays(mesh->topology == TRIANGLE_STRIP ? GL_TRIANGLE_STRIP : GL_TRIANGLES, 0, mesh->getVerticesSize());
+		}
 	}
 
 	void Renderer::renderMeshReflection(Mesh* mesh)
 	{
-			
 			glBindVertexArray(mesh->getVao());
 			
 			if (mesh->usingIndices)
@@ -545,8 +444,7 @@ namespace AVTEngine
 			else
 			{
 				glDrawArrays(mesh->topology == TRIANGLE_STRIP ? GL_TRIANGLE_STRIP : GL_TRIANGLES, 0, mesh->getVerticesSize());
-			}
-			
+			}		
 	}
 
 	void Renderer::renderMeshStencilSetup(Mesh* mesh)

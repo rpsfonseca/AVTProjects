@@ -22,7 +22,6 @@ namespace AVTEngine
 		{
 			delete materials[i];
 		}
-		//delete debugLightMaterial;
 	}
 	// --------------------------------------------------------------------------------------------    
 	void MaterialLibrary::generateDefaultMaterials()

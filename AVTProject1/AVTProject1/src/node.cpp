@@ -1,5 +1,3 @@
-
-//#include "utils\error.hpp"
 #include "node.h"
 #include "Material.h"
 #include "Entity.h"
@@ -10,15 +8,7 @@
 
 namespace AVTEngine
 {
-	/* TODO uncomment
-	SceneNode::SceneNode(Mesh *mesh_, Shader *shader_) :
-		nodeMesh(mesh_), nodeShader(shader_) {};
-
-	SceneNode::SceneNode(Mesh *mesh_) : SceneNode(mesh_, nullptr) {}
-
-	SceneNode::SceneNode(Shader *shader_) : SceneNode(nullptr, shader_) {}
-	*/
-
+	
 	SceneNode::SceneNode()
 	{
 		parentNode = NULL;
@@ -78,69 +68,6 @@ namespace AVTEngine
 		}
 	}
 
-	/* TODO uncomment
-	Material *SceneNode::getCurrentMaterial(SceneNode *parent_)
-	{
-		// If node has a material
-		if (material != nullptr)
-		{
-			return material;
-		}
-		else
-		{
-			return parent_->material;
-		}
-	}
-	*/
-
-	/* TODO uncomment
-	void SceneNode::drawSelf(ShaderProgram *shader_, Material *material_)
-	{
-		for (auto t : textureArray)
-		{
-			shader_->setTexture(t.key, t.texture);
-		}
-
-		if (nodeMesh != nullptr)
-		{
-			if (shader_ == nullptr)
-			{
-				logError(NODE_TAG, "No shader bound to node on mesh draw.");
-			}
-			if (material_ == nullptr)
-			{
-				logError(NODE_TAG, "No material bound to node on mesh draw");
-			}
-
-			shader_->bind();
-			shader_->setMatrix4(SHADER_MODEL_MATRIX, resultMatrix);
-			material_->updateUniforms(shader_);
-			environment->camera->updateUniforms(shader_);
-			environment->globalLight->updateUniforms(shader_, environment->camera);
-
-			// Update integer uniforms
-			for (auto key : uniformiArray)
-			{
-				shader_->setInteger(key, uniformiMap[key]);
-			}
-
-			nodeMesh->draw();
-		}
-
-		for (auto t : textureArray)
-		{
-			t.texture->unbind();
-		}
-	}
-	*/
-	
-	/* TODO uncomment
-	void SceneNode::addTexture(std::string key_, Texture *texture_)
-	{
-		textureArray.push_back(NodeTexture{ key_, texture_ });
-	}
-	*/
-
 	void SceneNode::enable()
 	{
 		isEnabled = true;
@@ -151,24 +78,10 @@ namespace AVTEngine
 		isEnabled = false;
 	}
 
-	/* TODO Uncomment
-	void SceneNode::setMesh(Mesh *mesh_)
-	{
-		nodeMesh = mesh_;
-	}
-	*/
-
 	void SceneNode::setShader(Shader *shader_)
 	{
 		nodeShader = shader_;
 	}
-
-	/* TODO uncomment
-	void SceneNode::setMaterial(Material *material_)
-	{
-		material = material_;
-	}
-	*/
 
 	glm::mat4 SceneNode::getTransform()
 	{
@@ -229,11 +142,6 @@ namespace AVTEngine
 
 	void SceneNode::addChild(SceneNode* node)
 	{
-		/*if (node->parentNode != NULL)
-		{
-			node->parentNode->removeChild(node->nodeId);
-		}*/
-
 		node->parentNode = this;
 		childNodes.push_back(node);
 	}
@@ -263,22 +171,13 @@ namespace AVTEngine
 		dirty = true;
 	}
 
-
-	/*
-		position = glm::vec3(0.0);
-		rotation = glm::quat();
-		scale = glm::vec3(1, 1, 1);
-	*/
-
-
 	void SceneNode::addUniformi(std::string key_, int value_)
 	{
-		//uniformiMap[key_] = value_;
 		uniformiArray.push_back(key_);
 	}
 
 	void SceneNode::setUniformi(std::string key_, int value_)
 	{
-		//uniformiMap[key_] = value_;
+
 	}
 }

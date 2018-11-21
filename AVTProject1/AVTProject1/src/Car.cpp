@@ -7,7 +7,6 @@
 namespace AVTEngine
 {
 
-	//TODO teste
 	Car::Car(SceneNode *node_, glm::vec3 startPos_, float rotation_) : DynamicEntity(node_, startPos_, CAR_MAX_VELOCITY, CAR_MAX_TURNRATE) {
 
 		acceleration = 20;
@@ -18,18 +17,6 @@ namespace AVTEngine
 
 		rotate(rotation_);
 	};
-
-
-	/* TODO Stuff for collision detection
-
-	get type() {   //Para saber que tipo de colisão se trata
-		return TYPE.CAR;
-	}
-
-	getBoundingVolume() { //Raio da caixa para colisao
-		return new Circle(this.getPosition(), 5.5);
-	}
-	*/
 
 	void Car::reset() {
 		DynamicEntity::reset();
@@ -54,7 +41,6 @@ namespace AVTEngine
 		/* Speed input */
 		if (Input::isKeyDown('q')) { //seta acima
 			accel = acceleration;
-			//printf();
 		}
 		else if (Input::isKeyDown('a')) { //seta abaixo
 			accel = -deceleration;

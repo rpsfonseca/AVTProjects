@@ -149,8 +149,7 @@ namespace AVTEngine
 		DynamicEntity::reset();
 
 		position = initialPos;
-		//orangeRotation(-rotationAccum); // roda no sentido contrario da soma de todas as rotacoes, ou seja, volta ao inicial
-
+		
 		velocity = getRandomRate() * 2.5;
 		setPosition(getRandomPosition());
 		position.y = ORANGE_DEFAULT_RADIUS;
@@ -159,7 +158,6 @@ namespace AVTEngine
 	}
 
 	void Orange::kill() {
-		//orangeRotation(-rotationAccum);
 		setPosition(getRandomPosition());
 		position.y = ORANGE_DEFAULT_RADIUS;
 		setOrientation(getDirection(getPosition()));

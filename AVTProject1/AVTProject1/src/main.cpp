@@ -64,44 +64,6 @@ void destroyShaderProgram()
 
 void createBufferObjects()
 {
-	//app.scene->setupSceneManager();
-	//rectangle = new Mesh(vectorOfVertices, indices);
-
-	/*glGenVertexArrays(1, &VaoId);
-	glBindVertexArray(VaoId);
-
-	glGenBuffers(4, VboId);
-
-	//vertex coordinates buffer
-	glBindBuffer(GL_ARRAY_BUFFER, VboId[0]);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	glEnableVertexAttribArray(VERTEX_COORD_ATTRIB);
-	glVertexAttribPointer(VERTEX_COORD_ATTRIB, 4, GL_FLOAT, 0, 0, 0);
-
-	//normals buffer
-	glBindBuffer(GL_ARRAY_BUFFER, VboId[2]);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(normals), normals, GL_STATIC_DRAW);
-	glEnableVertexAttribArray(NORMAL_ATTRIB);
-	glVertexAttribPointer(NORMAL_ATTRIB, 3, GL_FLOAT, 0, 0, 0);
-
-	//texture coordinates buffer
-	glBindBuffer(GL_ARRAY_BUFFER, VboId[1]);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords), texCoords, GL_STATIC_DRAW);
-	glEnableVertexAttribArray(TEXTURE_COORD_ATTRIB);
-	glVertexAttribPointer(TEXTURE_COORD_ATTRIB, 2, GL_FLOAT, 0, 0, 0);
-
-	//index buffer
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, VboId[3]);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(faceIndex), faceIndex, GL_STATIC_DRAW);
-
-	// unbind the VAO
-	glBindVertexArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);*/
-	/*glDisableVertexAttribArray(VERTEX_COORD_ATTRIB);
-	glDisableVertexAttribArray(NORMAL_ATTRIB);
-	glDisableVertexAttribArray(TEXTURE_COORD_ATTRIB);*/
-
 	OpenGLError::checkOpenGLError("ERROR: Could not create VAOs and VBOs.");
 }
 
@@ -116,8 +78,6 @@ void destroyBufferObjects()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
-	/*glDeleteBuffers(4, VboId);
-	glDeleteVertexArrays(1, &VaoId);*/
 	OpenGLError::checkOpenGLError("ERROR: Could not destroy VAOs and VBOs.");
 }
 
@@ -129,16 +89,6 @@ void renderScene()
 {
 	glBindVertexArray(VaoId);
 	shader->use();
-
-	//shader->setMat4("modelMatrix", app.getCurrentCamera().getViewProjection());
-	//glDrawElements(GL_TRIANGLES, faceCount * 3, GL_UNSIGNED_INT, (GLvoid*)0);
-
-	//shader->setMat4("modelMatrix", transform2);
-	//glDrawElements(GL_TRIANGLES, faceCount * 3, GL_UNSIGNED_INT, (GLvoid*)0);
-	
-	// ABCRic code
-	//shader->setMat4("modelMatrix", Application::getInstance()->getCurrentCamera().getViewProjection());
-	//glDrawElements(GL_TRIANGLES, faceCount * 3, GL_UNSIGNED_INT, (GLvoid*)0);
 
 	glUseProgram(0);
 	glBindVertexArray(0);
@@ -160,8 +110,6 @@ void init(int argc, char* argv[])
 	transform = glm::rotate(glm::translate(transform, glm::vec3(0.0f, 0.0f, 0.0f)), 50.f, glm::vec3(1.f, 0.3f, 0.6f));
 	transform2 = glm::translate(transform2, glm::vec3(-1.0f, -1.0f, 0.0f));
 
-	//createShaderProgram();
-	//createBufferObjects();
 }
 
 int main(int argc, char* argv[])

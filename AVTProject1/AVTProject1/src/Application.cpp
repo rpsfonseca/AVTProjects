@@ -24,25 +24,20 @@ namespace AVTEngine
 	int Application::initialTime = time(NULL);
 	int Application::finalTime;
 	std::string Application::framesPerSecond = "0";
-	//Renderer* Application::renderer = nullptr;
-//	Scene* Application::scene = nullptr;
+
 	Application* Application::instance = 0;
 	void(*Application::cleanupFunction)() = nullptr;
 	void(*Application::renderFunction)() = nullptr;
 	
-	//TODO teste
 	float oldTimeSinceStart = 0;
 
-	//Entity Application::entities[MAX_KEYS]; TODO
-
+	
 	Application::Application()
 	{
-		//entities[0] = new Car(); TODO
 	}
 
 	Application::~Application()
 	{
-		
 		scene->cleanup();
 		renderer->cleanup();
 		delete renderer;
@@ -63,9 +58,6 @@ namespace AVTEngine
 	{
 		oldTimeSinceStart = 0;
 		ResourcesManager::init();
-
-		//car = new Car();
-
 
 		setupGLUT(argc, argv);
 		setupGLEW();
@@ -146,16 +138,6 @@ namespace AVTEngine
 
 		renderer->setupRenderer();
 
-		/*glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-		glEnable(GL_DEPTH_TEST);
-		glDepthFunc(GL_LEQUAL);
-		glDepthMask(GL_TRUE);
-		glDepthRange(0.0, 1.0);
-		glClearDepth(1.0);
-		glEnable(GL_CULL_FACE);
-		glCullFace(GL_BACK);
-		glFrontFace(GL_CCW);*/
-
 		scene->pushToRender();
 	}
 
@@ -205,11 +187,6 @@ namespace AVTEngine
 
 		getInstance()->scene->pushToRender();
 		getInstance()->renderer->preDraw();
-		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		/*if (renderFunction != nullptr)
-		{
-			renderFunction();
-		}*/
 		getInstance()->renderer->renderPushedCommands();
 		getInstance()->renderer->postDraw();
 
@@ -221,13 +198,6 @@ namespace AVTEngine
 		glutSwapBuffers();
 
 		updateFramesPerSecond();
-
-		
-
-		/* TODO metodo do car
-			//Car b = new Car();
-			//b.update(20);
-		*/
 	}
 
 	void Application::reshape(int w, int h)
