@@ -48,6 +48,9 @@ namespace AVTEngine
 
 		//TODO teste
 		Entity* entity;
+
+		bool testboolean;
+		bool testboolean2 = true;
 		
 
 	public:

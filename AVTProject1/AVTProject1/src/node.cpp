@@ -26,6 +26,9 @@ namespace AVTEngine
 		position = glm::vec3(0.0);
 		rotation = glm::quat();
 		scale = glm::vec3(1, 1, 1);
+
+		mirrorScale = glm::vec3(1, -1, 1);
+
 		dirty = false;
 	}
 
@@ -39,6 +42,7 @@ namespace AVTEngine
 		position = glm::vec3(0.0);
 		rotation = glm::quat();
 		scale = glm::vec3(1, 1, 1);
+		mirrorScale = glm::vec3(1, -1, 1);
 
 		dirty = false;
 	}
@@ -54,6 +58,7 @@ namespace AVTEngine
 		position = glm::vec3(0.0);
 		rotation = glm::quat();
 		scale = glm::vec3(1, 1, 1);
+		mirrorScale = glm::vec3(1, -1, 1);
 
 		dirty = false;
 	}
@@ -169,13 +174,16 @@ namespace AVTEngine
 		return transform;
 	}
 
+	glm::mat4 SceneNode::getMirrorTransform()
+	{
+		mirrorTransform = glm::translate(getTransform(), glm::vec3(0, -1, 0)); //Move reflection downwards
+		mirrorTransform = glm::scale(mirrorTransform, mirrorScale); //Invert Y axis
+		return mirrorTransform;
+	}
+
 	void SceneNode::updateTransform()
 	{
 		
-		//TODO entity update here?
-
-
-
 		// we only do this if the node itself or its parent is flagged as dirty
 		if (dirty)
 		{
@@ -233,6 +241,13 @@ namespace AVTEngine
 	void SceneNode::setScale(glm::vec3 _scale)
 	{
 		scale = _scale;
+		dirty = true;
+	}
+
+	//Should object be reflected?
+	void SceneNode::setMirrored(bool _mirrored)
+	{
+		mirrored = _mirrored;
 		dirty = true;
 	}
 

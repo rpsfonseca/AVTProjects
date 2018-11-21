@@ -116,7 +116,7 @@ namespace AVTEngine
 		glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
 
 		glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-		glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
+		glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA | GLUT_STENCIL);
 		windowHandle = glutCreateWindow(WINDOW_TITLE);
 		if (windowHandle < 1) {
 			std::cerr << "ERROR: Could not create a new rendering window." << std::endl;

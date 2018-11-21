@@ -104,7 +104,7 @@ void main() {
         result += CalcSpotLight(spotLight2, norm, FragPos, viewDir);
     }
     
-    FragColor = vec4(result, 1.0);
+    FragColor = vec4(result, 0.25);
 
     /*vec4 spec = vec4(0.0);
     float intensity = max(dot(norm, dirLight.direction), 0.0);
