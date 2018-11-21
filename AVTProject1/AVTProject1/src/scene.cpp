@@ -161,26 +161,18 @@ namespace AVTEngine
 		SceneNode* tree = Scene::createSceneNode(testMesh, new Material("billboard"));*/
 		// Tree* tree
 
-		Tree* tree = new Tree();
-		SceneNode* treeNode = Scene::createSceneNode("tree", tree->getMesh(), renderer->getMaterial("tree"));
-		treeNode->setPosition(glm::vec3(0.0f, 5.0f, 0.0f));
-		treeNode->setScale(glm::vec3(5.0f, 5.0f, 0.0f));
-		treeNode->material->setAmbient(glm::vec3(1.f, 0.5f, 0.31f));
-		treeNode->material->setDiffuse(glm::vec3(1.0f, 0.5f, 0.31f));
-		treeNode->material->setSpecular(glm::vec3(0.5f, 0.5f, 0.5f));
-		treeNode->material->setShininess(32.f);
-		//treeNode->setRotation(glm::quat(glm::vec3(90.0f, 0.0f, 0.0f)));
-		rootSceneNode->addChild(treeNode);
-		nodes.insert(std::pair<std::string, SceneNode*>("tree", treeNode));
-
-
-
+		//Trees
+		insertTree(0, 5, 0);
+		insertTree(25, 5, 25);
+		insertTree(25, 5, -25);
+		insertTree(-25, 5, 25);
+		insertTree(-25, 5, -25);
 
 		//TODO teste com o carro
 		//Carro
 		Mesh* testMesh2 = ResourcesManager::loadOBJ("car_with_wheels");
 		SceneNode* planeNode2 = Scene::createSceneNode("car", testMesh2, new Material("basic"));
-		glm::vec3 startPos = glm::vec3(0, 0, 0);
+		glm::vec3 startPos = glm::vec3(0, 0, -50);
 		car = Scene::createCar(planeNode2, startPos, 0);
 
 		planeNode2->material->setAmbient(glm::vec3(0.f, 0.8f, 1.f));
@@ -403,5 +395,23 @@ namespace AVTEngine
 
 		nodes.insert(std::pair<std::string, SceneNode*>(id, a));
 		entities.insert(std::pair<std::string, Entity*>(id, butter));
+	}
+
+	int treeId = 0;
+	void Scene::insertTree(int x, int y, int z) {
+
+		Tree* tree = new Tree();
+		SceneNode* treeNode = Scene::createSceneNode("tree", tree->getMesh(), renderer->getMaterial("tree"));
+		treeNode->setPosition(glm::vec3(x, y, z));
+		treeNode->setScale(glm::vec3(5.0f, 5.0f, 0.0f));
+		treeNode->material->setAmbient(glm::vec3(1.f, 0.5f, 0.31f));
+		treeNode->material->setDiffuse(glm::vec3(1.0f, 0.5f, 0.31f));
+		treeNode->material->setSpecular(glm::vec3(0.5f, 0.5f, 0.5f));
+		treeNode->material->setShininess(32.f);
+		rootSceneNode->addChild(treeNode);
+
+		std::string id = "tree" + std::to_string(treeId);
+		treeId++;
+		nodes.insert(std::pair<std::string, SceneNode*>("tree", treeNode));
 	}
 }

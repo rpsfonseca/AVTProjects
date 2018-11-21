@@ -90,6 +90,7 @@ namespace AVTEngine
 		void insertOrange(float levelWidth_, float levelHeight_);
 		void insertButter(int x, int y, int z);
 		void createWall(int minX_, int minY_, int minZ_, int maxX_, int maxY_, int maxZ_);
+		void insertTree(int x, int y, int z);
 	
 	};
 }
