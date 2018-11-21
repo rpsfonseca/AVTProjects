@@ -460,7 +460,7 @@ namespace AVTEngine
 		{
 		glDrawArrays(mesh->topology == TRIANGLE_STRIP ? GL_TRIANGLE_STRIP : GL_TRIANGLES, 0, mesh->getVerticesSize());
 		}
-		std::cout << "Floor drawn";
+		//std::cout << "Floor drawn";
 	}
 }
 
