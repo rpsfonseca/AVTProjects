@@ -33,8 +33,9 @@ namespace AVTEngine
 	}
 
 
-	SceneNode::SceneNode(Mesh* _mesh, Material* _material)
+	SceneNode::SceneNode(std::string _name, Mesh* _mesh, Material* _material)
 	{
+		nodeName = _name;
 		mesh = _mesh;
 		material = _material;
 
@@ -176,7 +177,18 @@ namespace AVTEngine
 
 	glm::mat4 SceneNode::getMirrorTransform()
 	{
-		mirrorTransform = glm::translate(getTransform(), glm::vec3(0, -1, 0)); //Move reflection downwards
+		if (nodeName == "tree")
+		{
+			mirrorTransform = glm::translate(getTransform(), glm::vec3(0, -2, 0)); //Move reflection downwards
+		}
+		else if (nodeName == "butter")
+		{
+			mirrorTransform = glm::translate(getTransform(), glm::vec3(0, -1.5, 0)); //Move reflection downwards
+		}
+		else
+		{
+			mirrorTransform = glm::translate(getTransform(), glm::vec3(0, -1, 0)); //Move reflection downwards
+		}
 		mirrorTransform = glm::scale(mirrorTransform, mirrorScale); //Invert Y axis
 		return mirrorTransform;
 	}

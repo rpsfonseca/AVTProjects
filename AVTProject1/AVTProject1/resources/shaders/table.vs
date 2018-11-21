@@ -7,6 +7,8 @@ uniform mat4 projectionMatrix;
 in vec3 in_Position;
 in vec3 VertexNormal;    //por causa do gerador de geometria
 in vec2 texCoord;
+out vec3 world_normal;
+out vec4 viewSpace;
 
 out vec3 FragPos;
 out vec3 Normal;
@@ -15,6 +17,8 @@ out vec2 TexCoords;
 void main ()
 {   
 	FragPos = vec3(modelMatrix * vec4(in_Position, 1.0));
+	world_normal = normalize(mat3(modelMatrix) * VertexNormal);
+	viewSpace = viewMatrix * modelMatrix * vec4(in_Position,1);
     Normal = mat3(transpose(inverse(modelMatrix))) * VertexNormal;  
     TexCoords = texCoord;
     

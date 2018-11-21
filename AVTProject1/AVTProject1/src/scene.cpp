@@ -31,9 +31,9 @@ namespace AVTEngine
 	}
 
 	// Creates a new scene node and inits it with a model.
-	SceneNode* Scene::createSceneNode(Mesh* mesh, Material* material)
+	SceneNode* Scene::createSceneNode(std::string name, Mesh* mesh, Material* material)
 	{
-		SceneNode* node = new SceneNode(mesh, material);
+		SceneNode* node = new SceneNode(name, mesh, material);
 
 		return node;
 	}
@@ -120,7 +120,7 @@ namespace AVTEngine
 		Mesh* testMesh = ResourcesManager::loadOBJ("table");
 		//testMesh->isFloor = true; //Floor mesh
 		//testMesh->isSetup = true; //Floor mesh
-		SceneNode* planeNode = Scene::createSceneNode(testMesh, renderer->getMaterial("table"));
+		SceneNode* planeNode = Scene::createSceneNode("table", testMesh, renderer->getMaterial("table"));
 		planeNode->material->setAmbient(glm::vec3(1.f, 0.5f, 0.31f));
 		planeNode->material->setDiffuse(glm::vec3(1.0f, 0.5f, 0.31f));
 		planeNode->material->setSpecular(glm::vec3(0.5f, 0.5f, 0.5f));
@@ -162,9 +162,14 @@ namespace AVTEngine
 		// Tree* tree
 
 		Tree* tree = new Tree();
-		SceneNode* treeNode = Scene::createSceneNode(tree->getMesh(), renderer->getMaterial("tree"));
-		treeNode->setPosition(glm::vec3(0.0f, 3.0f, 0.0f));
-		treeNode->setRotation(glm::quat(glm::vec3(90.0f, 0.0f, 0.0f)));
+		SceneNode* treeNode = Scene::createSceneNode("tree", tree->getMesh(), renderer->getMaterial("tree"));
+		treeNode->setPosition(glm::vec3(0.0f, 5.0f, 0.0f));
+		treeNode->setScale(glm::vec3(5.0f, 5.0f, 0.0f));
+		treeNode->material->setAmbient(glm::vec3(1.f, 0.5f, 0.31f));
+		treeNode->material->setDiffuse(glm::vec3(1.0f, 0.5f, 0.31f));
+		treeNode->material->setSpecular(glm::vec3(0.5f, 0.5f, 0.5f));
+		treeNode->material->setShininess(32.f);
+		//treeNode->setRotation(glm::quat(glm::vec3(90.0f, 0.0f, 0.0f)));
 		rootSceneNode->addChild(treeNode);
 		nodes.insert(std::pair<std::string, SceneNode*>("tree", treeNode));
 
@@ -174,7 +179,7 @@ namespace AVTEngine
 		//TODO teste com o carro
 		//Carro
 		Mesh* testMesh2 = ResourcesManager::loadOBJ("car_with_wheels");
-		SceneNode* planeNode2 = Scene::createSceneNode(testMesh2, new Material("basic"));
+		SceneNode* planeNode2 = Scene::createSceneNode("car", testMesh2, new Material("basic"));
 		glm::vec3 startPos = glm::vec3(0, 0, 0);
 		car = Scene::createCar(planeNode2, startPos, 0);
 
@@ -331,7 +336,7 @@ namespace AVTEngine
 	void Scene::insertCheerio(int x, int y, int z) {
 
 		Mesh* cheerioMesh = ResourcesManager::loadOBJ("torus");
-		SceneNode* a = Scene::createSceneNode(cheerioMesh, renderer->getMaterial("basic"));
+		SceneNode* a = Scene::createSceneNode("cheerio", cheerioMesh, renderer->getMaterial("basic"));
 		//SceneNode* a = Scene::createSceneNode(cheerioMesh, new Material("basic"));
 		glm::vec3 posVec = glm::vec3(x, y, z);
 		Entity* cheerio = Scene::createCheerio(a, posVec);
@@ -354,7 +359,7 @@ namespace AVTEngine
 	void Scene::insertOrange(float levelWidth_, float levelHeight_) {
 
 		Mesh* orangeMesh = ResourcesManager::loadOBJ("orange");
-		SceneNode* a = Scene::createSceneNode(orangeMesh, renderer->getMaterial("basic"));
+		SceneNode* a = Scene::createSceneNode("orange", orangeMesh, renderer->getMaterial("basic"));
 		//SceneNode* a = Scene::createSceneNode(orangeMesh, new Material("basic"));
 		Entity* orange = Scene::createOrange(a, levelWidth_, levelHeight_);
 
@@ -379,7 +384,7 @@ namespace AVTEngine
 	void Scene::insertButter(int x, int y, int z) {
 
 		Mesh* butterMesh = ResourcesManager::loadOBJ("untitled");
-		SceneNode* a = Scene::createSceneNode(butterMesh, renderer->getMaterial("basic"));
+		SceneNode* a = Scene::createSceneNode("butter", butterMesh, renderer->getMaterial("basic"));
 		//SceneNode* a = Scene::createSceneNode(butterMesh, new Material("basic"));
 		glm::vec3 posVec = glm::vec3(x, y, z);
 		Entity* butter = Scene::createButter(a, posVec);

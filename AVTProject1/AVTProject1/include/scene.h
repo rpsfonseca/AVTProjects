@@ -57,7 +57,7 @@ namespace AVTEngine
 
 		Scene();
 
-		static SceneNode* createSceneNode(Mesh* mesh, Material* material);
+		static SceneNode* createSceneNode(std::string name, Mesh* mesh, Material* material);
 		//static Entity* createCar(SceneNode* node_, glm::vec3 startPos_, float rotation_);
 		static Entity* createCheerio(SceneNode* node_, glm::vec3 startPos_);
 		static Car* createCar(SceneNode* node_, glm::vec3 startPos_, float rotation_);

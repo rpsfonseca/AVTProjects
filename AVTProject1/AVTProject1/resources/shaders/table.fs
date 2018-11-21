@@ -61,11 +61,16 @@ uniform PointLight pointLights[NR_POINT_LIGHTS];
 uniform SpotLight spotLight;
 uniform SpotLight spotLight2;
 
+const vec3 RimColor = vec3(0.2, 0.2, 0.2);
+const vec3 fogColor = vec3(0.5, 0.5,0.5);
+
 out vec4 FragColor;
 
 in vec3 FragPos;
 in vec3 Normal;
 in vec2 TexCoords;
+in vec3 world_normal;
+in vec4 viewSpace;
 
 
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir);
@@ -103,8 +108,35 @@ void main() {
         result += CalcSpotLight(spotLight, norm, FragPos, viewDir);
         result += CalcSpotLight(spotLight2, norm, FragPos, viewDir);
     }
+
+    //rim lighting
+    float rim = 1 - max(dot(viewDir, world_normal), 0.0);
+    rim = smoothstep(0.6, 1.0, rim);
+    vec3 finalRim = RimColor * vec3(rim, rim, rim);
+    //get all lights and texture
+    result += finalRim;
+     
+    vec3 finalColor = vec3(0, 0, 0);
+     
+    //compute range based distance
+    float dist = length(viewSpace);
+     
+    //my camera y is 10.0. you can change it or pass it as a uniform
+    float be = (viewPos.y - viewSpace.y) * 0.004;//0.004 is just a factor; change it if you want
+    float bi = (viewPos.y - viewSpace.y) * 0.001;//0.001 is just a factor; change it if you want
+     
+    float ext = exp(-dist * be);
+    float insc = exp(-dist * bi);
     
-    FragColor = vec4(result, 0.25);
+    float fogFactor = 0;
+    fogFactor = 1.0 /exp( (dist * 0.05)* (dist * 0.05));
+    fogFactor = clamp( fogFactor, 0.0, 1.0 );
+ 
+    finalColor = mix(fogColor, result, fogFactor);
+     
+    //finalColor = result * ext + vec3(0.5, 0.5,0.5) * (1 - insc);
+    
+    FragColor = vec4(finalColor, 0.25);
 
     /*vec4 spec = vec4(0.0);
     float intensity = max(dot(norm, dirLight.direction), 0.0);

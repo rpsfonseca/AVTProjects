@@ -63,6 +63,7 @@ namespace AVTEngine
 		bool isEnabled = true;
 
 		
+		std::string nodeName;
 
 	protected:
 		Shader* nodeShader;
@@ -70,7 +71,7 @@ namespace AVTEngine
 
 	public:
 		//TODO uncomment
-		SceneNode(Mesh* mesh, Material* material);
+		SceneNode(std::string _name, Mesh* mesh, Material* material);
 		SceneNode(Entity* entity, Mesh* mesh, Material* material);
 		//SceneNode(Mesh *mesh);
 		SceneNode();

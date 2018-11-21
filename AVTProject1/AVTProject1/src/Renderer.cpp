@@ -285,10 +285,11 @@ namespace AVTEngine
 			//command->transform = glm::mat4(1);
 			//command->transform[3] = pos;
 			command->transform[3] = pos;
+			command->transform = glm::scale(command->transform, glm::vec3(5.0f, 5.0f, 0.0f));
 			command->transform = glm::rotate(command->transform, glm::radians(90.0f), glm::vec3(1,0,0));
 		}
-		else
-		{
+		//else
+		//{
 			// setup lights
 			material->getShader()->setBool("dirLightEnabled", directionalLightOn);
 			material->getShader()->setBool("pointLightsEnabled", pointLightsOn);
@@ -423,7 +424,7 @@ namespace AVTEngine
 			material->getShader()->setFloat("spotLight2.cutOff", glm::cos(glm::radians(12.5f)));
 			material->getShader()->setFloat("spotLight2.outerCutOff", glm::cos(glm::radians(15.0f)));
 			//}
-		}
+		//}
 		material->getShader()->setMat4("projectionMatrix", projectionMatrix);
 		material->getShader()->setMat4("viewMatrix", viewMatrix);
 		material->getShader()->setMat4("modelMatrix", command->transform);
@@ -442,7 +443,7 @@ namespace AVTEngine
 		
 		if (material->getMaterialName() == "billboard")
 		{
-			glDisable(GL_BLEND);
+			//glDisable(GL_BLEND);
 		}
 
 		if (material->getMaterialName() == "table" || material->getMaterialName() == "billboard")

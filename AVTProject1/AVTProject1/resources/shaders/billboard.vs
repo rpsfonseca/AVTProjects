@@ -10,6 +10,8 @@ in vec2 texCoord;
 out vec3 FragPos;
 out vec3 Normal;
 out vec2 TexCoords;
+out vec3 world_normal;
+out vec4 viewSpace;
 
 uniform mat4 modelMatrix;
 uniform mat4 viewMatrix;
@@ -20,7 +22,9 @@ uniform mat4 projectionMatrix;
 void main()
 {
 
-	FragPos = vec3(viewMatrix * modelMatrix * vec4(in_Position, 1.0));
+	FragPos = vec3(modelMatrix * vec4(in_Position, 1.0));
+	world_normal = normalize(mat3(modelMatrix) * VertexNormal);
+	viewSpace = viewMatrix * modelMatrix * vec4(in_Position,1);
 	Normal = mat3(transpose(inverse(modelMatrix))) * VertexNormal;
     TexCoords = texCoord;
 
