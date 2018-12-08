@@ -25,6 +25,7 @@ animate();*/
 const canvas = document.getElementById("canvas");
 
 const sceneManager = new SceneManager(canvas);
+const keyboard = new KeyboardState();
 
 bindEventListeners();
 render();
@@ -49,5 +50,9 @@ function resizeCanvas()
 function render()
 {
     requestAnimationFrame(render);
+    if( keyboard.pressed("left") )
+    {
+        //console.log("Pressed left")
+    }
     sceneManager.update();
 }
