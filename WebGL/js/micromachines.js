@@ -1,3 +1,7 @@
+
+var app = new Game();
+app.loop();
+
 /*var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
@@ -22,15 +26,16 @@ function animate() {
 }
 animate();*/
 
-const canvas = document.getElementById("canvas");
+//const canvas = document.getElementById("canvas");
 
-const sceneManager = new SceneManager(canvas);
-const keyboard = new KeyboardState();
 
-bindEventListeners();
-render();
+//const sceneManager = new SceneManager(canvas);
+//const keyboard = new KeyboardState();
 
-function bindEventListeners()
+//bindEventListeners();
+//render();
+
+/*function bindEventListeners()
 {
     window.onresize = resizeCanvas;
     resizeCanvas();
@@ -55,4 +60,4 @@ function render()
         //console.log("Pressed left")
     }
     sceneManager.update();
-}
+}*/

@@ -5,7 +5,6 @@ KeyboardState	= function()
     
     for (var key in KeyboardState.ALIAS)
     {
-        console.log(key);
         this.keyCodes[ key ] = false;
     }
 

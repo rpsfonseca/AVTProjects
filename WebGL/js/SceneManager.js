@@ -49,7 +49,8 @@ function SceneManager(canvas)
     {
         const sceneSubjects =
         [
-            new SceneNode(scene)
+            //new SceneNode(scene),
+            new SceneNode("car_with_wheels", scene)
         ];
 
         return sceneSubjects;
