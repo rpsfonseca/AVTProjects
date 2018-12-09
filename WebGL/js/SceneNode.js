@@ -17,7 +17,7 @@ function SceneNode(scene)
     }
 }
 
-function SceneNode(meshFileName, scene)
+function SceneNode(meshFileName, material, scene)
 {
     var object = null;
     // instantiate a loader
@@ -26,22 +26,30 @@ function SceneNode(meshFileName, scene)
     // load a resource
     loader.load(
         // resource URL
-        'models/car_with_wheels.obj',
+        'models/'+ meshFileName +'.obj',
         // called when resource is loaded
         function ( obj )
         {
             var _material = new THREE.MeshBasicMaterial({color: 0x00ff00});
+            obj.position.set(0, 0, -50);
+            if (material != null)
+            {
+                _material = material;
+
+                obj.position.set(0, 0, -10);
+                obj.rotation.set(0, 180, 0);
+            }
 
             obj.traverse(function(child)
             {
-                if (child instanceof THREE.Mesh){
+                if (child instanceof THREE.Mesh)
+                {
                     child.material = _material;
-
                 }
             });
 
             object = obj;
-            object.position.set(0, 0, -20);
+            //object.position.set(0, 0, -20);
 
             console.log(object);
 
@@ -49,10 +57,9 @@ function SceneNode(meshFileName, scene)
 
         },
         // called when loading is in progresses
-        function ( xhr ) {
-
+        function ( xhr )
+        {
             console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-
         },
         // called when loading has errors
         function ( error ) {
@@ -67,8 +74,7 @@ function SceneNode(meshFileName, scene)
         const scale = Math.sin(time)+2;
         if (object != null)
         {
-            object.scale.set(scale, scale, scale);
+            //object.scale.set(scale, scale, scale);
         }
     }
-
 }
