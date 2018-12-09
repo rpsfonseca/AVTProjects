@@ -99,6 +99,20 @@ function SceneManager(canvas)
     const renderer = buildRender(screenDimensions);
     const camera = buildCamera(screenDimensions);
     const sceneSubjects = createSceneSubjects(scene);
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    //camera.position.set( 0, 0, 0 );
+    //camera.lookAt(0,0,-20);
+    controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
+    controls.dampingFactor = 0.25;
+    controls.screenSpacePanning = false;
+    controls.minDistance = 15;
+    controls.maxDistance = 500;
+    controls.maxPolarAngle = Math.PI / 2;
+    controls.mouseButtons = {
+        LEFT: THREE.MOUSE.LEFT,
+        MIDDLE: THREE.MOUSE.MIDDLE,
+    }
+    controls.update();
 
     function buildScene()
     {
@@ -144,19 +158,20 @@ function SceneManager(canvas)
             table,
             tree_node
         ];
-        console.log("JDJDJDJD: " + table.object);
+        //console.log("JDJDJDJD: " + table.object);
         return sceneSubjects;
     }
 
     this.update = function()
     {
         const elapsedTime = clock.getElapsedTime();
+        controls.update();
 
         for(let i=0; i < sceneSubjects.length; i++)
         {
-            sceneSubjects[i].update(elapsedTime);
+            sceneSubjects[i].update(elapsedTime, camera);
         }
-
+        //controls.center = new THREE.Vector3(0,0,-20);
         renderer.render(scene, camera);
     }
 

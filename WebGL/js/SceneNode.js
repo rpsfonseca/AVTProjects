@@ -10,7 +10,7 @@ function SceneNode(scene)
 
     scene.add(mesh);
 
-    this.update = function(time)
+    this.update = function(time, camera)
     {
         const scale = Math.sin(time)+2;
         mesh.scale.set(scale, scale, scale);
@@ -20,6 +20,7 @@ function SceneNode(scene)
 function SceneNode(meshFileName, material, scene)
 {
     var object = null;
+    var tag = "object";
     // instantiate a loader
     var loader = new THREE.OBJLoader();
 
@@ -31,12 +32,12 @@ function SceneNode(meshFileName, material, scene)
         function ( obj )
         {
             var _material = new THREE.MeshBasicMaterial({color: 0x00ff00});
-            obj.position.set(0, 0, -50);
+            obj.position.set(0, 0, 0);
             if (material != null)
             {
                 _material = material;
-
-                obj.position.set(0, 0, -10);
+                tag = "billboard";
+                obj.position.set(0, 1.35, 0);
                 obj.rotation.set(0, 180, 0);
             }
 
@@ -69,12 +70,64 @@ function SceneNode(meshFileName, material, scene)
         }
     );
 
-    this.update = function(time)
+    this.update = function(time, camera)
     {
-        const scale = Math.sin(time)+2;
+        const scale = Math.sin(time) + 2;
         if (object != null)
         {
-            //object.scale.set(scale, scale, scale);
+            if (tag == "billboard")
+            {
+                //object.lookAt(new THREE.Vector3(camera.position.x, 0, -camera.position.z));
+                //object.setRotationFromQuaternion(camera.quaternion);
+                //object.rotateOnWorldAxis(new THREE.Vector3(0,1,0), 45 * Math.degToRad);
+                /*var lookAt = new THREE.Vector3(0,0,1);
+                var objToCamProj = new THREE.Vector3();
+                var upAux = new THREE.Vector3();
+                var angleCosine;
+
+                var pos = new THREE.Vector3(0,0,0);
+                //console.log(object);
+                pos = pos.setFromMatrixPosition(object.matrixWorld);
+                var auxMatrix  = new THREE.Matrix4();
+                var tempPos = new THREE.Vector3(pos.x, 0, pos.z);
+                auxMatrix = auxMatrix.setPosition(tempPos);
+                // objToCamProj is the vector in world coordinates from the local origin to the camera
+                // projected in the XZ plane
+                objToCamProj.x = camera.position.x - pos.x;
+                objToCamProj.y = 0;
+                objToCamProj.z = camera.position.z - pos.z;
+
+
+                // normalize both vectors to get the cosine directly afterwards
+                objToCamProj = objToCamProj.normalize();
+
+                // easy fix to determine wether the angle is negative or positive
+                // for positive angles upAux will be a vector pointing in the
+                // positive y direction, otherwise upAux will point downwards
+                // effectively reversing the rotation.
+
+                upAux = lookAt.cross(objToCamProj);
+
+                // compute the angle
+                angleCosine = lookAt.dot(objToCamProj);
+
+                // perform the rotation. The if statement is used for stability reasons
+                // if the lookAt and v vectors are too close together then |aux| could
+                // be bigger than 1 due to lack of precision
+                if ((angleCosine < 0.99990) && (angleCosine > -0.9999))
+                {
+                    //rotate(MODEL, acos(angleCosine) * 180 / 3.14, upAux[0], upAux[1], upAux[2]);
+                    var matTemp = new THREE.Matrix4();
+                    matTemp = matTemp.makeRotationAxis(upAux, Math.acos(angleCosine));
+                    //command->transform = glm::rotate(command->transform, glm::acos(angleCosine), upAux);
+                    auxMatrix = auxMatrix.multiply(matTemp);
+                }
+                //command->transform = glm::mat4(1);
+                //command->transform[3] = pos;
+                auxMatrix = auxMatrix.setPosition(pos);
+                //console.log(auxMatrix);
+                object.applyMatrix(auxMatrix);*/
+            }
         }
     }
 }
