@@ -85,36 +85,39 @@
     }
 }*/
 
-function SceneManager(canvas)
+class SceneManager
 {
-    const clock = new THREE.Clock();
+    constructor(canvas) {
+        this.canvas = canvas;
+        this.clock = new THREE.Clock();
 
-    const screenDimensions =
-    {
-        width: canvas.width,
-        height: canvas.height
+        this.screenDimensions =
+        {
+            width: canvas.width,
+            height: canvas.height
+        }
+
+        this.scene = this.buildScene();
+        this.renderer = this.buildRender(this.screenDimensions);
+        this.camera = this.buildCamera(this.screenDimensions);
+        this.sceneSubjects = this.createSceneSubjects(this.scene);
+        this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+        //camera.position.set( 0, 0, 0 );
+        //camera.lookAt(0,0,-20);
+        this.controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
+        this.controls.dampingFactor = 0.25;
+        this.controls.screenSpacePanning = false;
+        this.controls.minDistance = 15;
+        this.controls.maxDistance = 500;
+        this.controls.maxPolarAngle = Math.PI / 2;
+        this.controls.mouseButtons = {
+            LEFT: THREE.MOUSE.LEFT,
+            MIDDLE: THREE.MOUSE.MIDDLE,
+        }
+        this.controls.update();
     }
 
-    const scene = buildScene();
-    const renderer = buildRender(screenDimensions);
-    const camera = buildCamera(screenDimensions);
-    const sceneSubjects = createSceneSubjects(scene);
-    const controls = new THREE.OrbitControls(camera, renderer.domElement);
-    //camera.position.set( 0, 0, 0 );
-    //camera.lookAt(0,0,-20);
-    controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
-    controls.dampingFactor = 0.25;
-    controls.screenSpacePanning = false;
-    controls.minDistance = 15;
-    controls.maxDistance = 500;
-    controls.maxPolarAngle = Math.PI / 2;
-    controls.mouseButtons = {
-        LEFT: THREE.MOUSE.LEFT,
-        MIDDLE: THREE.MOUSE.MIDDLE,
-    }
-    controls.update();
-
-    function buildScene()
+    buildScene()
     {
         const scene = new THREE.Scene();
         scene.background = new THREE.Color("#000");
@@ -122,9 +125,9 @@ function SceneManager(canvas)
         return scene;
     }
 
-    function buildRender({ width, height })
+    buildRender({ width, height })
     {
-        const renderer = new THREE.WebGLRenderer( {canvas: canvas, antialias: true, alpha: true});
+        const renderer = new THREE.WebGLRenderer( {canvas: this.canvas, antialias: true, alpha: true});
         const DPR = (window.devicePixelRatio) ? window.devicePixelRatio : 1;
         renderer.setPixelRatio(DPR);
         renderer.setSize(width, height);
@@ -135,7 +138,7 @@ function SceneManager(canvas)
         return renderer;
     }
 
-    function buildCamera({ width, height })
+    buildCamera({ width, height })
     {
         const aspectRatio = width / height;
         const fieldOfView = 60;
@@ -146,10 +149,10 @@ function SceneManager(canvas)
         return camera;
     }
 
-    function createSceneSubjects(scene)
+    createSceneSubjects(scene)
     {
         //var car = new SceneNode("car_with_wheels", null, scene);
-        var table = new SceneNode("table", null, scene);
+        var table = new SceneNode("table", new THREE.MeshBasicMaterial({color:new THREE.Color(0xDDDD00)}), scene);
         var tree = new Tree();
         var tree_node = new SceneNode("billboard", tree.material, scene);
         const sceneSubjects =
@@ -162,29 +165,29 @@ function SceneManager(canvas)
         return sceneSubjects;
     }
 
-    this.update = function()
+    update()
     {
-        const elapsedTime = clock.getElapsedTime();
-        controls.update();
+        const elapsedTime = this.clock.getElapsedTime();
+        this.controls.update();
 
-        for(let i=0; i < sceneSubjects.length; i++)
+        for(let i=0; i < this.sceneSubjects.length; i++)
         {
-            sceneSubjects[i].update(elapsedTime, camera);
+            this.sceneSubjects[i].update(elapsedTime, this.camera);
         }
         //controls.center = new THREE.Vector3(0,0,-20);
-        renderer.render(scene, camera);
+        this.renderer.render(this.scene, this.camera);
     }
 
-    this.onWindowResize = function ()
+    onWindowResize()
     {
-        const { width, height } = canvas;
+        const { width, height } = this.canvas;
 
-        screenDimensions.width = width;
-        screenDimensions.height = height;
+        this.screenDimensions.width = width;
+        this.screenDimensions.height = height;
 
-        camera.aspect = width / height;
-        camera.updateProjectionMatrix();
+        this.camera.aspect = width / height;
+        this.camera.updateProjectionMatrix();
 
-        renderer.setSize(width, height);
+        this.renderer.setSize(width, height);
     }
 }

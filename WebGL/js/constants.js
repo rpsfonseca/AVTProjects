@@ -56,35 +56,35 @@ var nVidasPerdidas = -1;
 
 /***** CONSTANTS NEW PROJECT *****/
 //Level constants
-const LEVEL_WIDTH 65
-const LEVEL_HEIGHT 65
-const NUM_ORANGES 3
+const LEVEL_WIDTH = 65
+const LEVEL_HEIGHT = 65
+const NUM_ORANGES = 3
 
 const Y_AXIS = new THREE.Vector3(0,1,0);
 
 const TECLA_ACELERAR = 38 // seta cima
 const TECLA_DESACELERAR = 40 // seta baixo
-const TECLA_VIRAR_ESQUERDA 37 // seta esquerda
+const TECLA_VIRAR_ESQUERDA = 37 // seta esquerda
 const TECLA_VIRAR_DIREITA = 39 // seta direita
 
 //Entity constants
-const MIN_DRAG 10
+const MIN_DRAG = 10
 
 //Car constants
-const CAR_MAX_VELOCITY 100
-const CAR_MAX_TURNRATE 6
-const CAR_ACCELERATION 20
-const CAR_DECELERATION 10
+const CAR_MAX_VELOCITY = 100
+const CAR_MAX_TURNRATE = 6
+const CAR_ACCELERATION = 20
+const CAR_DECELERATION = 10
 
 //Orange constants
-const ORANGE_DEFAULT_RADIUS 2
-const TEMPO_REAPARECER_LARANJAS 3 // 3 segundos
-const TEMPO_ACELERAR_LARANJAS 5  // 5 segundos
-const MAX_ORANGE_RANDOM_ANGLE (Math.PI / 6); //isto veio de JS
-const ORANGE_MAX_VELOCITY 100
-const ORANGE_MAX_TURNRATE 3
+const ORANGE_DEFAULT_RADIUS = 2
+const TEMPO_REAPARECER_LARANJAS = 3 // 3 segundos
+const TEMPO_ACELERAR_LARANJAS = 5  // 5 segundos
+const MAX_ORANGE_RANDOM_ANGLE = (Math.PI / 6); //isto veio de JS
+const ORANGE_MAX_VELOCITY = 100
+const ORANGE_MAX_TURNRATE = 3
 
 //Cheerio constants
-const CHEERIO_MAX_VELOCITY 100
-const CHEERIO_MAX_TURNRATE 0
+const CHEERIO_MAX_VELOCITY = 100
+const CHEERIO_MAX_TURNRATE = 0
 
