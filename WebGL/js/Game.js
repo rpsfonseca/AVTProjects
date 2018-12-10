@@ -10,7 +10,7 @@ class Game
 
     bindEventListeners()
     {
-        window.onresize = this.resizeCanvas;
+        window.onresize = () => this.resizeCanvas();
         this.resizeCanvas();
     }
 

@@ -99,9 +99,23 @@ class SceneManager
 
         this.scene = this.buildScene();
         this.renderer = this.buildRender(this.screenDimensions);
-        this.camera = this.buildCamera(this.screenDimensions);
+
+        // setup cameras
+        this.orthoScale = 50;
+        this.topOrthoCamera = new THREE.OrthographicCamera(1, -1, 1, -1, 1, 1000);
+        this.updateOrthoCamera(this.screenDimensions);
+
+        this.topPerspectiveCamera = this.buildCamera(this.screenDimensions);
+        this.topPerspectiveCamera.position.y = 15;
+        this.topPerspectiveCamera.position.z = 3;
+        this.topPerspectiveCamera.lookAt(0, 0, 0);
+
+        this.followCamera = this.buildCamera(this.screenDimensions);
+
+        this.camera = this.followCamera;
+
         this.sceneSubjects = this.createSceneSubjects(this.scene);
-        this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+        this.controls = new THREE.OrbitControls(this.followCamera, this.renderer.domElement);
         //camera.position.set( 0, 0, 0 );
         //camera.lookAt(0,0,-20);
         this.controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
@@ -149,6 +163,17 @@ class SceneManager
         return camera;
     }
 
+    updateOrthoCamera({width, height}) {
+        this.topOrthoCamera.left = width / -2 / this.orthoScale;
+        this.topOrthoCamera.right = width / 2 / this.orthoScale;
+        this.topOrthoCamera.top = height / 2 / this.orthoScale;
+        this.topOrthoCamera.bottom = height / -2 / this.orthoScale;
+        this.topOrthoCamera.position.y = 15;
+        this.topOrthoCamera.position.z = 3;
+        this.topOrthoCamera.lookAt(0, 0, 0);
+        this.topOrthoCamera.updateProjectionMatrix();
+    }
+
     createSceneSubjects(scene)
     {
         //var car = new SceneNode("car_with_wheels", null, scene);
@@ -187,6 +212,7 @@ class SceneManager
 
         this.camera.aspect = width / height;
         this.camera.updateProjectionMatrix();
+        this.updateOrthoCamera(this.screenDimensions);
 
         this.renderer.setSize(width, height);
     }
