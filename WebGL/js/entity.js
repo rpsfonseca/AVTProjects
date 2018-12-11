@@ -40,6 +40,7 @@ class Entity{
 		this.object.position.copy(position);
 		this.position.copy(position);
 		this.node.position = this.position;
+		//this.node.dirty = true;
 	}
 
 	rotate(angle){
@@ -49,6 +50,7 @@ class Entity{
 		this.object.rotateOnAxis(Y_AXIS, angle);
 		this.object.getWorldQuaternion(this.rotation);
 		this.node.rotation = this.rotation;
+		//this.node.dirty = true;
 
 		//Also update orientation, for movement calculation purposes
 		this.orientation.applyAxisAngle(Y_AXIS, angle);	

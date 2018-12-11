@@ -101,13 +101,13 @@ class SceneManager
         this.renderer = this.buildRender(this.screenDimensions);
 
         // setup cameras
-        this.orthoScale = 50;
-        this.topOrthoCamera = new THREE.OrthographicCamera(1, -1, 1, -1, 1, 1000);
+        this.orthoScale = 5;
+        this.topOrthoCamera = new THREE.OrthographicCamera(1, -1, 1, -1, 0, 1000);
         this.updateOrthoCamera(this.screenDimensions);
 
         this.topPerspectiveCamera = this.buildCamera(this.screenDimensions);
-        this.topPerspectiveCamera.position.y = 15;
-        this.topPerspectiveCamera.position.z = 3;
+        this.topPerspectiveCamera.position.y = 100;
+        this.topPerspectiveCamera.position.z = 100;
         this.topPerspectiveCamera.lookAt(0, 0, 0);
 
         this.followCamera = this.buildCamera(this.screenDimensions);
@@ -166,23 +166,32 @@ class SceneManager
     buildCamera({ width, height })
     {
         const aspectRatio = width / height;
-        const fieldOfView = 60;
+        const fieldOfView = 70;
         const nearPlane = 1;
-        const farPlane = 100;
+        const farPlane = 1000;
         const camera = new THREE.PerspectiveCamera(fieldOfView, aspectRatio, nearPlane, farPlane);
 
         return camera;
     }
 
     updateOrthoCamera({width, height}) {
-        this.topOrthoCamera.left = width / -2 / this.orthoScale;
+        /*this.topOrthoCamera.left = width / -2 / this.orthoScale;
         this.topOrthoCamera.right = width / 2 / this.orthoScale;
         this.topOrthoCamera.top = height / 2 / this.orthoScale;
         this.topOrthoCamera.bottom = height / -2 / this.orthoScale;
         this.topOrthoCamera.position.y = 15;
         this.topOrthoCamera.position.z = 3;
         this.topOrthoCamera.lookAt(0, 0, 0);
+        this.topOrthoCamera.updateProjectionMatrix();*/
+        this.topOrthoCamera.left = width / -2 / this.orthoScale;
+        this.topOrthoCamera.right = width / 2 / this.orthoScale;
+        this.topOrthoCamera.top = height / 2 / this.orthoScale;
+        this.topOrthoCamera.bottom = height / -2 / this.orthoScale;
+        this.topOrthoCamera.position.y = 200;
+        this.topOrthoCamera.position.z = 0;
+        this.topOrthoCamera.lookAt(0, 0, 0);
         this.topOrthoCamera.updateProjectionMatrix();
+    
     }
 
     //TODO
@@ -207,6 +216,7 @@ class SceneManager
     createEntities(scene)
     {
         var table = new SceneNode("table", new THREE.MeshBasicMaterial({color:new THREE.Color(0xDDDD00)}), scene);
+
         var tree = new Tree();
         var tree_node = new SceneNode("billboard", tree.material, scene);
 
@@ -227,7 +237,7 @@ class SceneManager
 
         this.sceneNodes = 
         [
-            //table,
+            table,
             //tree_node,
             carNode,
             //orangeNode
@@ -246,6 +256,12 @@ class SceneManager
         for(let i=0; i < this.sceneNodes.length; i++)
         {
             //this.sceneNodes[i].dirty = true;
+
+            if(i==0){ //Increase table size
+                this.sceneNodes[i].obj.scale.set(10,1,10);
+            }
+
+
             this.sceneNodes[i].update(elapsedTime, this.camera);
             //console.log(this.sceneNodes[i]);
         }
@@ -294,6 +310,7 @@ class SceneManager
         if(keyboard.isKeyPressed(TECLA_1)){
             keyboard.unpressKey(TECLA_1);
             this.camera = this.topOrthoCamera;
+            this.updateOrthoCamera(this.screenDimensions);
         } 
         else if(keyboard.isKeyPressed(TECLA_2)){
             keyboard.unpressKey(TECLA_2);

@@ -5,10 +5,10 @@ class SceneNode
         this.material = material;
         this.scene = scene;
 
-        this.position = THREE.Vector3(0, 0, 0);
-        this.rotation = THREE.Quaternion(0, 0, 0, 0);
-        this.scale = THREE.Vector3(1, 1, 1);
-        this.mirrorScale = THREE.Vector3(1, -1, 1);
+        this.position = new THREE.Vector3(0, 0, 0);
+        this.rotation = new THREE.Quaternion(0, 0, 0, 0);
+        this.scale = new THREE.Vector3(1, 1, 1);
+        this.mirrorScale = new THREE.Vector3(1, -1, 1);
 
         this.dirty = false; //If the node needs update
 
@@ -38,6 +38,8 @@ class SceneNode
             {
                 obj.position.set(0, 0, 0);
                 obj.material = this.material;
+                //obj.scale = this.scale;
+                //obj.position = this.position;
 
                 this.obj = obj;
 
@@ -66,8 +68,13 @@ class SceneNode
 
     update(time, camera)
     {
-        this.obj.position.copy(this.position); //Update position
-        this.obj.setRotationFromQuaternion(this.rotation); //Update rotation
+        //if(this.dirty){
+            this.obj.position.copy(this.position); //Update position
+            this.obj.setRotationFromQuaternion(this.rotation); //Update rotation 
+        //}
+        
+        //this.obj.scale.set(10,1,10);
+        //console.log(this.obj.scale);
         //TODO update scale
     }
 
