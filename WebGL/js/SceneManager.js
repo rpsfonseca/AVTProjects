@@ -270,7 +270,7 @@ class SceneManager
         //Car creation
         //this.createCar(scene, 0, 1, 0);
         var startPos = new THREE.Vector3(0, 1, -50);
-        var carNode = new SceneNode("car_with_wheels", new THREE.MeshBasicMaterial({color:new THREE.Color(DARK_BLUE)}), scene);
+        var carNode = new SceneNode("car_with_wheels", new THREE.MeshPhongMaterial({color:new THREE.Color(0x2222aa)}), scene);
         var car = new Car(carNode, startPos, 0);
         cars.push(car);
         console.log("Car created");
@@ -515,7 +515,7 @@ class SceneManager
     createCheerio(scene, x, y, z)
     {
         var startPos = new THREE.Vector3(x,y,z);
-        var cheerioNode = new SceneNode("torus", new THREE.MeshBasicMaterial({color:new THREE.Color(LIGHT_YELLOW)}), scene);
+        var cheerioNode = new SceneNode("torus", new THREE.MeshPhongMaterial({color:new THREE.Color(LIGHT_YELLOW)}), scene);
         var cheerio = new Cheerio(cheerioNode, startPos);
 
         cheerios.push(cheerio);
@@ -525,14 +525,14 @@ class SceneManager
     createButter(scene, x, y, z)
     {
         var startPos = new THREE.Vector3(x,y,z);
-        var butterNode = new SceneNode("untitled", new THREE.MeshBasicMaterial({color:new THREE.Color(WHITE)}), scene);
+        var butterNode = new SceneNode("untitled", new THREE.MeshPhongMaterial({color:new THREE.Color(WHITE)}), scene);
         var butter = new Butter(butterNode, startPos);
 
         butters.push(butter);
         butterNodes.push(butterNode);
     }
 
-    createCar(scene, x, y, z)
+    /*createCar(scene, x, y, z)
     {
         var startPos = new THREE.Vector3(x,y,z);
         var carNode = new SceneNode("car_with_wheels", new THREE.MeshBasicMaterial({color:new THREE.Color(DARK_BLUE)}), scene);
@@ -541,12 +541,12 @@ class SceneManager
 
         cars.push(car);
         carNodes.push(carNode);
-    }
+    }*/
 
     createOranges(scene, levelWidth, levelHeight)
     {
         for(let i=0; i<NUM_ORANGES; i++){
-            var orangeNode = new SceneNode("orange", new THREE.MeshBasicMaterial({color:new THREE.Color(ORANGE)}), scene);
+            var orangeNode = new SceneNode("orange", new THREE.MeshPhongMaterial({color:new THREE.Color(ORANGE)}), scene);
             var orange = new Orange(orangeNode, levelWidth, levelHeight);
             oranges.push(orange);
             orangeNodes.push(orangeNode);
