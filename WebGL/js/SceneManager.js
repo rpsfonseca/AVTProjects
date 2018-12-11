@@ -103,7 +103,6 @@ class SceneManager
 {
     constructor(canvas) {
         this.canvas = canvas;
-        this.clock = new THREE.Clock();
 
         this.screenDimensions =
         {
@@ -329,9 +328,8 @@ class SceneManager
     }
 
 
-    update()
+    update(elapsedTime)
     {
-        const elapsedTime = this.clock.getDelta();
         this.handleInput();
 
         for(let i=0; i < this.sceneNodes.length; i++)

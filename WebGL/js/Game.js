@@ -7,6 +7,7 @@ class Game
         this.keyboard = new KeyboardState();
         this.hud = new HUD();
         this.bindEventListeners();
+        this.clock = new THREE.Clock();
     }
 
     bindEventListeners()
@@ -28,13 +29,14 @@ class Game
 
     loop()
     {
+        let delta = this.clock.getDelta();
         requestAnimationFrame(this.loop.bind(this));
         if( this.keyboard.pressed("left") )
         {
             console.log("Pressed left");
         }
         if(!gameState.paused)
-            this.sceneManager.update();
+            this.sceneManager.update(delta);
         this.hud.step();
 
         return this;
