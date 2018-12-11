@@ -185,24 +185,22 @@ class SceneManager
         this.topOrthoCamera.updateProjectionMatrix();
     }
 
-    createSceneSubjects(scene)
-    {
-        //var car = new SceneNode("car_with_wheels", null, scene);
-        var table = new SceneNode("table", new THREE.MeshBasicMaterial({color:new THREE.Color(0xDDDD00)}), scene);
-        var tree = new Tree();
-        var tree_node = new SceneNode("billboard", tree.material, scene);
+    //TODO
+    updateFollowCamera(){
+        //Usar o sceneObjects[0] (carro), retirar de lá a posição do carro e colocar na camara
+        var orientation = this.sceneObjects[0].getOrientation();
+        var position = this.sceneObjects[0].getPosition();
+            
+        // a camera move-se 30 unidades para tras do carro
+        orientation.multiplyScalar(-30);
+        // e eleva-se 20 unidades para cima
+        orientation.add(new THREE.Vector3(0,20,0));
+        
+        var resultingVector = orientation;
+        var cameraPosition = position.clone().add(resultingVector);
 
-
-
-        const sceneSubjects =
-        [
-            //car,
-            table,
-            tree_node
-        ];
-
-        //console.log("JDJDJDJD: " + table.object);
-        return sceneSubjects;
+        this.followCamera.position.copy(cameraPosition);
+        this.followCamera.lookAt(position);
     }
 
 
@@ -243,6 +241,7 @@ class SceneManager
     {
         const elapsedTime = this.clock.getDelta();
         this.controls.update();
+        this.handleInput();
 
         for(let i=0; i < this.sceneNodes.length; i++)
         {
@@ -257,18 +256,12 @@ class SceneManager
             this.sceneObjects[w].update(elapsedTime);
         }
 
-        /*
-        for(let i=0; i < this.sceneEntities.length; i++)
-        {
-            this.sceneEntities[i].update(elapsedTime, camera);
+
+        //TODO collision detection
+
+        if(this.camera == this.followCamera){
+            this.updateFollowCamera();
         }
-        
-        
-        for(let w=0; w < this.sceneObjects.length; w++)
-        {
-            this.sceneObjects[w].update(elapsedTime);
-        }
-        */
         
         
         //controls.center = new THREE.Vector3(0,0,-20);
@@ -287,5 +280,56 @@ class SceneManager
         this.updateOrthoCamera(this.screenDimensions);
 
         this.renderer.setSize(width, height);
+    }
+
+    handleInput(){
+        /*if(keyboard.isKeyPressed(TECLA_S)){
+            keyboard.unpressKey(TECLA_S);
+            if(!this.restartIsAllowed){
+                this.togglePause();
+            }
+
+        }*/
+
+        if(keyboard.isKeyPressed(TECLA_1)){
+            keyboard.unpressKey(TECLA_1);
+            this.camera = this.topOrthoCamera;
+        } 
+        else if(keyboard.isKeyPressed(TECLA_2)){
+            keyboard.unpressKey(TECLA_2);
+            this.camera = this.topPerspectiveCamera;
+        } 
+        else if(keyboard.isKeyPressed(TECLA_3)){
+            keyboard.unpressKey(TECLA_3);
+            this.camera = this.followCamera;
+        } 
+        /*if(keyboard.isKeyPressed(TECLA_N)){
+            keyboard.unpressKey(TECLA_N);
+            if(LIGHT.light == false){
+                LIGHT.light = true;
+                this.createLight();
+            }
+            else{
+                LIGHT.light = false;
+                this.createLight();
+            }
+        } else if(keyboard.isKeyPressed(TECLA_G)){
+            keyboard.unpressKey(TECLA_G);
+            this.changeShadow();
+
+        } else if(keyboard.isKeyPressed(TECLA_L)){
+            keyboard.unpressKey(TECLA_L);
+            this.undoLight();
+
+        } else if(keyboard.isKeyPressed(TECLA_C)){
+            keyboard.unpressKey(TECLA_C);
+            this.ligaVelas();
+        } else if(keyboard.isKeyPressed(TECLA_R)){
+            keyboard.unpressKey(TECLA_R);
+            if(this.restartIsAllowed){
+                this.restart();
+            }
+        }      
+        */ 
     }
 }

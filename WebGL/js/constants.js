@@ -67,6 +67,10 @@ const TECLA_ACELERAR = 81 // Q
 const TECLA_DESACELERAR = 65 // W
 const TECLA_VIRAR_ESQUERDA = 79 // O
 const TECLA_VIRAR_DIREITA = 80 // P
+
+const TECLA_1 = 49;
+const TECLA_2 = 50;
+const TECLA_3 = 51;
 const TECLA_H = 72;
 
 //Entity constants
