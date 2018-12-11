@@ -146,6 +146,9 @@ class SceneManager
         this.fog = new THREE.Fog(0xaaaaaa, 1, 80);
         this.scene.fog = this.fog;
 
+        // configure particle system
+        this.particleSystem = new ParticleSystem(this.scene, this.car.position);
+
         document.addEventListener("keydown", e => this.onKeyDown(e));
     }
 
@@ -250,6 +253,7 @@ class SceneManager
             car,
             //orange
         ];
+        this.car = car;
 
         this.sceneNodes = 
         [
@@ -295,6 +299,8 @@ class SceneManager
             this.updateFollowCamera();
         }
         
+        this.particleSystem.setPosition(this.car.position);
+        this.particleSystem.step(elapsedTime);
         
         //controls.center = new THREE.Vector3(0,0,-20);
         this.renderer.render(this.scene, this.camera);
