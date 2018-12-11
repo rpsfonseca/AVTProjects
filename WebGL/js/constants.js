@@ -72,6 +72,7 @@ const TECLA_1 = 49;
 const TECLA_2 = 50;
 const TECLA_3 = 51;
 const TECLA_H = 72;
+const TECLA_F = 70;
 
 //Entity constants
 const MIN_DRAG = 10

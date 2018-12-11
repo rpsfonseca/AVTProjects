@@ -131,6 +131,7 @@ class SceneManager
         }
         this.controls.update();
 
+        // configure lens flare
         this.mainLight = new THREE.PointLight(0xFFFFFF, 1.5, 2000);
         this.mainLight.position.set(1, 5, 0);
         var textureLoader = new THREE.TextureLoader();
@@ -140,6 +141,21 @@ class SceneManager
         lensFlare.addElement(new THREE.LensflareElement(textureLoader.load("textures/flare2.png"), 185, 0.75));
         this.mainLight.add(lensFlare);
         this.scene.add(this.mainLight);
+
+        // configure fog
+        this.fog = new THREE.Fog(0xaaaaaa, 1, 80);
+        this.scene.fog = this.fog;
+
+        document.addEventListener("keydown", e => this.onKeyDown(e));
+    }
+
+    onKeyDown(e) {
+        if(e.keyCode == TECLA_F) {
+            if(this.scene.fog == null)
+                this.scene.fog = this.fog;
+            else
+                this.scene.fog = null;
+        }
     }
 
     buildScene()
@@ -319,7 +335,7 @@ class SceneManager
         else if(keyboard.isKeyPressed(TECLA_3)){
             keyboard.unpressKey(TECLA_3);
             this.camera = this.followCamera;
-        } 
+        }
         /*if(keyboard.isKeyPressed(TECLA_N)){
             keyboard.unpressKey(TECLA_N);
             if(LIGHT.light == false){
