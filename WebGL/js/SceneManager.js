@@ -129,6 +129,16 @@ class SceneManager
             MIDDLE: THREE.MOUSE.MIDDLE,
         }
         this.controls.update();
+
+        this.mainLight = new THREE.PointLight(0xFFFFFF, 1.5, 2000);
+        this.mainLight.position.set(1, 5, 0);
+        var textureLoader = new THREE.TextureLoader();
+        var lensFlare = new THREE.Lensflare();
+        lensFlare.addElement(new THREE.LensflareElement(textureLoader.load("textures/flare0.png"), 120, 0.2));
+        lensFlare.addElement(new THREE.LensflareElement(textureLoader.load("textures/flare1.png"), 70, 0.6));
+        lensFlare.addElement(new THREE.LensflareElement(textureLoader.load("textures/flare2.png"), 185, 0.75));
+        this.mainLight.add(lensFlare);
+        this.scene.add(this.mainLight);
     }
 
     buildScene()
