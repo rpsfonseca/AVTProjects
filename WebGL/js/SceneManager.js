@@ -114,7 +114,8 @@ class SceneManager
 
         this.camera = this.followCamera;
 
-        this.sceneSubjects = this.createSceneSubjects(this.scene);
+        //this.sceneSubjects = this.createSceneSubjects(this.scene);
+        this.createEntities(this.scene);
         this.controls = new THREE.OrbitControls(this.followCamera, this.renderer.domElement);
         //camera.position.set( 0, 0, 0 );
         //camera.lookAt(0,0,-20);
@@ -190,25 +191,86 @@ class SceneManager
         var table = new SceneNode("table", new THREE.MeshBasicMaterial({color:new THREE.Color(0xDDDD00)}), scene);
         var tree = new Tree();
         var tree_node = new SceneNode("billboard", tree.material, scene);
+
+
+
         const sceneSubjects =
         [
             //car,
             table,
             tree_node
         ];
+
         //console.log("JDJDJDJD: " + table.object);
         return sceneSubjects;
     }
 
+
+    createEntities(scene)
+    {
+        var table = new SceneNode("table", new THREE.MeshBasicMaterial({color:new THREE.Color(0xDDDD00)}), scene);
+        var tree = new Tree();
+        var tree_node = new SceneNode("billboard", tree.material, scene);
+
+        var carNode = new SceneNode("car_with_wheels", new THREE.MeshBasicMaterial({color:new THREE.Color(0x0000ff)}), scene);
+        var startPosition = new THREE.Vector3(0, 1, 0);
+        var car = new Car(carNode, startPosition, 0);
+        console.log("Car created");
+
+        var orangeNode = new SceneNode("orange", new THREE.MeshBasicMaterial({color:new THREE.Color(0xff0000)}), scene);
+        var orange = new Orange(orangeNode, LEVEL_WIDTH, LEVEL_HEIGHT);
+        console.log("Orange created");
+
+        this.sceneObjects =
+        [
+            car,
+            //orange
+        ];
+
+        this.sceneNodes = 
+        [
+            //table,
+            //tree_node,
+            carNode,
+            //orangeNode
+        ];
+
+        console.log("Scene Entities Created");
+    }
+
+
     update()
     {
-        const elapsedTime = this.clock.getElapsedTime();
+        const elapsedTime = this.clock.getDelta();
         this.controls.update();
 
-        for(let i=0; i < this.sceneSubjects.length; i++)
+        for(let i=0; i < this.sceneNodes.length; i++)
         {
-            this.sceneSubjects[i].update(elapsedTime, this.camera);
+            //this.sceneNodes[i].dirty = true;
+            this.sceneNodes[i].update(elapsedTime, this.camera);
+            //console.log(this.sceneNodes[i]);
         }
+        
+
+        for(let w=0; w < this.sceneObjects.length; w++)
+        {
+            this.sceneObjects[w].update(elapsedTime);
+        }
+
+        /*
+        for(let i=0; i < this.sceneEntities.length; i++)
+        {
+            this.sceneEntities[i].update(elapsedTime, camera);
+        }
+        
+        
+        for(let w=0; w < this.sceneObjects.length; w++)
+        {
+            this.sceneObjects[w].update(elapsedTime);
+        }
+        */
+        
+        
         //controls.center = new THREE.Vector3(0,0,-20);
         this.renderer.render(this.scene, this.camera);
     }

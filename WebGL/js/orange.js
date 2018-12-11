@@ -1,8 +1,8 @@
 "use strict"
 
-class Orange extends Entity{
+class Orange extends DinamicEntity{
 	constructor(node, levelWidth, levelHeight){            
-        super(super, ORANGE_MAX_VELOCITY, ORANGE_MAX_TURNRATE); //TODO este construtor é diferent do utilizado para o carro
+        super(node, ORANGE_MAX_VELOCITY, ORANGE_MAX_TURNRATE); //TODO este construtor é diferent do utilizado para o carro
 
         this.velocity = this.getRandomRate() * 2; //Oranges shouldn't all behave the same
 
@@ -47,7 +47,7 @@ class Orange extends Entity{
         }
 
         //TODO check wall colisions
-        this.orangeMovement(delta);
+        //this.orangeMovement(delta);
     }
 
     orangeMovement(delta){ 
@@ -68,7 +68,7 @@ class Orange extends Entity{
         normalized.applyAxisAngle(new THREE.Vector3(0,1,0), 90*(Math.PI/180)); //Rodar o vector para obter um eixo de rotacao adequado ao movimento
         
         //this.object.rotateOnAxis(temp, turnRate); //rotateOnAxis( Axis, Angle)   //angle em radianos
-        this.super.orangeRotate(turnRate, normalized); //Tells the Entity class to tell the Node class that the node needs to update
+        super.orangeRotate(turnRate, normalized); //Tells the Entity class to tell the Node class that the node needs to update
     }
 
     getDirection(pos){
@@ -76,7 +76,7 @@ class Orange extends Entity{
         direction.setY(0); //Não há movimento vertical
 
         direction = direction.normalize()
-        direction.applyAxisAngle(yAxis,(Math.random() * MAX_ORANGE_RANDOM_ANGLE * 2) - MAX_ORANGE_RANDOM_ANGLE)
+        direction.applyAxisAngle(Y_AXIS,(Math.random() * MAX_ORANGE_RANDOM_ANGLE * 2) - MAX_ORANGE_RANDOM_ANGLE)
         return direction;
     }
 

@@ -62,10 +62,12 @@ const NUM_ORANGES = 3
 
 const Y_AXIS = new THREE.Vector3(0,1,0);
 
-const TECLA_ACELERAR = 38 // seta cima
-const TECLA_DESACELERAR = 40 // seta baixo
-const TECLA_VIRAR_ESQUERDA = 37 // seta esquerda
-const TECLA_VIRAR_DIREITA = 39 // seta direita
+//Keyboard constants
+const TECLA_ACELERAR = 81 // Q
+const TECLA_DESACELERAR = 65 // W
+const TECLA_VIRAR_ESQUERDA = 79 // O
+const TECLA_VIRAR_DIREITA = 80 // P
+const TECLA_H = 72;
 
 //Entity constants
 const MIN_DRAG = 10

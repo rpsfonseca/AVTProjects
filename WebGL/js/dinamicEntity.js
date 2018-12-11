@@ -9,7 +9,7 @@ class DinamicEntity extends Entity{
 		this.setPosition(startPos);
 		//this.orientation = (1, 0, 0); TODO
 
-		
+		this.orientation = new THREE.Vector3(1,0,0);
 		this.minDrag = 10; // Forca minima de fricao
 
 		this.maxVelocity = maxVelocity;  // Velocidade maxima
@@ -37,6 +37,7 @@ class DinamicEntity extends Entity{
 
 		//Calculate Speed
 		this.velocity += accel * delta;
+		//console.log("Delta: " + delta);
 		if(this.isMoving()){
 			this.velocity *= 0.995;	// Aplica forca de atrito para desacelarar 
 		}
