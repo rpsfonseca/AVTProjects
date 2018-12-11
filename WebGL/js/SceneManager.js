@@ -116,20 +116,22 @@ class SceneManager
 
         //this.sceneSubjects = this.createSceneSubjects(this.scene);
         this.createEntities(this.scene);
+        
         this.controls = new THREE.OrbitControls(this.followCamera, this.renderer.domElement);
         //camera.position.set( 0, 0, 0 );
         //camera.lookAt(0,0,-20);
         this.controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
         this.controls.dampingFactor = 0.25;
         this.controls.screenSpacePanning = false;
-        this.controls.minDistance = 15;
-        this.controls.maxDistance = 500;
+        this.controls.minDistance = 20;
+        this.controls.maxDistance = 30;
         this.controls.maxPolarAngle = Math.PI / 2;
         this.controls.mouseButtons = {
             LEFT: THREE.MOUSE.LEFT,
             MIDDLE: THREE.MOUSE.MIDDLE,
         }
         this.controls.update();
+        this.scene.add(this.camera);
 
         // configure lens flare
         this.mainLight = new THREE.PointLight(0xFFFFFF, 1.5, 2000);
@@ -148,8 +150,31 @@ class SceneManager
 
         // configure particle system
         this.particleSystem = new ParticleSystem(this.scene, this.car.position);
+  
+        window.addEventListener('deviceorientation', e => this.setOrientationControls(e), true);
+
+        // configure stereo vision
+        this.stereoEffect = new THREE.StereoEffect(this.renderer);
+        this.stereoEffect.setSize(this.screenDimensions.width, this.screenDimensions.height);
+        this.useStereoEffect = false;
 
         document.addEventListener("keydown", e => this.onKeyDown(e));
+    }
+
+    setOrientationControls(e) {
+        console.log("setOrientationControls called");
+        if (!e.alpha) {
+          return;
+        }
+
+        console.log("Changing to deviceorientation controls");
+        this.controls = new THREE.DeviceOrientationControls(camera, true);
+        this.controls.connect();
+        this.controls.update();
+
+        element.addEventListener('click', fullscreen, false);
+
+        window.removeEventListener('deviceorientation', setOrientationControls, true);
     }
 
     onKeyDown(e) {
@@ -158,6 +183,9 @@ class SceneManager
                 this.scene.fog = this.fog;
             else
                 this.scene.fog = null;
+        } else if(e.keyCode == TECLA_V) {
+            this.useStereoEffect = !this.useStereoEffect;
+            this.onWindowResize();
         }
     }
 
@@ -186,7 +214,7 @@ class SceneManager
     {
         const aspectRatio = width / height;
         const fieldOfView = 70;
-        const nearPlane = 1;
+        const nearPlane = 0.001;
         const farPlane = 1000;
         const camera = new THREE.PerspectiveCamera(fieldOfView, aspectRatio, nearPlane, farPlane);
 
@@ -213,22 +241,8 @@ class SceneManager
     
     }
 
-    //TODO
-    updateFollowCamera(){
-        //Usar o sceneObjects[0] (carro), retirar de lá a posição do carro e colocar na camara
-        var orientation = this.sceneObjects[0].getOrientation();
-        var position = this.sceneObjects[0].getPosition();
-            
-        // a camera move-se 30 unidades para tras do carro
-        orientation.multiplyScalar(-30);
-        // e eleva-se 20 unidades para cima
-        orientation.add(new THREE.Vector3(0,20,0));
-        
-        var resultingVector = orientation;
-        var cameraPosition = position.clone().add(resultingVector);
-
-        this.followCamera.position.copy(cameraPosition);
-        this.followCamera.lookAt(position);
+    updateFollowCamera() {
+        this.controls.target = this.car.position;
     }
 
 
@@ -270,7 +284,6 @@ class SceneManager
     update()
     {
         const elapsedTime = this.clock.getDelta();
-        this.controls.update();
         this.handleInput();
 
         for(let i=0; i < this.sceneNodes.length; i++)
@@ -297,13 +310,18 @@ class SceneManager
 
         if(this.camera == this.followCamera){
             this.updateFollowCamera();
+            this.controls.update(elapsedTime);
         }
         
         this.particleSystem.setPosition(this.car.position);
         this.particleSystem.step(elapsedTime);
         
         //controls.center = new THREE.Vector3(0,0,-20);
-        this.renderer.render(this.scene, this.camera);
+        
+        if(this.useStereoEffect)
+            this.stereoEffect.render(this.scene, this.camera);
+        else
+            this.renderer.render(this.scene, this.camera);
     }
 
     onWindowResize()
@@ -318,6 +336,7 @@ class SceneManager
         this.updateOrthoCamera(this.screenDimensions);
 
         this.renderer.setSize(width, height);
+        this.stereoEffect.setSize(width, height);
     }
 
     handleInput(){
