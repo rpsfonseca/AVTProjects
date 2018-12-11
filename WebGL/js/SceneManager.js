@@ -248,17 +248,25 @@ class SceneManager
 
     createEntities(scene)
     {
-        var table = new SceneNode("table", new THREE.MeshBasicMaterial({color:new THREE.Color(0xDDDD00)}), scene);
+        var loader = new THREE.TextureLoader();
+        var table = new SceneNode("table", new THREE.MeshPhongMaterial(
+            {
+                color: new THREE.Color(0xDDDD00),
+                map: loader.load("textures/lightwood.png"),
+                transparent: true,
+                opacity: 0.5
+            }),
+            scene);
 
         var tree = new Tree();
         var tree_node = new SceneNode("billboard", tree.material, scene);
 
-        var carNode = new SceneNode("car_with_wheels", new THREE.MeshBasicMaterial({color:new THREE.Color(0x0000ff)}), scene);
+        var carNode = new SceneNode("car_with_wheels", new THREE.MeshPhongMaterial({color:new THREE.Color(0x2222aa)}), scene);
         var startPosition = new THREE.Vector3(0, 1, 0);
         var car = new Car(carNode, startPosition, 0);
         console.log("Car created");
 
-        var orangeNode = new SceneNode("orange", new THREE.MeshBasicMaterial({color:new THREE.Color(0xff0000)}), scene);
+        var orangeNode = new SceneNode("orange", new THREE.MeshPhongMaterial({color:new THREE.Color(0xff0000)}), scene);
         var orange = new Orange(orangeNode, LEVEL_WIDTH, LEVEL_HEIGHT);
         console.log("Orange created");
 
