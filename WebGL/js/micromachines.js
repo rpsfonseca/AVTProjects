@@ -1,5 +1,6 @@
 
 var app = new Game();
+var gameState = new GameState();
 app.loop();
 
 /*var scene = new THREE.Scene();

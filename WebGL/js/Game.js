@@ -5,6 +5,7 @@ class Game
         this.canvas = document.getElementById("canvas");
         this.sceneManager = new SceneManager(this.canvas);
         this.keyboard = new KeyboardState();
+        this.hud = new HUD();
         this.bindEventListeners();
     }
 
@@ -32,7 +33,9 @@ class Game
         {
             console.log("Pressed left");
         }
-        this.sceneManager.update();
+        if(!gameState.paused)
+            this.sceneManager.update();
+        this.hud.step();
 
         return this;
     }

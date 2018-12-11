@@ -92,7 +92,7 @@ KeyboardState.prototype._onKeyChange	= function(event, pressed)
                 break;
             case 's':
                 console.log("TOGGLE PAUSE");
-                //Application::getInstance()->getGameState().paused = !Application::getInstance()->getGameState().paused;
+                gameState.paused = !gameState.paused;
                 break;
             case 'ArrowUp' :
                 console.log("Acelerar");

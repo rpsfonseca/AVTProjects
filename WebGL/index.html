@@ -10,10 +10,23 @@
 			body { margin: 0; }
 			canvas { width: 100%; height: 100% }
 		</style>-->
+		<style>
+			.hud-label {
+				position: absolute;
+				width: 100%;
+				text-align: center;
+				z-index: 100;
+				display: block;
+				color: white;
+				font-family: sans-serif;
+			}
+		</style>
 		<link rel="stylesheet" href="css/style.css">
 	</head>
 	<body>
 		<canvas id="canvas"></canvas>
+		<div id="hudText" class="hud-label" style="top: 10px;">batatas</div>
+		<div id="pauseText" class="hud-label" style="top: 50%;">PAUSED</div>
 
 		<script src="js/KeyboardState.js"></script>
 		<script src="js/keyboard.js"></script>
@@ -32,6 +45,8 @@
 		<script src="js/car.js"></script>
 		<script src="js/ParticleSystem.js"></script>
 		<script src="js/wall.js"></script>
+		<script src="js/GameState.js"></script>
+		<script src="js/HUD.js"></script>
 
 		<script src="js/loaders/OBJLoader.js"></script>
 		<script src="js/controls/OrbitControls.js"></script>

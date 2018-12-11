@@ -42,9 +42,11 @@ class Car extends DinamicEntity{
 		super.reset();
 		this.rotate(-this.rotationAccum); // roda no sentido contrario da soma de todas as rotacoes, ou seja, volta ao inicial
 		this.setPosition(this.initialPos); //Voltar à posição inicial do carro
+		gameState.lives--;
 	}
 
 	update(delta){
+		gameState.score++;
 		//console.log("Car updated");
 		var turnRate = 0;
 
