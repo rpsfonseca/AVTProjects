@@ -10,6 +10,8 @@ const DARK_BLUE = 0x0e4eb5;
 const ORANGE = 0xf79f11;
 const GREEN = 0x0c6806;
 const DARK_GREEN = 0x0b5106;
+const BROWN = 0xCD853F;
+const LIGHT_YELLOW = 0xFFFF66
 
 const NUM_OR = 3;
 const NUM_VEL = 6;
@@ -56,8 +58,8 @@ var nVidasPerdidas = -1;
 
 /***** CONSTANTS NEW PROJECT *****/
 //Level constants
-const LEVEL_WIDTH = 65
-const LEVEL_HEIGHT = 65
+const LEVEL_WIDTH = 160
+const LEVEL_HEIGHT = 135
 const NUM_ORANGES = 3
 
 const Y_AXIS = new THREE.Vector3(0,1,0);
@@ -79,10 +81,10 @@ const TECLA_V = 86;
 const MIN_DRAG = 10
 
 //Car constants
-const CAR_MAX_VELOCITY = 40
-const CAR_MAX_TURNRATE = 3
-const CAR_ACCELERATION = 20
-const CAR_DECELERATION = 10
+const CAR_MAX_VELOCITY = 30
+const CAR_MAX_TURNRATE = 2
+const CAR_ACCELERATION = 10
+const CAR_DECELERATION = 5
 
 //Orange constants
 const ORANGE_DEFAULT_RADIUS = 2

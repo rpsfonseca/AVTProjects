@@ -33,13 +33,15 @@ class Entity{
 	}
 
 	getPosition(){
-		return this.position.clone();
+		//return this.position.clone();
+		return this.object.position.clone();
 	}
 
 	setPosition(position){
 		this.object.position.copy(position);
 		this.position.copy(position);
 		this.node.position = this.position;
+		this.node.visible = this.visible;
 		//this.node.dirty = true;
 	}
 
@@ -61,34 +63,12 @@ class Entity{
 		this.rotationAccum += angle;
 
 		//Rotate model
-		//this.rotation.rotateOnAxis(axis, angle);
-		//TODO this.node.setRotation(this.rotation)
+		this.object.rotateOnAxis(axis, angle);
+		this.object.getWorldQuaternion(this.rotation);
+		this.node.rotation = this.rotation;
 
 		//Also update orientation, for movement calculation purposes
 		this.orientation.applyAxisAngle(axis, angle);	
 	}
 
-
-
-	/*
-		.getWorldPosition ( target : Vector3 ) : Vector3
-		target — the result will be copied into this Vector3. 
-
-		Returns a vector representing the position of the object in world space.
-
-		# .getWorldQuaternion ( target : Quaternion ) : Quaternion
-		target — the result will be copied into this Quaternion. 
-
-		Returns a quaternion representing the rotation of the object in world space.
-
-		# .getWorldScale ( target : Vector3 ) : Vector3
-		target — the result will be copied into this Vector3. 
-
-		Returns a vector of the scaling factors applied to the object for each axis in world space.
-
-		# .getWorldDirection ( target : Vector3 ) : Vector3
-		target — the result will be copied into this Vector3. 
-
-		Returns a vector representing the direction of object's positive z-axis in world space.
-	*/
 }

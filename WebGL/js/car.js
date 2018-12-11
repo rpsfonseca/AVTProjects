@@ -4,7 +4,7 @@ class Car extends DinamicEntity{
 	constructor(node, startPosition, rotation){
 		super(node, startPosition, CAR_MAX_VELOCITY, CAR_MAX_TURNRATE);
 
-		this.acceleration = 20; // Aceleracao para a frente
+		this.acceleration = 15; // Aceleracao para a frente
 		this.deceleration = 10; // Aceleracao para tras
 		this.initialPos = startPosition;
 		
@@ -85,7 +85,11 @@ class Car extends DinamicEntity{
 	}
 
 	getBoundingVolume(){
-		return new Circle(this.getPosition(),5.5);
+		return new Circle(this.getPosition(),2);
+	}
+
+	getInitialPosition(){
+		return this.initialPos;
 	}
 
 }

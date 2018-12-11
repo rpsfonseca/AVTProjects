@@ -13,9 +13,9 @@ class Cheerio extends DinamicEntity{
 		this.integrate(0, 0, delta);
 	}
 
-	/*get type(){
+	get type(){
 		return TYPE.CHEERIO;
-	}*/
+	}
 
 	reset(){ 
 		super.reset();
@@ -23,7 +23,7 @@ class Cheerio extends DinamicEntity{
 	}
 
 	getBoundingVolume(){
-		return new Circle(this.getPosition(),1.25+0.5);
+		return new Circle(this.getPosition(), 0.5);
 	}
 
 	

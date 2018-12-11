@@ -11,6 +11,7 @@ class SceneNode
         this.mirrorScale = new THREE.Vector3(1, -1, 1);
 
         this.dirty = false; //If the node needs update
+        this.visible = true;
 
         var tag = "object";
         // instantiate a loader
@@ -71,6 +72,7 @@ class SceneNode
         //if(this.dirty){
             this.obj.position.copy(this.position); //Update position
             this.obj.setRotationFromQuaternion(this.rotation); //Update rotation 
+            this.obj.visible = this.visible;
         //}
         
         //this.obj.scale.set(10,1,10);

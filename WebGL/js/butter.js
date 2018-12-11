@@ -20,6 +20,6 @@ class Butter extends DinamicEntity{
 		var x = position.x;
 		var y = position.y;
 		var z = position.z;
-		return new AABBox(x-12.5,x+12.5,y-3.5,y+3.5,z-5,z+5);
+		return new AABBox(x-2,x+2,y-3,y+3,z-3,z+3);
 	}
 }

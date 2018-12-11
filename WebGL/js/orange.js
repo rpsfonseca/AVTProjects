@@ -1,10 +1,13 @@
 "use strict"
 
-class Orange extends DinamicEntity{
+class Orange extends Entity{
 	constructor(node, levelWidth, levelHeight){            
-        super(node, ORANGE_MAX_VELOCITY, ORANGE_MAX_TURNRATE); //TODO este construtor é diferent do utilizado para o carro
+        super(node); //Este construtor é diferent do utilizado para o carro
 
         this.velocity = this.getRandomRate() * 2; //Oranges shouldn't all behave the same
+
+        this.maxVelocity = ORANGE_MAX_VELOCITY;  // Velocidade maxima
+        this.maxTurnRate = ORANGE_MAX_TURNRATE;  // Velocidade maxima de rotação
 
         //Margin for when orange exits table
         this.levelWidth = levelWidth - 2*(ORANGE_DEFAULT_RADIUS + 0.1);
@@ -46,8 +49,8 @@ class Orange extends DinamicEntity{
             }
         }
 
-        //TODO check wall colisions
-        //this.orangeMovement(delta);
+
+        this.orangeMovement(delta);
     }
 
     orangeMovement(delta){ 
@@ -58,7 +61,7 @@ class Orange extends DinamicEntity{
 
         // calcula quanto temos de rodar para coincidir com a velocidade atual
         var turnRate = (this.velocity*delta) / ORANGE_DEFAULT_RADIUS;
-        this.orangeRotation(turnRate);       
+        //this.orangeRotation(turnRate);       
     }
 
     orangeRotation(turnRate){
@@ -98,12 +101,20 @@ class Orange extends DinamicEntity{
         return new THREE.Vector3(x,0,z);
     }
 
+    getRandomRate(){
+        var min = 1;
+        var max = 5;
+        return Math.floor(Math.random() * (max - min)) + min;
+    }
+
     setOrientation(orientation){
         this.movementOrientation.copy(orientation);
     }
 
     reset(){
-        super.reset();
+        //super.reset();
+        this.accel = 0;
+        this.velocity = 0;
 
 
         this.orangeRotation(-this.rotationAccum);
@@ -118,18 +129,17 @@ class Orange extends DinamicEntity{
     }
 
     kill(){
+        this.dead = true;
+        this.visible = false; //The node should be invisible while orange is respawning
+
         this.orangeRotation(-this.rotationAccum);
         this.setPosition(this.getRandomPosition());
         //this.object.position.setY(ORANGE_DEFAULT_RADIUS);
         this.position.setY(ORANGE_DEFAULT_RADIUS);
         this.setOrientation(this.getDirection(this.getPosition()));
-        this.dead = true;
-        //this.object.visible = false;
-        this.visible = false;
+        
         this.respawnTimer = TEMPO_REAPARECER_LARANJAS;
     }
-
-    //TODO handle collisions
    
     get type(){
         return TYPE.ORANGE;
@@ -139,50 +149,4 @@ class Orange extends DinamicEntity{
         return new Circle(this.getPosition(),ORANGE_DEFAULT_RADIUS);
     }
   
-}
-
-// Funcoes auxiliares para criar a geometria da laranja
-function addSphere(obj, x, y, z, radius, colorCode) {
-    var geometry = new THREE.SphereGeometry(radius, 8, 8, 0, Math.PI2, 0, Math.PI);
-    var material_phong = new THREE.MeshPhongMaterial({color: colorCode, wireframe: false });
-    var basicMaterial = new THREE.MeshBasicMaterial({color: colorCode, wireframe: false});
-    var material_Lambert = new THREE.MeshLambertMaterial({color: colorCode, wireframe:false});
-    var mesh = new THREE.Mesh(geometry, material_phong);
-    mesh.material_phong = material_phong;
-    mesh.material_Lambert = material_Lambert;
-    mesh.basicMaterial = basicMaterial;
-    mesh.position.set(x, y, z);
-    obj.add(mesh);
-    material_phong.needsUpdate=true;
-}
-	
-function addPyramid(obj, x, y, z, radiusTop, radiusBottom, height, colorCode) {
-    var geometry = new THREE.CylinderGeometry( radiusTop, radiusBottom, height, 4 ); //radiusTop, radiusBottom, height, radialSegments, heightSegments, openEnded, thetaStart, thetaLength
-    var material_phong = new THREE.MeshPhongMaterial({color: colorCode, wireframe: false });
-    var basicMaterial = new THREE.MeshBasicMaterial({color: colorCode, wireframe: false});
-    var material_Lambert = new THREE.MeshLambertMaterial({color: colorCode, wireframe:false});
-    var mesh = new THREE.Mesh(geometry, material_phong);
-    mesh.material_Lambert = material_Lambert;
-    mesh.material_phong = material_phong;
-    mesh.basicMaterial = basicMaterial;
-    mesh.position.set(x, y, z);
-    mesh.rotation.y =(Math.PI/180)*30;
-    mesh.rotation.z = (Math.PI/180)*150;
-    obj.add(mesh);
-    material_phong.needsUpdate=true;
-}
-
-function addLeaf(obj, x, y, z, colorCode){
-    var geometry = new THREE.CylinderGeometry( 1, 3, 0.25, 4, 5, false, 2, 1/3 * Math.PI ); //radiusTop, radiusBottom, height, radialSegments, heightSegments, openEnded, thetaStart, thetaLength
-    var material_phong = new THREE.MeshPhongMaterial({color: colorCode, wireframe: false });
-    var material_Lambert = new THREE.MeshLambertMaterial({color: colorCode, wireframe:false});
-    var basicMaterial = new THREE.MeshBasicMaterial({color: colorCode, wireframe: false});
-    var mesh = new THREE.Mesh(geometry, material_phong);
-    mesh.material_phong = material_phong;
-    mesh.basicMaterial = basicMaterial;
-    mesh.material_Lambert = material_Lambert;
-    mesh.position.set(x-0.5, y, z);
-    mesh.rotation.y = (Math.PI/180) * -90;
-    obj.add(mesh);
-    material_phong.needsUpdate=true;
 }

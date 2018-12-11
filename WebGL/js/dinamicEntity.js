@@ -19,16 +19,6 @@ class DinamicEntity extends Entity{
 		this.minVelocity = 0.1; // Velocidade para qual o algoritmo arredonda para 0
 	}
 
-	//TODO Orange Constructor
-
-	//TODO Butter Constructor
-	/* 	
-	//Butter
-	DynamicEntity::DynamicEntity(SceneNode *node_, glm::vec3 startPos_) : Entity(node_) {
-		setPosition(startPos_);
-	};
-	*/
-
 	integrate(accel,turnRate,delta){
 
 		//Calculate Rotation
@@ -62,12 +52,6 @@ class DinamicEntity extends Entity{
 	reset(){
 		this.accel = 0;
 		this.velocity = 0;
-	}
-
-	getRandomRate(){
-    var min = 1;
-    var max = 5;
-    return Math.floor(Math.random() * (max - min)) + min;
 	}
 
 	isMoving(){
