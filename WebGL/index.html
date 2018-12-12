@@ -28,9 +28,81 @@
 		<div id="hudText" class="hud-label" style="top: 10px;">batatas</div>
 		<div id="pauseText" class="hud-label" style="top: 50%;">PAUSED</div>
 
+		<script type="x-shader/x-vertex" id="bumpMappingVertexShader">
+			uniform vec3 color;
+
+			varying vec3 vColor;
+			varying vec2 vUv;
+			varying vec3 lightVec, halfVec;
+			uniform struct light {
+				vec3 pos;
+				vec3 ambient;
+				vec3 diffuse;
+				vec3 specular;
+			} LightSource;
+			attribute vec4 tangent;
+
+			void main() {
+				// Building the matrix Eye Space -> Tangent Space
+				vec3 n = normalize(normalMatrix * normal.xyz);
+				vec3 t = normalize(normalMatrix * tangent.xyz);
+				vec3 b = tangent.w * cross (n, t);
+				vec3 eye_vPosition = vec3(modelViewMatrix * vec4(position, 1.0));
+				vec3 lightDir = normalize(LightSource.pos - eye_vPosition);
+				vec3 v;
+				v.x = dot(lightDir, t);
+				v.y = dot(lightDir, b);
+				v.z = dot(lightDir, n);
+				lightVec = normalize(v);
+				vec3 halfVector = normalize(lightDir - eye_vPosition);
+				v.x = dot(halfVector, t);
+				v.y = dot(halfVector, b);
+				v.z = dot(halfVector, n);
+				halfVec = normalize(v);
+				vUv = uv;
+				vColor = color;
+				vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+				gl_Position = projectionMatrix * mvPosition;
+			}
+		</script>
+		<script type="x-shader/x-fragment" id="bumpMappingFragmentShader">
+			varying vec3 vColor;
+			varying vec2 vUv;
+			uniform sampler2D baseTexture;
+			uniform sampler2D normalTexture;
+			varying vec3 lightVec, halfVec;
+			uniform struct light {
+				vec3 pos;
+				vec3 ambient;
+				vec3 diffuse;
+				vec3 specular;
+			} LightSource;
+			uniform struct material {
+				vec3 diffuse;
+				vec3 specular;
+				float shininess;
+			} Material;
+
+			void main() {
+				vec3 normal = 2.0 * texture2D(normalTexture, vUv).rgb - 1.0;
+				normal = normalize(normal);
+				float lambertFactor = max(dot(lightVec, normal), 0.0);
+				vec3 ambientLight = LightSource.ambient;
+				if(lambertFactor > 0.0) {
+					vec3 diffuseMaterial = vec3(texture2D(baseTexture, vUv)) * Material.diffuse;
+					float shininess = pow(max(dot(halfVec, normal), 0.0), Material.shininess);
+					gl_FragColor = vec4(diffuseMaterial * LightSource.diffuse * lambertFactor, 1.0);
+					gl_FragColor += vec4(Material.specular * LightSource.specular * shininess, 1.0);
+				}
+				gl_FragColor += vec4(ambientLight, 1.0);
+				//gl_FragColor = vec4(vColor, 0.5);
+			}
+		</script>
+
 		<script src="js/KeyboardState.js"></script>
 		<script src="js/keyboard.js"></script>
 		<script src="lib/three.js"></script>
+		<script src="lib/BufferGeometryUtils.js"></script>
 		<script src="lib/Lensflare.js"></script>
 		<script src="lib/StereoEffect.js"></script>
 		<script src="lib/DeviceOrientationControls.js"></script>

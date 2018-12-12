@@ -603,7 +603,27 @@ class SceneManager
 
     createButter(scene, x, y, z)
     {
+        /*var uniforms = {
+            color: {value: new THREE.Color(0xFFFF00)},
+            baseTexture: {value: new THREE.TextureLoader().load("bump.png")},
+            normalTexture: {value: new THREE.TextureLoader().load("bump.png")},
+            LightSource: {value:
+                    {pos: new THREE.Vector3(2, 2, 2),
+                        ambient: new THREE.Color(0x111111),
+                        diffuse: new THREE.Color(0xeeeeee),
+                        specular: new THREE.Color(0xffffff)}},
+            Material: {value:
+                    {diffuse: new THREE.Vector3(1, 0, 0),
+                        specular: new THREE.Vector3(1, 0, 1),
+                        shininess: 25}},
+        };
+        var material = new THREE.ShaderMaterial({
+            uniforms: uniforms,
+            vertexShader: document.getElementById('bumpMappingVertexShader').textContent,
+            fragmentShader: document.getElementById('bumpMappingFragmentShader').textContent
+        });*/
         var startPos = new THREE.Vector3(x,y,z);
+        //var butterNode = new SceneNode("untitled", material, scene);
         var butterNode = new SceneNode("untitled", new THREE.MeshPhongMaterial({color:new THREE.Color(WHITE)}), scene);
         var butter = new Butter(butterNode, startPos);
 
@@ -624,7 +644,9 @@ class SceneManager
 
     createOranges(scene, levelWidth, levelHeight)
     {
+
         for(let i=0; i<NUM_ORANGES; i++){
+            //var orangeNode = new SceneNode("orange", material, scene);
             var orangeNode = new SceneNode("orange", new THREE.MeshPhongMaterial({color:new THREE.Color(ORANGE)}), scene);
             var orange = new Orange(orangeNode, levelWidth, levelHeight);
             oranges.push(orange);
