@@ -99,6 +99,8 @@ var walls = []
 var entities = [];
 var entityNodes = [];
 
+var swappedSurfaces = false;
+
 class SceneManager
 {
     constructor(canvas) {
@@ -238,6 +240,10 @@ class SceneManager
         renderer.setPixelRatio(DPR);
         renderer.setSize(width, height);
 
+        //Shadows
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
+
         renderer.gammaInput = true;
         renderer.gammaOutput = true;
 
@@ -281,6 +287,7 @@ class SceneManager
                 opacity: 0.5
             }),
             scene);
+
         var geometry = new THREE.PlaneBufferGeometry( 160, 132 );
         var mirrorSurface = new THREE.Reflector(geometry, {
             clipBias: 0.003,
@@ -289,9 +296,25 @@ class SceneManager
             recursion: 1,
             color: 0xaaaaaa
         });
-        mirrorSurface.position.y = 0.25;
+        mirrorSurface.position.y = 0;
         mirrorSurface.rotateX( - Math.PI / 2 );
+        mirrorSurface.receiveShadow = true;
         scene.add(mirrorSurface);
+        this.mirrorSurface = mirrorSurface;
+
+
+        //Shadows
+        var planeGeometry = new THREE.PlaneBufferGeometry( 160, 132 );
+        //var planeMaterial = new THREE.MeshStandardMaterial( { color: 0x00ff00 } )
+        var planeMaterial = new THREE.MeshPhongMaterial( { color: 0x00ff00 } )
+        var shadowSurface = new THREE.Mesh( planeGeometry, planeMaterial );
+        shadowSurface.position.y = -1;
+        shadowSurface.rotateX( - Math.PI / 2 );
+        shadowSurface.receiveShadow = true;
+        scene.add(shadowSurface);
+        //var lightAmb = new THREE.AmbientLight( 0x404040 ); // soft white light
+        //scene.add( lightAmb );
+        this.shadowSurface = shadowSurface;
 
         //TODO trees
         var tree = new Tree();
@@ -369,6 +392,7 @@ class SceneManager
 
             if(i==0){ //Increase table size
                 this.sceneNodes[i].obj.scale.set(10,1,10);
+                //this.sceneNodes[i].obj.position.set(0, -5, 0);
             }
 
             this.sceneNodes[i].update(elapsedTime, this.camera);
@@ -399,7 +423,9 @@ class SceneManager
         for(let h=0; h < oranges.length; h++)
         {   
             //orangeNodes[f].obj.scale.set(1.8,2,3);  
+            orangeNodes[h].obj.scale.set(2,2,2); 
             orangeNodes[h].update(elapsedTime, this.camera);
+
             //butters[f].update(elapsedTime);
         }
 
@@ -521,6 +547,12 @@ class SceneManager
         else if(keyboard.isKeyPressed(TECLA_H)){
             keyboard.unpressKey(TECLA_H);
             this.ligaSpotLights();
+        }
+
+        //Shadow input
+        if(keyboard.isKeyPressed(TECLA_L)){
+            keyboard.unpressKey(TECLA_L);
+            this.swapSurfaces();
         }
 
         /*else if(keyboard.isKeyPressed(TECLA_G)){
@@ -830,6 +862,11 @@ class SceneManager
         this.spotLight2.target = this.spotLight2Target;
         this.spotLight1.angle = 0.6;
         this.spotLight2.angle = 0.6;
+        this.spotLight1.castShadow = true;
+        this.spotLight2.castShadow = true;
+
+        this.spotLight1.shadowCameraVisible = true; //ver efeito da luz
+        this.spotLight2.shadowCameraVisible = true; //ver efeito da luz
 
         this.scene.add(this.spotLight1);
         this.scene.add(this.spotLight2);
@@ -869,16 +906,23 @@ class SceneManager
         this.spotLight2Target.position.set(x+0.1, y, z-0.1);
 
         this.spotLight1Target.setRotationFromQuaternion(rot); //Update rotation 
-
-                
-        
+  
         //this.spotLight1.target = this.car.object.spotLight1Target;
-        //this.spotLight2.target = this.car.object.spotLight2Target;
-                   
-
-                    
+        //this.spotLight2.target = this.car.object.spotLight2Target;         
     }
 
+    swapSurfaces(){
+        if(swappedSurfaces){
+            this.shadowSurface.position.y = -1;
+            this.mirrorSurface.position.y = 0;
+            swappedSurfaces = false;
+        }
+        else{
+            this.shadowSurface.position.y = 0;
+            this.mirrorSurface.position.y = -1;
+            swappedSurfaces = true;
+        }
         
+    }
 
 }

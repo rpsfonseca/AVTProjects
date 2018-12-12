@@ -42,6 +42,7 @@ var LIGHT = {
 var velas = new Array(NUM_VEL);
 for(var i = 0; i < NUM_VEL; i++){	
 	velas[i]= new THREE.PointLight( 0xff23b9, 0.4, 0, 300 );  // 0xff23b9
+	velas[i].castShadow = true;
 }
 
 velas[0].position.set(35.0, 5.0, -35.0);
@@ -52,7 +53,9 @@ velas[4].position.set(0.0, 5.0, 15.0);
 velas[5].position.set(0.0, 5.0, -15.0);
 
 var light1 = new THREE.DirectionalLight(0x505050);
-light1.position.set(0,20, 0);
+light1.position.set(0, 10, 0);
+light1.castShadow = true;
+//light1.shadowCameraVisible = true; //ver efeito da luz
 
 //var spotLight1 = new THREE.SpotLight(0xa0a0a0);
 //var spotLight2 = new THREE.SpotLight(0xa0a0a0);
@@ -92,7 +95,7 @@ const TECLA_C = 67; //Point Light
 const TECLA_S = 83; //Pause
 const TECLA_V = 86; //Stereo Effect
 const TECLA_F = 70; //Fog Effect
-
+const TECLA_L = 76; //Shadow plane
 
 //Entity constants
 const MIN_DRAG = 10

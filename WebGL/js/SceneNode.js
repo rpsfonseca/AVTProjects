@@ -4,6 +4,7 @@ class SceneNode
         this.geometry = new THREE.BoxGeometry(1, 1, 1);
         this.material = material;
         this.scene = scene;
+        this.castShadow = true;
 
         this.position = new THREE.Vector3(0, 0, 0);
         this.rotation = new THREE.Quaternion(0, 0, 0, 0);
@@ -39,6 +40,7 @@ class SceneNode
             {
                 obj.position.set(0, 0, 0);
                 obj.material = this.material;
+                obj.castShadow = true;
                 //obj.scale = this.scale;
                 //obj.position = this.position;
 
@@ -46,6 +48,10 @@ class SceneNode
 
                 this.obj.children.forEach(element => {
                     element.material = this.material;
+                    element.castShadow = true;
+                    //element.geometry = new THREE.BoxGeometry(0, 0, 0);
+                    //element.object = new THREE.Object3D();
+                    //element.object.castShadow = true;
                 });
 
                 scene.add(this.obj);
@@ -73,6 +79,7 @@ class SceneNode
             this.obj.position.copy(this.position); //Update position
             this.obj.setRotationFromQuaternion(this.rotation); //Update rotation 
             this.obj.visible = this.visible;
+            this.obj.castShadow = true;
         //}
         
         //this.obj.scale.set(10,1,10);

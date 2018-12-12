@@ -36,7 +36,10 @@ class Orange extends Entity{
         if(this.increaseSpeedTimer < 0){
             this.increaseSpeedTimer = TEMPO_ACELERAR_LARANJAS - this.increaseSpeedTimer; 
             
-            this.velocity += (Math.floor(Math.random() * 2) + 1) * 5;
+            this.velocity += (Math.floor(Math.random() * 2) + 1);
+            if(this.velocity >= this.maxVelocity){
+                this.velocity = this.maxVelocity;
+            }
         }
 
         if(this.dead){
