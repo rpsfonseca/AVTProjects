@@ -18,7 +18,7 @@ class SceneNode
 
 
 
-        /*if (meshFileName === "untitled")
+        if (meshFileName === "untitled")
         {
             this.geometry = new THREE.BoxBufferGeometry(1, 1, 1);
             THREE.BufferGeometryUtils.computeTangents(this.geometry);
@@ -27,8 +27,8 @@ class SceneNode
             this.obj.material = this.material;
             //this.obj.castShadow = true;
             scene.add(this.obj);
-        }*/
-        //else {
+        }
+        else {
 
             // instantiate a loader
             var loader = new THREE.OBJLoader();
@@ -83,7 +83,7 @@ class SceneNode
                     console.log('An error happened: ' + error);
                 }
             );
-        //}
+        }
     }
 
     update(time, camera)

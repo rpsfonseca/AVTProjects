@@ -603,10 +603,10 @@ class SceneManager
 
     createButter(scene, x, y, z)
     {
-        /*var uniforms = {
+        var uniforms = {
             color: {value: new THREE.Color(0xFFFF00)},
-            baseTexture: {value: new THREE.TextureLoader().load("bump.png")},
-            normalTexture: {value: new THREE.TextureLoader().load("bump.png")},
+            baseTexture: {value: new THREE.TextureLoader().load("textures/bump.png")},
+            normalTexture: {value: new THREE.TextureLoader().load("textures/bump.png")},
             LightSource: {value:
                     {pos: new THREE.Vector3(2, 2, 2),
                         ambient: new THREE.Color(0x111111),
@@ -621,10 +621,10 @@ class SceneManager
             uniforms: uniforms,
             vertexShader: document.getElementById('bumpMappingVertexShader').textContent,
             fragmentShader: document.getElementById('bumpMappingFragmentShader').textContent
-        });*/
+        });
         var startPos = new THREE.Vector3(x,y,z);
-        //var butterNode = new SceneNode("untitled", material, scene);
-        var butterNode = new SceneNode("untitled", new THREE.MeshPhongMaterial({color:new THREE.Color(WHITE)}), scene);
+        var butterNode = new SceneNode("untitled", material, scene);
+        //var butterNode = new SceneNode("untitled", new THREE.MeshPhongMaterial({color:new THREE.Color(WHITE)}), scene);
         var butter = new Butter(butterNode, startPos);
 
         butters.push(butter);
