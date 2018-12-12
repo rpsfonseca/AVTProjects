@@ -163,8 +163,10 @@ class SceneManager
 
         // configure particle system
         this.particleSystem = new ParticleSystem(this.scene, this.car.position);
-  
-        window.addEventListener('deviceorientation', e => this.setOrientationControls(e), true);
+
+        this.orientationHandler = e => this.setOrientationControls(e);
+        this.vrMode = false;
+        window.addEventListener('deviceorientation', this.orientationHandler, true);
 
         // configure stereo vision
         this.stereoEffect = new THREE.StereoEffect(this.renderer);
@@ -183,13 +185,30 @@ class SceneManager
         }
 
         console.log("Changing to deviceorientation controls");
-        this.controls = new THREE.DeviceOrientationControls(camera, true);
+        this.controls = new THREE.DeviceOrientationControls(this.followCamera, true);
         this.controls.connect();
         this.controls.update();
+        this.vrMode = true;
+        this.useStereoEffect = true;
+        this.renderer.antialias = false;
 
-        element.addEventListener('click', fullscreen, false);
+        this.canvas.addEventListener('click', () => fullscreen, false);
 
-        window.removeEventListener('deviceorientation', setOrientationControls, true);
+        window.removeEventListener('deviceorientation', this.orientationHandler, true);
+    }
+
+    
+
+    fullscreen() {
+        if (this.canvas.requestFullscreen) {
+          this.canvas.requestFullscreen();
+        } else if (this.canvas.msRequestFullscreen) {
+          this.canvas.msRequestFullscreen();
+        } else if (this.canvas.mozRequestFullScreen) {
+          this.canvas.mozRequestFullScreen();
+        } else if (this.canvas.webkitRequestFullscreen) {
+          this.canvas.webkitRequestFullscreen();
+        }
     }
 
     onKeyDown(e) {
@@ -386,6 +405,10 @@ class SceneManager
 
         if(this.camera == this.followCamera){
             this.updateFollowCamera();
+            if(this.vrMode) {
+                this.camera.position.copy(this.car.position.clone().add(new THREE.Vector3(0, 2, 0)));
+                this.car.doVrDemoMovement(elapsedTime);
+            }
             this.controls.update(elapsedTime);
         }
 

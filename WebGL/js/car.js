@@ -93,6 +93,30 @@ class Car extends DinamicEntity{
 		super.integrate(accel, turnRate, delta);	
 	}
 
+	doVrDemoMovement(delta) {
+		var turnRate = 0;
+
+		let left = Math.random() < 0.5;
+		let right = Math.random() < 0.5;
+		let ahead = Math.random() < 0.5;
+		let back = Math.random() < 0.5;
+
+		if(left) {
+			turnRate = this.maxTurnRate;
+		} else if(right) {
+			turnRate = - this.maxTurnRate;
+		}
+		
+		var accel = 0;
+		if(ahead) {
+			accel = this.acceleration;
+		} else if(back) {
+			accel = -this.deceleration;
+		}
+
+		super.integrate(accel, turnRate, delta);	
+	}
+
 	get type(){
 		return TYPE.CAR;
 	}
