@@ -30,33 +30,40 @@ var TYPE = {
 	WALL: 4
 }
 
+//Light constants
 var LIGHT = {
-	light: false,
+	light: true,
 	phong: true,
 	lamb: false,
-	velas: false
+	velas: false,
+	spotLight: false
 }
 
 var velas = new Array(NUM_VEL);
 for(var i = 0; i < NUM_VEL; i++){	
-	velas[i]= new THREE.PointLight( 0xffffff, 0.4,0, 300 );  // 0xff23b9
+	velas[i]= new THREE.PointLight( 0xff23b9, 0.4, 0, 300 );  // 0xff23b9
 }
-velas[0].position.set(90,20,95);
-velas[1].position.set(90,20,-95);
-velas[2].position.set(0,20,100);
-velas[3].position.set(0,20,-100);
-velas[4].position.set(-90,20,-95);	
-velas[5].position.set(-90,20,95);
+
+velas[0].position.set(35.0, 5.0, -35.0);
+velas[1].position.set(35.0, 5.0, 35.0);
+velas[2].position.set(-35.0, 5.0, -35.0);
+velas[3].position.set(-35.0, 5.0, 35.0);
+velas[4].position.set(0.0, 5.0, 15.0);	
+velas[5].position.set(0.0, 5.0, -15.0);
 
 var light1 = new THREE.DirectionalLight(0x505050);
 light1.position.set(0,20, 0);
 
+//var spotLight1 = new THREE.SpotLight(0xa0a0a0);
+//var spotLight2 = new THREE.SpotLight(0xa0a0a0);
+ 
+
+//Gamestate constants
 var nVidasPerdidas = -1;
 
 
 
 
-/***** CONSTANTS NEW PROJECT *****/
 //Level constants
 const LEVEL_WIDTH = 160
 const LEVEL_HEIGHT = 135
@@ -64,18 +71,28 @@ const NUM_ORANGES = 3
 
 const Y_AXIS = new THREE.Vector3(0,1,0);
 
-//Keyboard constants
+//Keyboard Keybinds
 const TECLA_ACELERAR = 81 // Q
 const TECLA_DESACELERAR = 65 // W
 const TECLA_VIRAR_ESQUERDA = 79 // O
 const TECLA_VIRAR_DIREITA = 80 // P
 
+//Camera Keybinds
 const TECLA_1 = 49;
 const TECLA_2 = 50;
 const TECLA_3 = 51;
-const TECLA_H = 72;
-const TECLA_F = 70;
-const TECLA_V = 86;
+
+
+//Light keybinds
+const TECLA_N = 78; //Directional Light
+const TECLA_H = 72; //Spot Light
+const TECLA_C = 67; //Point Light
+
+//System Keybinds
+const TECLA_S = 83; //Pause
+const TECLA_V = 86; //Stereo Effect
+const TECLA_F = 70; //Fog Effect
+
 
 //Entity constants
 const MIN_DRAG = 10
@@ -91,7 +108,7 @@ const ORANGE_DEFAULT_RADIUS = 2
 const TEMPO_REAPARECER_LARANJAS = 3 // 3 segundos
 const TEMPO_ACELERAR_LARANJAS = 5  // 5 segundos
 const MAX_ORANGE_RANDOM_ANGLE = (Math.PI / 6); //isto veio de JS
-const ORANGE_MAX_VELOCITY = 50
+const ORANGE_MAX_VELOCITY = 20
 const ORANGE_MAX_TURNRATE = 3
 
 //Cheerio constants

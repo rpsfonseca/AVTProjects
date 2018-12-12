@@ -171,6 +171,8 @@ class SceneManager
         this.stereoEffect.setSize(this.screenDimensions.width, this.screenDimensions.height);
         this.useStereoEffect = false;
 
+        this.createLight();
+        this.createSpotLights();
         document.addEventListener("keydown", e => this.onKeyDown(e));
     }
 
@@ -249,7 +251,6 @@ class SceneManager
         this.controls.target = this.car.position;
     }
 
-
     createEntities(scene)
     {
         var loader = new THREE.TextureLoader();
@@ -288,23 +289,23 @@ class SceneManager
         //Track creation
         //Outer lines
         this.createStraightLine(scene, -70, 70, -60, -60, 1);
-        //this.createStraightLine(scene, -70, 70, 60, 60, 1);
-        //this.createStraightLine(scene, -70, -70, -60, 60, 0);
-        //this.createStraightLine(scene, 70, 70, -60, 60, 0);
+        this.createStraightLine(scene, -70, 70, 60, 60, 1);
+        this.createStraightLine(scene, -70, -70, -60, 60, 0);
+        this.createStraightLine(scene, 70, 70, -60, 60, 0);
         
         //Inner Lines
         this.createStraightLine(scene, -50, 50, -40, -40, 1);
-        //this.createStraightLine(scene, -50, 50, 40, 40, 1);
-        //this.createStraightLine(scene, -50, -50, -40, 40, 0);
-        //this.createStraightLine(scene, 50, 50, -40, 40, 0);
+        this.createStraightLine(scene, -50, 50, 40, 40, 1);
+        this.createStraightLine(scene, -50, -50, -40, 40, 0);
+        this.createStraightLine(scene, 50, 50, -40, 40, 0);
         console.log("Track created");
         
         //Butters
-        this.createButter(scene, 10, 1, 10);
-        this.createButter(scene, -20, 1, -30);
-        this.createButter(scene, -20, 1, 30);
-        this.createButter(scene, 20, 1, -30);
-        this.createButter(scene, 20, 1, 30);
+        this.createButter(scene, 10, 2, 10);
+        this.createButter(scene, -20, 2, -30);
+        this.createButter(scene, -20, 2, 30);
+        this.createButter(scene, 20, 2, -30);
+        this.createButter(scene, 20, 2, 30);
         console.log("Butters created");
 
         //Wall creation
@@ -434,6 +435,9 @@ class SceneManager
             this.stereoEffect.render(this.scene, this.camera);
         else
             this.renderer.render(this.scene, this.camera);
+
+
+        this.updateSpotLights();
     }
 
     onWindowResize()
@@ -460,6 +464,7 @@ class SceneManager
 
         }*/
 
+        /***** CAMERA INPUTS *****/
         if(keyboard.isKeyPressed(TECLA_1)){
             keyboard.unpressKey(TECLA_1);
             this.camera = this.topOrthoCamera;
@@ -473,7 +478,9 @@ class SceneManager
             keyboard.unpressKey(TECLA_3);
             this.camera = this.followCamera;
         }
-        /*if(keyboard.isKeyPressed(TECLA_N)){
+
+        /***** LIGHT INPUTS *****/
+        if(keyboard.isKeyPressed(TECLA_N)){
             keyboard.unpressKey(TECLA_N);
             if(LIGHT.light == false){
                 LIGHT.light = true;
@@ -483,18 +490,26 @@ class SceneManager
                 LIGHT.light = false;
                 this.createLight();
             }
-        } else if(keyboard.isKeyPressed(TECLA_G)){
+        }
+        else if(keyboard.isKeyPressed(TECLA_C)){
+            keyboard.unpressKey(TECLA_C);
+            this.ligaVelas();
+        }
+        else if(keyboard.isKeyPressed(TECLA_H)){
+            keyboard.unpressKey(TECLA_H);
+            this.ligaSpotLights();
+        }
+
+        /*else if(keyboard.isKeyPressed(TECLA_G)){
             keyboard.unpressKey(TECLA_G);
             this.changeShadow();
 
         } else if(keyboard.isKeyPressed(TECLA_L)){
             keyboard.unpressKey(TECLA_L);
             this.undoLight();
+        }
 
-        } else if(keyboard.isKeyPressed(TECLA_C)){
-            keyboard.unpressKey(TECLA_C);
-            this.ligaVelas();
-        } else if(keyboard.isKeyPressed(TECLA_R)){
+         else if(keyboard.isKeyPressed(TECLA_R)){
             keyboard.unpressKey(TECLA_R);
             if(this.restartIsAllowed){
                 this.restart();
@@ -510,12 +525,12 @@ class SceneManager
         var x = xin;
 
         if (dir) { //De -x para +x
-            for (x = xin; x< xfin; x += 3) {
+            for (x = xin; x< xfin; x += 4) {
                 this.createCheerio(scene, x, 1, z);
             }
         }
         else { //De -z para +z
-            for (z = zin; z < zfin; z += 3) {
+            for (z = zin; z < zfin; z += 4) {
                 this.createCheerio(scene, x, 1, z);
             }
         }
@@ -751,5 +766,96 @@ class SceneManager
 
         return pos; // Posicao valida que nao colide com bounds2
     }
+
+    /***** LIGHT FUNCTIONS *****/
+    createLight(){
+        if(LIGHT.light == true){
+            this.scene.add(light1);
+        }
+        else if(LIGHT.light == false){
+            this.scene.remove(light1);
+        }
+    }
+
+    ligaVelas(){
+        if(LIGHT.velas == false){
+            LIGHT.velas = true;
+            for(var i = 0; i<NUM_VEL; i++){
+                this.scene.add(velas[i]);
+            }
+        }
+        else{
+            for(var i = 0; i<NUM_VEL; i++){
+                this.scene.remove(velas[i]);
+            }
+            LIGHT.velas = false;
+        }   
+    }
+
+    createSpotLights(){
+        //Car spotlights
+        this.spotLight1Target = new THREE.Object3D();
+        this.spotLight2Target = new THREE.Object3D();
+        this.spotLight1Target.position.set(0.25,1.25,2);
+        this.spotLight2Target.position.set(0.25,1.25,-2);
+        
+        this.spotLight1 = new THREE.SpotLight(0xa0a0a0);
+        this.spotLight2 = new THREE.SpotLight(0xa0a0a0);
+        this.spotLight1.position.set(0,2,2);
+        this.spotLight2.position.set(0,2,-2);
+        this.spotLight1.target = this.spotLight1Target;
+        this.spotLight2.target = this.spotLight2Target;
+        this.spotLight1.angle = 0.6;
+        this.spotLight2.angle = 0.6;
+
+        this.scene.add(this.spotLight1);
+        this.scene.add(this.spotLight2);
+        this.scene.add(this.spotLight1Target);
+        this.scene.add(this.spotLight2Target);
+    }
+
+    ligaSpotLights(){
+        if(LIGHT.spotLight == false){
+            LIGHT.spotLight = true;
+            this.scene.add(this.spotLight1);
+            this.scene.add(this.spotLight2);
+            this.scene.add(this.spotLight1Target);
+            this.scene.add(this.spotLight2Target);
+        }
+        else{
+            this.scene.remove(this.spotLight1);
+            this.scene.remove(this.spotLight2);
+            this.scene.remove(this.spotLight1Target);
+            this.scene.remove(this.spotLight2Target);
+            LIGHT.spotLight = false;
+        }   
+    }
+
+    updateSpotLights() {
+        var rot = new THREE.Quaternion(0, 0, 0, 0);
+        this.car.object.getWorldQuaternion(rot);
+
+        var x = this.car.position.x;
+        var y = this.car.position.y;
+        var z = this.car.position.z;
+
+        this.spotLight1.position.copy(this.car.position);
+        this.spotLight2.position.copy(this.car.position);
+
+        this.spotLight1Target.position.set(x+0.1, y, z+0.1);
+        this.spotLight2Target.position.set(x+0.1, y, z-0.1);
+
+        this.spotLight1Target.setRotationFromQuaternion(rot); //Update rotation 
+
+                
+        
+        //this.spotLight1.target = this.car.object.spotLight1Target;
+        //this.spotLight2.target = this.car.object.spotLight2Target;
+                   
+
+                    
+    }
+
+        
 
 }

@@ -8,25 +8,34 @@ class Car extends DinamicEntity{
 		this.deceleration = 10; // Aceleracao para tras
 		this.initialPos = startPosition;
 		
-		/*
+		
 		//Car spotlights
-		this.spotLight1Target = new THREE.Object3D();
-		this.spotLight2Target = new THREE.Object3D();
-		this.spotLight1Target.position.set((0-4.625)+0.25,1.25,2);
-		this.spotLight2Target.position.set((0-4.625)+0.25,1.25,-2);
+		//this.spotLight1Target = new THREE.Object3D();
+		//this.spotLight2Target = new THREE.Object3D();
+		//this.spotLight1Target.position.set((0-4.625)+0.25,1.25,2);
+		//this.spotLight2Target.position.set((0-4.625)+0.25,1.25,-2);
+		//this.spotLight1Target.position.set(0.25,1.25,2);
+		//this.spotLight2Target.position.set(0.25,1.25,-2);
+		//this.object.add(this.spotLight1Target);
+		//this.object.add(this.spotLight2Target);
 
+		/*
 		this.spotLight1 = new THREE.SpotLight(0xa0a0a0);
 		this.spotLight2 = new THREE.SpotLight(0xa0a0a0);
-		this.spotLight1.position.set((0-4.625)+1.25,1.75,2);
-		this.spotLight2.position.set((0-4.625)+1.25,1.75,-2);
+		//this.spotLight1.position.set((0-4.625)+1.25,1.75,2);
+		//this.spotLight2.position.set((0-4.625)+1.25,1.75,-2);
+
+		this.spotLight1.position.set(0,2,2);
+		this.spotLight2.position.set(0,2,-2);
+
+
 		this.spotLight1.target = this.spotLight1Target;
 		this.spotLight2.target = this.spotLight2Target;
 
 		this.spotLight1.angle = 0.6;
 		this.spotLight2.angle = 0.6;
 
-		this.object.add(this.spotLight1Target);
-		this.object.add(this.spotLight2Target);
+		
 		this.object.add(this.spotLight1);
 		this.object.add(this.spotLight2);
 		*/
@@ -69,12 +78,14 @@ class Car extends DinamicEntity{
 			accel = - this.deceleration;
 		}
 
-		
+		/*
 		if(keyboard.isKeyPressed(TECLA_H)){
 			keyboard.unpressKey(TECLA_H);
-			this.spotLight1.intensity = 1 - this.spotLight1.intensity;
-			this.spotLight2.intensity = 1 - this.spotLight2.intensity;
-		}
+			//this.spotLight1.intensity = 1 - this.spotLight1.intensity;
+			//this.spotLight2.intensity = 1 - this.spotLight2.intensity;
+			this.spotLight1.intensity = 1;
+			this.spotLight2.intensity = 1;
+		}*/
 		
 
 		//Update
