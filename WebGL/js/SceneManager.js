@@ -261,6 +261,17 @@ class SceneManager
                 opacity: 0.5
             }),
             scene);
+        var geometry = new THREE.PlaneBufferGeometry( 160, 132 );
+        var mirrorSurface = new THREE.Reflector(geometry, {
+            clipBias: 0.003,
+            textureWidth: 1024,
+            textureHeight: 1024,
+            recursion: 1,
+            color: 0xaaaaaa
+        });
+        mirrorSurface.position.y = 0.25;
+        mirrorSurface.rotateX( - Math.PI / 2 );
+        scene.add(mirrorSurface);
 
         //TODO trees
         var tree = new Tree();
